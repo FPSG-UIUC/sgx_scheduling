@@ -1,0 +1,146 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ADDR_PTR	Enclave/util.hpp	19;"	d
+ADDR_PTR	non_enclave_version/util.hpp	17;"	d
+App_C_Flags	Makefile	/^App_C_Flags := $(SGX_COMMON_CFLAGS) -fPIC -Wno-attributes $(App_Include_Paths)$/;"	m
+App_Cpp_Files	Makefile	/^App_Cpp_Files := App\/App.cpp App\/sgx_utils\/sgx_utils.cpp$/;"	m
+App_Cpp_Flags	Makefile	/^App_Cpp_Flags := $(App_C_Flags) -std=c++11$/;"	m
+App_Cpp_Objects	Makefile	/^App_Cpp_Objects := $(App_Cpp_Files:.cpp=.o)$/;"	m
+App_Include_Paths	Makefile	/^App_Include_Paths := -IApp -I$(SGX_SDK)\/include$/;"	m
+App_Link_Flags	Makefile	/^App_Link_Flags := $(SGX_COMMON_CFLAGS) -L$(SGX_LIBRARY_PATH) -l$(Urts_Library_Name) -lpthread$/;"	m
+App_Name	Makefile	/^App_Name := app$/;"	m
+Build_Mode	Makefile	/^Build_Mode = HW_RELEASE$/;"	m
+CC	non_enclave_version/Makefile	/^CC=g++$/;"	m
+CFLAGS	non_enclave_version/Makefile	/^CFLAGS= -g -std=c++11 -I \/usr\/local$/;"	m
+CYCLES	Enclave/util.hpp	20;"	d
+CYCLES	non_enclave_version/util.hpp	18;"	d
+Crypto_Library_Name	Makefile	/^Crypto_Library_Name := sgx_tcrypto$/;"	m
+DATA_LEN	Enclave/rd_rx.cpp	11;"	d	file:
+DATA_LEN	non_enclave_version/rd_rx.cpp	11;"	d	file:
+DELAY	Enclave/rd_rx.cpp	3;"	d	file:
+DELAY	Enclave/rd_tx.cpp	7;"	d	file:
+DELAY	non_enclave_version/rd_rx.cpp	3;"	d	file:
+DELAY	non_enclave_version/rd_tx.cpp	7;"	d	file:
+DELAY	non_enclave_version/test.cpp	6;"	d	file:
+Enclave_C_Flags	Makefile	/^Enclave_C_Flags := $(SGX_COMMON_CFLAGS) -nostdinc -fvisibility=hidden -fpie -fstack-protector $(Enclave_Include_Paths)$/;"	m
+Enclave_Config_File	Makefile	/^Enclave_Config_File := Enclave\/Enclave.config.xml$/;"	m
+Enclave_Cpp_Files	Makefile	/^Enclave_Cpp_Files := Enclave\/Enclave.cpp Enclave\/Sealing\/Sealing.cpp Enclave\/rd_tx.cpp Enclave\/rd_rx.cpp Enclave\/util.cpp$/;"	m
+Enclave_Cpp_Flags	Makefile	/^Enclave_Cpp_Flags := $(Enclave_C_Flags) -std=c++03 -nostdinc++$/;"	m
+Enclave_Cpp_Objects	Makefile	/^Enclave_Cpp_Objects := $(Enclave_Cpp_Files:.cpp=.o)$/;"	m
+Enclave_Include_Paths	Makefile	/^Enclave_Include_Paths := -IEnclave -I$(SGX_SDK)\/include -I$(SGX_SDK)\/include\/tlibc -I$(SGX_SDK)\/include\/stlport$/;"	m
+Enclave_Link_Flags	Makefile	/^Enclave_Link_Flags := $(SGX_COMMON_CFLAGS) -Wl,--no-undefined -nostdlib -nodefaultlibs -nostartfiles -L$(SGX_LIBRARY_PATH) \\$/;"	m
+Enclave_Name	Makefile	/^Enclave_Name := enclave.so$/;"	m
+FALSE	App/sgx_utils/sgx_utils.cpp	11;"	d	file:
+FILTER	Enclave/rd_rx.cpp	5;"	d	file:
+FILTER	non_enclave_version/rd_rx.cpp	5;"	d	file:
+ITER_MAX	Enclave/rd_rx.cpp	6;"	d	file:
+ITER_MAX	non_enclave_version/rd_rx.cpp	6;"	d	file:
+LEN0	Enclave/rd_tx.cpp	8;"	d	file:
+LEN0	non_enclave_version/rd_tx.cpp	8;"	d	file:
+LEN1	Enclave/rd_tx.cpp	9;"	d	file:
+LEN1	non_enclave_version/rd_tx.cpp	9;"	d	file:
+MAX_CALLS	non_enclave_version/test.cpp	4;"	d	file:
+PACKET_LEN	Enclave/rd_rx.cpp	12;"	d	file:
+PACKET_LEN	non_enclave_version/rd_rx.cpp	12;"	d	file:
+PREAMBLE	Enclave/rd_rx.cpp	13;"	d	file:
+PREAMBLE	non_enclave_version/rd_rx.cpp	13;"	d	file:
+PREAMBLE_LEN	Enclave/rd_rx.cpp	9;"	d	file:
+PREAMBLE_LEN	non_enclave_version/rd_rx.cpp	9;"	d	file:
+SAMPLES	non_enclave_version/test.cpp	5;"	d	file:
+SAMP_BUF_SZ	Enclave/rd_rx.cpp	4;"	d	file:
+SAMP_BUF_SZ	non_enclave_version/rd_rx.cpp	4;"	d	file:
+SGX_ARCH	Makefile	/^	SGX_ARCH := x86$/;"	m
+SGX_ARCH	Makefile	/^SGX_ARCH ?= x64$/;"	m
+SGX_COMMON_CFLAGS	Makefile	/^	SGX_COMMON_CFLAGS := -m32$/;"	m
+SGX_COMMON_CFLAGS	Makefile	/^	SGX_COMMON_CFLAGS := -m64$/;"	m
+SGX_DEBUG	Makefile	/^SGX_DEBUG ?= 1$/;"	m
+SGX_EDGER8R	Makefile	/^	SGX_EDGER8R := $(SGX_SDK)\/bin\/x64\/sgx_edger8r$/;"	m
+SGX_EDGER8R	Makefile	/^	SGX_EDGER8R := $(SGX_SDK)\/bin\/x86\/sgx_edger8r$/;"	m
+SGX_ENCLAVE_SIGNER	Makefile	/^	SGX_ENCLAVE_SIGNER := $(SGX_SDK)\/bin\/x64\/sgx_sign$/;"	m
+SGX_ENCLAVE_SIGNER	Makefile	/^	SGX_ENCLAVE_SIGNER := $(SGX_SDK)\/bin\/x86\/sgx_sign$/;"	m
+SGX_LIBRARY_PATH	Makefile	/^	SGX_LIBRARY_PATH := $(SGX_SDK)\/lib$/;"	m
+SGX_LIBRARY_PATH	Makefile	/^	SGX_LIBRARY_PATH := $(SGX_SDK)\/lib64$/;"	m
+SGX_MODE	Makefile	/^SGX_MODE ?= HW$/;"	m
+SGX_SDK	Makefile	/^SGX_SDK ?= \/opt\/intel\/sgxsdk$/;"	m
+SGX_UTILS_H_	App/sgx_utils/sgx_utils.h	2;"	d
+SUFFIX_LEN	Enclave/rd_rx.cpp	10;"	d	file:
+SUFFIX_LEN	non_enclave_version/rd_rx.cpp	10;"	d	file:
+Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
+Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
+Signed_Enclave_Name	Makefile	/^Signed_Enclave_Name := enclave.signed.so$/;"	m
+TARGETS	non_enclave_version/Makefile	/^TARGETS=sender receiver test rd_rx rd_tx$/;"	m
+TICK_HI	Enclave/rd_tx.cpp	4;"	d	file:
+TICK_HI	non_enclave_version/rd_tx.cpp	4;"	d	file:
+TICK_LO	Enclave/rd_tx.cpp	5;"	d	file:
+TICK_LO	non_enclave_version/rd_tx.cpp	5;"	d	file:
+TRIES	non_enclave_version/test.cpp	36;"	d	file:
+TRUE	App/sgx_utils/sgx_utils.cpp	7;"	d	file:
+Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
+Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
+UTILS	non_enclave_version/Makefile	/^UTILS=util.o $/;"	m
+UTIL_H_	Enclave/util.hpp	17;"	d
+UTIL_H_	non_enclave_version/util.hpp	15;"	d
+Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
+Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts_sim$/;"	m
+do_n_rdseed	Enclave/util.hpp	/^inline void do_n_rdseed<0>() {$/;"	f
+do_n_rdseed	Enclave/util.hpp	/^inline void do_n_rdseed<1>() {$/;"	f
+do_n_rdseed	Enclave/util.hpp	/^inline void do_n_rdseed<2>() {$/;"	f
+do_n_rdseed	Enclave/util.hpp	/^inline void do_n_rdseed<3>() {$/;"	f
+do_n_rdseed	Enclave/util.hpp	/^void do_n_rdseed() {$/;"	f
+do_n_rdseed	non_enclave_version/util.hpp	/^inline void do_n_rdseed<0>() {$/;"	f
+do_n_rdseed	non_enclave_version/util.hpp	/^inline void do_n_rdseed<1>() {$/;"	f
+do_n_rdseed	non_enclave_version/util.hpp	/^inline void do_n_rdseed<2>() {$/;"	f
+do_n_rdseed	non_enclave_version/util.hpp	/^inline void do_n_rdseed<3>() {$/;"	f
+do_n_rdseed	non_enclave_version/util.hpp	/^void do_n_rdseed() {$/;"	f
+generate_random_number	Enclave/Enclave.cpp	/^int generate_random_number() {$/;"	f
+global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
+initialize_enclave	App/sgx_utils/sgx_utils.cpp	/^int initialize_enclave(sgx_enclave_id_t* eid, const std::string& launch_token_path, const std::string& enclave_name) {$/;"	f
+is_ecall_successful	App/sgx_utils/sgx_utils.cpp	/^bool is_ecall_successful(sgx_status_t sgx_status, const std::string& err_msg,$/;"	f
+listener_thread	Enclave/rd_rx.cpp	/^void listener_thread()$/;"	f
+listener_thread	non_enclave_version/rd_rx.cpp	/^void* listener_thread(void* in)$/;"	f
+lpf	Enclave/rd_rx.cpp	/^double lpf(double v_old, double v_new, double weight)$/;"	f
+lpf	non_enclave_version/rd_rx.cpp	/^double lpf(double v_old, double v_new, double weight)$/;"	f
+main	App/App.cpp	/^int main(int argc, char const *argv[]) {$/;"	f
+main	non_enclave_version/rd_rx.cpp	/^int main(int argc, char **argv)$/;"	f
+main	non_enclave_version/rd_tx.cpp	/^int main(int argc, char **argv)$/;"	f
+main	non_enclave_version/receiver.cpp	/^int main(int argc, char **argv)$/;"	f
+main	non_enclave_version/sender.cpp	/^int main(int argc, char **argv)$/;"	f
+main	non_enclave_version/test.cpp	/^int main(int argc, char **argv)$/;"	f
+measure_n_rdseed_time	Enclave/util.cpp	/^CYCLES measure_n_rdseed_time(unsigned int n)$/;"	f
+measure_n_rdseed_time	non_enclave_version/util.cpp	/^CYCLES measure_n_rdseed_time(unsigned int n)$/;"	f
+measure_one_block_access_time	Enclave/util.cpp	/^CYCLES measure_one_block_access_time(ADDR_PTR addr)$/;"	f
+measure_one_block_access_time	non_enclave_version/util.cpp	/^CYCLES measure_one_block_access_time(ADDR_PTR addr)$/;"	f
+measure_one_rdseed_time	Enclave/util.cpp	/^CYCLES measure_one_rdseed_time()$/;"	f
+measure_one_rdseed_time	non_enclave_version/util.cpp	/^CYCLES measure_one_rdseed_time()$/;"	f
+nops	Enclave/util.cpp	/^void nops(uint32_t n)$/;"	f
+nops	non_enclave_version/util.cpp	/^void nops(uint32_t n)$/;"	f
+num_valid_rdseed	Enclave/util.cpp	/^uint32_t num_valid_rdseed()$/;"	f
+num_valid_rdseed	non_enclave_version/util.cpp	/^uint32_t num_valid_rdseed()$/;"	f
+ocall_print	App/App.cpp	/^void ocall_print(const char* str) {$/;"	f
+packet_t	Enclave/util.hpp	/^typedef uint8_t packet_t;$/;"	t
+packet_t	non_enclave_version/util.hpp	/^typedef uint8_t packet_t;$/;"	t
+print_array	non_enclave_version/rd_rx.cpp	/^void print_array(int32_t array[], int size)$/;"	f
+print_error_message	App/sgx_utils/sgx_utils.cpp	/^void print_error_message(sgx_status_t ret) {$/;"	f
+print_usage	App/App.cpp	/^void print_usage(const char* name)$/;"	f
+seal	Enclave/Sealing/Sealing.cpp	/^sgx_status_t seal(uint8_t* plaintext, size_t plaintext_len, sgx_sealed_data_t* sealed_data, size_t sealed_size) {$/;"	f
+search_packet	Enclave/rd_rx.cpp	/^bool search_packet(int32_t array[], int size, packet_t * packet)$/;"	f
+search_packet	non_enclave_version/rd_rx.cpp	/^bool search_packet(int32_t array[], int size, packet_t * packet)$/;"	f
+send_byte	Enclave/rd_tx.cpp	/^void send_byte(uint8_t byte)$/;"	f
+send_byte	non_enclave_version/rd_tx.cpp	/^void send_byte(uint8_t byte)$/;"	f
+send_packet	Enclave/rd_tx.cpp	/^void send_packet(packet_t p)$/;"	f
+send_packet	non_enclave_version/rd_tx.cpp	/^void send_packet(packet_t p)$/;"	f
+send_preamble	Enclave/rd_tx.cpp	/^void send_preamble()$/;"	f
+send_preamble	non_enclave_version/rd_tx.cpp	/^void send_preamble()$/;"	f
+send_string	Enclave/rd_tx.cpp	/^void send_string(const char* str)$/;"	f
+shift_in	Enclave/rd_rx.cpp	/^void shift_in(int32_t val, int32_t array[], int size)$/;"	f
+shift_in	non_enclave_version/rd_rx.cpp	/^void shift_in(int32_t val, int32_t array[], int size)$/;"	f
+test_n_rdseed	Enclave/util.cpp	/^uint32_t test_n_rdseed(uint32_t n)$/;"	f
+test_n_rdseed	non_enclave_version/util.cpp	/^uint32_t test_n_rdseed(uint32_t n)$/;"	f
+test_timing	non_enclave_version/rd_tx.cpp	/^void test_timing()$/;"	f
+tick	Enclave/rd_tx.cpp	/^void tick()$/;"	f
+tick	non_enclave_version/rd_tx.cpp	/^void tick()$/;"	f
+unseal	Enclave/Sealing/Sealing.cpp	/^sgx_status_t unseal(sgx_sealed_data_t* sealed_data, size_t sealed_size, uint8_t* plaintext, uint32_t plaintext_len) {$/;"	f
