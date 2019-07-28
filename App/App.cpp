@@ -49,12 +49,14 @@
 
 #define ENCLAVE_NAME "libenclave.signed.so"
 
-#define THREAD_NUM 3
+#define THREAD_NUM 4
 
 // Global data
-sgx_enclave_id_t global_eid = 0;
+sgx_enclave_id_t global_eid1 = 0;
+sgx_enclave_id_t global_eid2 = 1;
 rwlock_t lock_eid;
 struct sealed_buf_t sealed_buf;
+volatile int global_int = 5;
 
 using namespace std;
 
@@ -65,53 +67,31 @@ void print(const char *str)
 }
 
 // load_and_initialize_enclave():
-//		To load and initialize the enclave     
+//		To load and initialize the enclave
 sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *buf)
 {
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
 
-    for( ; ; )
-    {
-        // Step 1: check whether the loading and initialization operations are caused by power transition.
-        //		If the loading and initialization operations are caused by power transition, we need to call sgx_destroy_enclave() first.
-        if(*eid != 0)
-        {
-            sgx_destroy_enclave(*eid);
-        }
-	
-        // Step 2: load the enclave
-        // Debug: set the 2nd parameter to 1 which indicates the enclave are launched in debug mode
-        ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, NULL, NULL, eid, NULL);
-        if(ret != SGX_SUCCESS)
-            return ret;
+    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, NULL, NULL, eid, NULL);
+    if(ret != SGX_SUCCESS)
+        return ret;
 
-        // Step 3: enter the enclave to initialize the enclave
-        //      If power transition occurs when the process is inside the enclave, SGX_ERROR_ENCLAVE_LOST will be returned after the system resumes.
-        //      Then we can load and intialize the enclave again or just return this error code and exit to handle the power transition.
-        //      In this sample, we choose to load and intialize the enclave again.
-        ret = initialize_enclave(*eid, &retval, buf);
-        if(ret == SGX_ERROR_ENCLAVE_LOST)
-        {
-            cout<<"Power transition occured in initialize_enclave()" <<endl;
-            continue; // Try to load and initialize the enclave again
-        }
-        else
-        {
-            // No power transilation occurs.
-            // If the initialization operation returns failure, change the return value.
-            if(ret == SGX_SUCCESS && retval != 0)
-            {
-                ret = SGX_ERROR_UNEXPECTED;
-                sgx_destroy_enclave(*eid);
-            }
-            break;
-        }
+    ret = initialize_enclave(*eid, &retval, buf);
+    if(ret == SGX_SUCCESS && retval != 0)
+    {
+        ret = SGX_ERROR_UNEXPECTED;
+        sgx_destroy_enclave(*eid);
     }
     return ret;
 }
 
-bool increase_and_seal_data_in_enclave()
+void multiply_and_accumulate_in_enclave()
+{
+    return;
+}
+
+bool increase_and_seal_data_in_enclave1(unsigned int tidx)
 {
     size_t thread_id = std::hash<std::thread::id>()(std::this_thread::get_id());
     sgx_status_t ret = SGX_SUCCESS;
@@ -119,56 +99,12 @@ bool increase_and_seal_data_in_enclave()
     sgx_enclave_id_t current_eid = 0;
 
     // Enter the enclave to increase and seal the secret data for 100 times.
-    for(unsigned int i = 0; i< 50000; i++)
+    for(unsigned int i = 0; i< 5; i++)
     {
-        for( ; ; )
-        {
-            // If power transition occurs, all the data inside the enclave will be lost when the system resumes. 
-            // Therefore, if there are some secret data which need to be backed up for recover, 
-            // users can choose to seal the secret data inside the enclave and back up the sealed data.
-
-            // Enter the enclave to increase the secret data and back up the sealed data
-            rdlock(&lock_eid);
-            current_eid = global_eid;
-            rdunlock(&lock_eid);
-            ret = increase_and_seal_data(current_eid, &retval, thread_id, &sealed_buf);
-
-            if(ret == SGX_ERROR_ENCLAVE_LOST)
-            {
-                // SGX_ERROR_ENCLAVE_LOST indicates the power transition occurs before the system resumes.
-                // Lock here is to make sure there is only one thread to load and initialize the enclave at the same time
-                wtlock(&lock_eid);
-                // The loading and initialization operations happen in current thread only if there is no other thread reloads and initializes the enclave before
-                if(current_eid == global_eid)
-                {
-                    cout <<"power transition occured in increase_and_seal_data()." << endl;
-                    // Use the backup sealed data to reload and initialize the enclave.
-                    if((ret = load_and_initialize_enclave(&current_eid, &sealed_buf)) != SGX_SUCCESS)
-                    {
-                        ret_error_support(ret);
-                        wtunlock(&lock_eid);
-                        return false;
-                    }
-                    else
-                    {
-                        // Update the global_eid after initializing the enclave successfully
-                        global_eid = current_eid;
-                    }
-                }
-                else
-                {
-                    // The enclave has been reloaded by another thread. 
-                    // Update the current EID and do increase_and_seal_data() again.
-                    current_eid = global_eid;
-                }
-                wtunlock(&lock_eid);
-            }
-            else
-            {
-                // No power transition occurs
-                break;
-            }
-        }
+        // rdlock(&lock_eid);
+        current_eid = global_eid1;
+        // rdunlock(&lock_eid);
+        ret = increase_and_seal_data(current_eid, &retval, thread_id, &sealed_buf, tidx);
         if(ret != SGX_SUCCESS)
         {
             ret_error_support(ret);
@@ -183,9 +119,50 @@ bool increase_and_seal_data_in_enclave()
 }
 
 
-void thread_func()
+bool increase_and_seal_data_in_enclave2(unsigned int tidx)
 {
-    if(increase_and_seal_data_in_enclave() != true)
+    size_t thread_id = std::hash<std::thread::id>()(std::this_thread::get_id());
+    sgx_status_t ret = SGX_SUCCESS;
+    int retval = 0;
+    sgx_enclave_id_t current_eid = 0;
+
+    // Enter the enclave to increase and seal the secret data for 100 times.
+    for(unsigned int i = 0; i< 5; i++)
+    {
+        // rdlock(&lock_eid);
+        current_eid = global_eid2;
+        // rdunlock(&lock_eid);
+        ret = increase_and_seal_data(current_eid, &retval, thread_id, &sealed_buf, tidx);
+        if(ret != SGX_SUCCESS)
+        {
+            ret_error_support(ret);
+            return false;
+        }
+        else if(retval != 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+void thread_func(unsigned int tidx)
+{
+    bool retval = false;
+    switch(tidx)
+    {
+        case 1:
+            retval = increase_and_seal_data_in_enclave1(tidx);
+            break;
+        case 2:
+            retval = increase_and_seal_data_in_enclave2(tidx);
+            break;
+        default:
+            retval = increase_and_seal_data_in_enclave1(tidx);
+            break;
+    }
+    if(retval != true)
     {
         abort();
     }
@@ -243,7 +220,16 @@ int main(int argc, char* argv[])
 
     // Load and initialize the signed enclave
     // sealed_buf == NULL indicates it is the first time to initialize the enclave.
-    sgx_status_t ret = load_and_initialize_enclave(&global_eid , NULL);
+    sgx_status_t ret = load_and_initialize_enclave(&global_eid1, NULL);
+    if(ret != SGX_SUCCESS)
+    {
+        ret_error_support(ret);
+        release_source();
+        cout << "Enter a character before exit ..." << endl;
+        getchar();
+        return -1;
+    }
+    ret = load_and_initialize_enclave(&global_eid2, NULL);
     if(ret != SGX_SUCCESS)
     {
         ret_error_support(ret);
@@ -253,22 +239,11 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    cout << "****************************************************************" << endl;
-    cout << "Demonstrating Power transition needs your cooperation." << endl
-        << "Please take the following actions:" << endl
-        << "    1. Enter a character;" << endl
-        << "    2. Manually put the OS into a sleep or hibernate state;" << endl
-        << "    3. Resume the OS from that state;" << endl
-        << "Then you will see the application continues." << endl;
-    cout << "****************************************************************" << endl;
-    cout << "Now enter a character ...";
-    getchar();
-
     // Create multiple threads to calculate the sum
     thread trd[THREAD_NUM];
-    for (int i = 0; i< THREAD_NUM; i++)
+    for (unsigned int i = 0; i< THREAD_NUM; i++)
     {
-        trd[i] = thread(thread_func);
+        trd[i] = thread(thread_func, i);
     }
     for (int i = 0; i < THREAD_NUM; i++)
     {
@@ -279,10 +254,8 @@ int main(int argc, char* argv[])
     release_source();
 
     // Destroy the enclave
-    sgx_destroy_enclave(global_eid);
-
-    cout << "Enter a character before exit ..." << endl;
-    getchar();
+    sgx_destroy_enclave(global_eid1);
+    sgx_destroy_enclave(global_eid2);
     return 0;
 }
 

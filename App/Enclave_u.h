@@ -43,7 +43,8 @@ int SGX_UBRIDGE(SGX_CDECL, sgx_thread_set_multiple_untrusted_events_ocall, (cons
 #endif
 
 sgx_status_t initialize_enclave(sgx_enclave_id_t eid, int* retval, struct sealed_buf_t* sealed_buf);
-sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf);
+sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx);
+sgx_status_t multiply_and_accumulate(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf);
 
 #ifdef __cplusplus
 }

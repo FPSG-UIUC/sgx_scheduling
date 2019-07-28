@@ -36,7 +36,14 @@ typedef struct ms_increase_and_seal_data_t {
 	int ms_retval;
 	size_t ms_tid;
 	struct sealed_buf_t* ms_sealed_buf;
+	unsigned int ms_idx;
 } ms_increase_and_seal_data_t;
+
+typedef struct ms_multiply_and_accumulate_t {
+	int ms_retval;
+	size_t ms_tid;
+	struct sealed_buf_t* ms_sealed_buf;
+} ms_multiply_and_accumulate_t;
 
 typedef struct ms_print_t {
 	const char* ms_string;
@@ -145,7 +152,54 @@ static sgx_status_t SGX_CDECL sgx_increase_and_seal_data(void* pms)
 
 	}
 
-	ms->ms_retval = increase_and_seal_data(ms->ms_tid, _in_sealed_buf);
+	ms->ms_retval = increase_and_seal_data(ms->ms_tid, _in_sealed_buf, ms->ms_idx);
+	if (_in_sealed_buf) {
+		if (memcpy_s(_tmp_sealed_buf, _len_sealed_buf, _in_sealed_buf, _len_sealed_buf)) {
+			status = SGX_ERROR_UNEXPECTED;
+			goto err;
+		}
+	}
+
+err:
+	if (_in_sealed_buf) free(_in_sealed_buf);
+	return status;
+}
+
+static sgx_status_t SGX_CDECL sgx_multiply_and_accumulate(void* pms)
+{
+	CHECK_REF_POINTER(pms, sizeof(ms_multiply_and_accumulate_t));
+	//
+	// fence after pointer checks
+	//
+	sgx_lfence();
+	ms_multiply_and_accumulate_t* ms = SGX_CAST(ms_multiply_and_accumulate_t*, pms);
+	sgx_status_t status = SGX_SUCCESS;
+	struct sealed_buf_t* _tmp_sealed_buf = ms->ms_sealed_buf;
+	size_t _len_sealed_buf = sizeof(struct sealed_buf_t);
+	struct sealed_buf_t* _in_sealed_buf = NULL;
+
+	CHECK_UNIQUE_POINTER(_tmp_sealed_buf, _len_sealed_buf);
+
+	//
+	// fence after pointer checks
+	//
+	sgx_lfence();
+
+	if (_tmp_sealed_buf != NULL && _len_sealed_buf != 0) {
+		_in_sealed_buf = (struct sealed_buf_t*)malloc(_len_sealed_buf);
+		if (_in_sealed_buf == NULL) {
+			status = SGX_ERROR_OUT_OF_MEMORY;
+			goto err;
+		}
+
+		if (memcpy_s(_in_sealed_buf, _len_sealed_buf, _tmp_sealed_buf, _len_sealed_buf)) {
+			status = SGX_ERROR_UNEXPECTED;
+			goto err;
+		}
+
+	}
+
+	ms->ms_retval = multiply_and_accumulate(ms->ms_tid, _in_sealed_buf);
 	if (_in_sealed_buf) {
 		if (memcpy_s(_tmp_sealed_buf, _len_sealed_buf, _in_sealed_buf, _len_sealed_buf)) {
 			status = SGX_ERROR_UNEXPECTED;
@@ -160,27 +214,28 @@ err:
 
 SGX_EXTERNC const struct {
 	size_t nr_ecall;
-	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];
+	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];
 } g_ecall_table = {
-	2,
+	3,
 	{
 		{(void*)(uintptr_t)sgx_initialize_enclave, 0},
 		{(void*)(uintptr_t)sgx_increase_and_seal_data, 0},
+		{(void*)(uintptr_t)sgx_multiply_and_accumulate, 0},
 	}
 };
 
 SGX_EXTERNC const struct {
 	size_t nr_ocall;
-	uint8_t entry_table[6][2];
+	uint8_t entry_table[6][3];
 } g_dyn_entry_table = {
 	6,
 	{
-		{0, 0, },
-		{0, 0, },
-		{0, 0, },
-		{0, 0, },
-		{0, 0, },
-		{0, 0, },
+		{0, 0, 0, },
+		{0, 0, 0, },
+		{0, 0, 0, },
+		{0, 0, 0, },
+		{0, 0, 0, },
+		{0, 0, 0, },
 	}
 };
 
