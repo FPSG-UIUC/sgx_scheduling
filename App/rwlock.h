@@ -30,18 +30,28 @@
  */
 
 
-enclave {
-	
-	// Import the Ocalls for trusted mutex
-	from "sgx_tstdc.edl" import *;
-	include "types.h"
 
-    trusted {
-		public int  initialize_enclave([in]struct sealed_buf_t* sealed_buf);
-		public int  increase_and_seal_data(size_t tid, [in, out]struct sealed_buf_t* sealed_buf);
-    };
 
-    untrusted {
-		void print([in, string] const char *string);
-    };
-};
+#ifndef _RWLOCK_H
+#define _RWLOCK_H
+
+#include <pthread.h>
+typedef pthread_rwlock_t rwlock_t;
+typedef pthread_rwlock_t* prwlock_t;
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+    void wtlock(prwlock_t lock);
+    void rdlock(prwlock_t lock);
+    void rdunlock(prwlock_t lock);
+    void wtunlock(prwlock_t lock);
+    void init_rwlock(prwlock_t lock);
+    void fini_rwlock(prwlock_t lock);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

@@ -30,18 +30,20 @@
  */
 
 
-enclave {
-	
-	// Import the Ocalls for trusted mutex
-	from "sgx_tstdc.edl" import *;
-	include "types.h"
+#ifndef _ERROR_SUPPORT_H
+#define _ERROR_SUPPORT_H
 
-    trusted {
-		public int  initialize_enclave([in]struct sealed_buf_t* sealed_buf);
-		public int  increase_and_seal_data(size_t tid, [in, out]struct sealed_buf_t* sealed_buf);
-    };
+#include "sgx_error.h"
 
-    untrusted {
-		void print([in, string] const char *string);
-    };
-};
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void ret_error_support(sgx_status_t ret);
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif

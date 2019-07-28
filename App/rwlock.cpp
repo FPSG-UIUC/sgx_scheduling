@@ -30,18 +30,55 @@
  */
 
 
-enclave {
-	
-	// Import the Ocalls for trusted mutex
-	from "sgx_tstdc.edl" import *;
-	include "types.h"
 
-    trusted {
-		public int  initialize_enclave([in]struct sealed_buf_t* sealed_buf);
-		public int  increase_and_seal_data(size_t tid, [in, out]struct sealed_buf_t* sealed_buf);
-    };
+// rwlock.cpp: wrappers of Slim Reader/Writer (SRW) Locks
 
-    untrusted {
-		void print([in, string] const char *string);
-    };
-};
+#include "rwlock.h"
+
+
+#include <stdlib.h>
+void wtlock(prwlock_t lock)
+{
+    int ret = pthread_rwlock_wrlock(lock);
+    if(0 != ret)
+        abort();
+}
+
+void wtunlock(prwlock_t lock)
+{
+    int ret = pthread_rwlock_unlock(lock);
+    if(0 != ret)
+        abort();
+}
+
+
+void rdlock(prwlock_t lock)
+{
+    int ret = pthread_rwlock_rdlock(lock);
+    if(0 != ret)
+        abort();
+}
+
+void rdunlock(prwlock_t lock)
+{
+    int ret = pthread_rwlock_unlock(lock);
+    if(0 != ret)
+        abort();
+}
+
+void init_rwlock(prwlock_t lock)
+{
+    //use the default attribute.
+    int ret = pthread_rwlock_init(lock, NULL);
+    if(0 != ret)
+        abort();
+}
+
+void fini_rwlock(prwlock_t lock)
+{
+    int ret = pthread_rwlock_destroy(lock);
+    if(0 != ret)
+        abort();
+}
+
+
