@@ -158,10 +158,11 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf, unsigned
     // Ocall to print the unsealed secret data outside.
     // In theory, the secret data(s) SHOULD NOT be transferred outside the enclave as clear text(s).
     // So please DO NOT print any secret outside. Here printing the secret data to outside is only for demo.
-    for(unsigned int i=0; i<10*idx; i++)
-    {
-        temp_secret = ++temp_secret;
-    }
+    temp_secret = ++g_secret * idx;
+    // for(unsigned int i=0; i<10*idx; i++)
+    // {
+    //     temp_secret = ++temp_secret;
+    // }
 
     sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
     if(ret != SGX_SUCCESS)
