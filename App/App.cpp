@@ -48,15 +48,14 @@
 #include "ErrorSupport.h"
 
 #define ENCLAVE_NAME "libenclave.so"
-#define TOKEN_NAME "Enclave.token"
 
 #define THREAD_NUM 3
 
 // Global data
 sgx_enclave_id_t global_eid = 0;
-sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t sealed_buf;
+volatile int global_int = 5;
 
 using namespace std;
 
@@ -73,7 +72,7 @@ sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_bu
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
 
-    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, &token, eid, NULL);
+    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, NULL, NULL, eid, NULL);
     if(ret != SGX_SUCCESS)
         return ret;
 
