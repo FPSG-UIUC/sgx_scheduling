@@ -219,8 +219,6 @@ int main(int argc, char* argv[])
     // Destroy the enclave
     sgx_destroy_enclave(global_eid);
 
-    cout << "Enter a character before exit ..." << endl;
-    getchar();
     return 0;
 }
 
