@@ -47,16 +47,16 @@
 #include "rwlock.h"
 #include "ErrorSupport.h"
 
-#define ENCLAVE_NAME "libenclave.signed.so"
+#define ENCLAVE_NAME "libenclave.so"
+#define TOKEN_NAME "Enclave.token"
 
 #define THREAD_NUM 3
 
 // Global data
-sgx_enclave_id_t global_eid1 = 0;
-sgx_enclave_id_t global_eid2 = 1;
+sgx_enclave_id_t global_eid = 0;
+sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t sealed_buf;
-volatile int global_int = 5;
 
 using namespace std;
 
@@ -72,8 +72,9 @@ sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_bu
 {
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
+    int updated = 0;
 
-    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, NULL, NULL, eid, NULL);
+    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, &token, &updated, eid, NULL);
     if(ret != SGX_SUCCESS)
         return ret;
 
@@ -102,35 +103,7 @@ bool increase_and_seal_data_in_enclave1(unsigned int tidx)
     for(unsigned int i = 0; i< 5; i++)
     {
         // rdlock(&lock_eid);
-        current_eid = global_eid1;
-        // rdunlock(&lock_eid);
-        ret = increase_and_seal_data(current_eid, &retval, thread_id, &sealed_buf, tidx);
-        if(ret != SGX_SUCCESS)
-        {
-            ret_error_support(ret);
-            return false;
-        }
-        else if(retval != 0)
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-
-bool increase_and_seal_data_in_enclave2(unsigned int tidx)
-{
-    size_t thread_id = std::hash<std::thread::id>()(std::this_thread::get_id());
-    sgx_status_t ret = SGX_SUCCESS;
-    int retval = 0;
-    sgx_enclave_id_t current_eid = 0;
-
-    // Enter the enclave to increase and seal the secret data for 100 times.
-    for(unsigned int i = 0; i< 5; i++)
-    {
-        // rdlock(&lock_eid);
-        current_eid = global_eid2;
+        current_eid = global_eid;
         // rdunlock(&lock_eid);
         ret = increase_and_seal_data(current_eid, &retval, thread_id, &sealed_buf, tidx);
         if(ret != SGX_SUCCESS)
@@ -220,7 +193,7 @@ int main(int argc, char* argv[])
 
     // Load and initialize the signed enclave
     // sealed_buf == NULL indicates it is the first time to initialize the enclave.
-    sgx_status_t ret = load_and_initialize_enclave(&global_eid1, NULL);
+    sgx_status_t ret = load_and_initialize_enclave(&global_eid, NULL);
     if(ret != SGX_SUCCESS)
     {
         ret_error_support(ret);
@@ -229,15 +202,8 @@ int main(int argc, char* argv[])
         getchar();
         return -1;
     }
-    ret = load_and_initialize_enclave(&global_eid2, NULL);
-    if(ret != SGX_SUCCESS)
-    {
-        ret_error_support(ret);
-        release_source();
-        cout << "Enter a character before exit ..." << endl;
-        getchar();
-        return -1;
-    }
+
+    cout << "this is here" << endl;
 
     // Create multiple threads to calculate the sum
     thread trd[THREAD_NUM];
@@ -254,8 +220,7 @@ int main(int argc, char* argv[])
     release_source();
 
     // Destroy the enclave
-    sgx_destroy_enclave(global_eid1);
-    sgx_destroy_enclave(global_eid2);
+    sgx_destroy_enclave(global_eid);
     return 0;
 }
 
