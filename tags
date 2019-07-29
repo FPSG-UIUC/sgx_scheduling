@@ -99,7 +99,7 @@ g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INIT
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
 increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
-increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
+increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,$/;"	f
 increase_and_seal_data_in_enclave	App/App.cpp	/^bool increase_and_seal_data_in_enclave()$/;"	f
 index	Common/types.h	/^	unsigned int index;$/;"	m	struct:sealed_buf_t
 init_rwlock	App/rwlock.cpp	/^void init_rwlock(prwlock_t lock)$/;"	f

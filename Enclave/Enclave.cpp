@@ -111,7 +111,8 @@ int initialize_enclave(struct sealed_buf_t *sealed_buf)
     }
 }
 
-int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf)
+int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
+        unsigned int idx)
 {
     uint32_t sealed_len = sizeof(sgx_sealed_data_t) + sizeof(g_secret);
     // Check the sealed_buf length and check the outside pointers deeply
@@ -136,29 +137,32 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf)
     }
     memset(temp_sealed_buf, 0, sealed_len);
 
-    sgx_thread_mutex_lock(&g_mutex);
+    // sgx_thread_mutex_lock(&g_mutex);
+
 
     // Increase and seal the secret data
     temp_secret = ++g_secret;
+    temp_secret = ++g_secret * idx;
     sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
     if(ret != SGX_SUCCESS)
     {
-        sgx_thread_mutex_unlock(&g_mutex);
+        // sgx_thread_mutex_unlock(&g_mutex);
         print("Failed to seal data\n");
         free_allocated_memory(temp_sealed_buf);
         return -1;
     }
     // Backup the sealed data to outside buffer
+    snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
+    print(string_buf);
+
     memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
     sealed_buf->index++;
 
-    sgx_thread_mutex_unlock(&g_mutex);
+    // sgx_thread_mutex_unlock(&g_mutex);
     free_allocated_memory(temp_sealed_buf);
 
     // Ocall to print the unsealed secret data outside.
     // In theory, the secret data(s) SHOULD NOT be transferred outside the enclave as clear text(s).
     // So please DO NOT print any secret outside. Here printing the secret data to outside is only for demo.
-    snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
-    print(string_buf);
     return 0;
 }
