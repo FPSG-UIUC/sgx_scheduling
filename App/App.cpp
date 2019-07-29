@@ -67,62 +67,24 @@ void print(const char *str)
 }
 
 // load_and_initialize_enclave():
-//		To load and initialize the enclave     
+//		To load and initialize the enclave
 sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *sealed_buf)
 {
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
     int updated = 0;
 
-    for( ; ; )
+    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, &token, &updated, eid, NULL);
+    if(ret != SGX_SUCCESS)
+        return ret;
+
+    ret = initialize_enclave(*eid, &retval, sealed_buf);
+    if(ret == SGX_SUCCESS && retval != 0)
     {
-        // Step 1: check whether the loading and initialization operations are caused by power transition.
-        //		If the loading and initialization operations are caused by power transition, we need to call sgx_destory_enclave() first.
-        if(*eid != 0)
-        {
-            sgx_destroy_enclave(*eid);
-        }
-	
-        // Step 2: load the enclave
-        // Debug: set the 2nd parameter to 1 which indicates the enclave are launched in debug mode
-        ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, &token, &updated, eid, NULL);
-        if(ret != SGX_SUCCESS)
-            return ret;
-
-        // Save the launch token if updated
-        if(updated == 1)
-        {
-            ofstream ofs(TOKEN_NAME, std::ios::binary|std::ios::out);
-            if(!ofs.good())
-            {
-                cout<< "Warning: Failed to save the launch token to \"" <<TOKEN_NAME <<"\""<<endl;
-            }
-            else
-                ofs << token;
-        }
-
-        // Step 3: enter the enclave to initialize the enclave
-        //      If power transition occurs when the process is inside the enclave, SGX_ERROR_ENCLAVE_LOST will be returned after the system resumes.
-        //      Then we can load and intialize the enclave again or just return this error code and exit to handle the power transition.
-        //      In this sample, we choose to load and intialize the enclave again.
-        ret = initialize_enclave(*eid, &retval, sealed_buf);
-        if(ret == SGX_ERROR_ENCLAVE_LOST)
-        {
-            cout<<"Power transition occured in initialize_enclave()" <<endl;
-            continue; // Try to load and initialize the enclave again
-        }
-        else
-        {
-            // No power transilation occurs.
-            // If the initialization operation returns failure, change the return value.
-            if(ret == SGX_SUCCESS && retval != 0)
-            {
-                ret = SGX_ERROR_UNEXPECTED;
-                sgx_destroy_enclave(*eid);
-            }
-            break;
-        }
+        ret = SGX_ERROR_UNEXPECTED;
+        sgx_destroy_enclave(*eid);
     }
+
     return ret;
 }
 
@@ -138,8 +100,8 @@ bool increase_and_seal_data_in_enclave()
     {
         for( ; ; )
         {
-            // If power transition occurs, all the data inside the enclave will be lost when the system resumes. 
-            // Therefore, if there are some secret data which need to be backed up for recover, 
+            // If power transition occurs, all the data inside the enclave will be lost when the system resumes.
+            // Therefore, if there are some secret data which need to be backed up for recover,
             // users can choose to seal the secret data inside the enclave and back up the sealed data.
 
             // Enter the enclave to increase the secret data and back up the sealed data
@@ -172,7 +134,7 @@ bool increase_and_seal_data_in_enclave()
                 }
                 else
                 {
-                    // The enclave has been reloaded by another thread. 
+                    // The enclave has been reloaded by another thread.
                     // Update the current EID and do increase_and_seal_data() again.
                     current_eid = global_eid;
                 }

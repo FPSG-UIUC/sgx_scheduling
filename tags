@@ -75,7 +75,8 @@ SGX_THREAD_WAIT_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	29;"	d
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
 Signed_Enclave_Name	Makefile	/^Signed_Enclave_Name := libenclave.signed.so$/;"	m
-THREAD_NUM	App/App.cpp	52;"	d	file:
+THREAD_NUM	App/App.cpp	53;"	d	file:
+TOKEN_NAME	App/App.cpp	51;"	d	file:
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
@@ -95,16 +96,15 @@ g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__a
 g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INITIALIZER;$/;"	v
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
-global_int	App/App.cpp	/^volatile int global_int = 5;$/;"	v
 increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
 increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
-increase_and_seal_data_in_enclave1	App/App.cpp	/^bool increase_and_seal_data_in_enclave1(unsigned int tidx)$/;"	f
+increase_and_seal_data_in_enclave	App/App.cpp	/^bool increase_and_seal_data_in_enclave()$/;"	f
 index	Common/types.h	/^	unsigned int index;$/;"	m	struct:sealed_buf_t
 init_rwlock	App/rwlock.cpp	/^void init_rwlock(prwlock_t lock)$/;"	f
 initialize_enclave	App/Enclave_u.c	/^sgx_status_t initialize_enclave(sgx_enclave_id_t eid, int* retval, struct sealed_buf_t* sealed_buf)$/;"	f
 initialize_enclave	Enclave/Enclave.cpp	/^int initialize_enclave(struct sealed_buf_t *sealed_buf)$/;"	f
 is_priv	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon2::__anon3	file:
-load_and_initialize_enclave	App/App.cpp	/^sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *buf)$/;"	f
+load_and_initialize_enclave	App/App.cpp	/^sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *sealed_buf)$/;"	f
 lock_eid	App/App.cpp	/^rwlock_t lock_eid;$/;"	v
 main	App/App.cpp	/^int main(int argc, char* argv[])$/;"	f
 ms_cpuinfo	App/Enclave_u.c	/^	int* ms_cpuinfo;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
@@ -185,7 +185,6 @@ ms_waiters	Enclave/Enclave_t.c	/^	const void** ms_waiters;$/;"	m	struct:ms_sgx_t
 msg	App/ErrorSupport.cpp	/^    const char * msg;$/;"	m	struct:_sgx_errlist_t	file:
 multiply_and_accumulate	App/Enclave_u.c	/^sgx_status_t multiply_and_accumulate(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
 multiply_and_accumulate	Enclave/Enclave.cpp	/^int multiply_and_accumulate(size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
-multiply_and_accumulate_in_enclave	App/App.cpp	/^void multiply_and_accumulate_in_enclave()$/;"	f
 nr_ecall	Enclave/Enclave_t.c	/^	size_t nr_ecall;$/;"	m	struct:__anon2	file:
 nr_ocall	App/Enclave_u.c	/^	size_t nr_ocall;$/;"	m	struct:__anon1	file:
 nr_ocall	Enclave/Enclave_t.c	/^	size_t nr_ocall;$/;"	m	struct:__anon4	file:
@@ -212,6 +211,7 @@ sgx_thread_set_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDEC
 sgx_thread_setwait_untrusted_events_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_setwait_untrusted_events_ocall(int* retval, const void* waiter, const void* self)$/;"	f
 sgx_thread_wait_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_wait_untrusted_event_ocall(int* retval, const void* self)$/;"	f
 table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon1	file:
-thread_func	App/App.cpp	/^void thread_func(unsigned int tidx)$/;"	f
+thread_func	App/App.cpp	/^void thread_func()$/;"	f
+token	App/App.cpp	/^sgx_launch_token_t token = {0};$/;"	v
 wtlock	App/rwlock.cpp	/^void wtlock(prwlock_t lock)$/;"	f
 wtunlock	App/rwlock.cpp	/^void wtunlock(prwlock_t lock)$/;"	f
