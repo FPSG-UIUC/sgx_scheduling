@@ -213,6 +213,8 @@ int main(int argc, char* argv[])
         trd[i].join();
     }
 
+    thread_func(1);
+
     // Release resources
     release_source();
 
