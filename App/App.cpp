@@ -47,6 +47,8 @@
 #include "rwlock.h"
 #include "ErrorSupport.h"
 
+#include "cifar10_reader.hpp"
+
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
 
@@ -180,6 +182,13 @@ int main(int argc, char* argv[])
 {
     (void)argc, (void)argv;
 
+    auto dataset = cifar::read_dataset<std::vector, std::vector, uint8_t,
+         uint8_t>();
+    for(int i=0; i<dataset.training_labels.size(); i++)
+    {
+        // std::cout << (int)dataset.training_labels[i];
+        std::cout << &dataset.training_images[i] << " ";
+    }
 
     // Initialize the global data
     if(!set_global_data())
