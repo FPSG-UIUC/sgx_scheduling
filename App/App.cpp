@@ -72,9 +72,8 @@ sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_bu
 {
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
-    int updated = 0;
 
-    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, &token, &updated, eid, NULL);
+    ret = sgx_create_enclave(ENCLAVE_NAME, SGX_DEBUG_FLAG, &token, eid, NULL);
     if(ret != SGX_SUCCESS)
         return ret;
 
