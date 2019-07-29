@@ -186,8 +186,9 @@ int main(int argc, char* argv[])
          uint8_t>();
     for(int i=0; i<dataset.training_labels.size(); i++)
     {
-        // std::cout << (int)dataset.training_labels[i];
-        std::cout << &dataset.training_images[i] << " ";
+        if((int)dataset.training_labels[i] == 0)
+            std::cout << (int)dataset.training_labels[i] << "(" <<
+                &dataset.training_images[i] << ") ";
     }
 
     // Initialize the global data
