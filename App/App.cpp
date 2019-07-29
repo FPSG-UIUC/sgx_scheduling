@@ -96,7 +96,7 @@ bool increase_and_seal_data_in_enclave()
     sgx_enclave_id_t current_eid = 0;
 
     // Enter the enclave to increase and seal the secret data for 100 times.
-    for(unsigned int i = 0; i< 50000; i++)
+    for(unsigned int i = 0; i<5; i++)
     {
         for( ; ; )
         {
@@ -160,7 +160,7 @@ bool increase_and_seal_data_in_enclave()
 }
 
 
-void thread_func()
+void thread_func(int idx)
 {
     if(increase_and_seal_data_in_enclave() != true)
     {
@@ -250,7 +250,7 @@ int main(int argc, char* argv[])
     thread trd[THREAD_NUM];
     for (int i = 0; i< THREAD_NUM; i++)
     {
-        trd[i] = thread(thread_func);
+        trd[i] = thread(thread_func, i+1);
     }
     for (int i = 0; i < THREAD_NUM; i++)
     {

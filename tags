@@ -224,7 +224,7 @@ sgx_thread_set_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDEC
 sgx_thread_setwait_untrusted_events_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_setwait_untrusted_events_ocall(int* retval, const void* waiter, const void* self)$/;"	f
 sgx_thread_wait_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_wait_untrusted_event_ocall(int* retval, const void* self)$/;"	f
 table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon1	file:
-thread_func	App/App.cpp	/^void thread_func()$/;"	f
+thread_func	App/App.cpp	/^void thread_func(int idx)$/;"	f
 token	App/App.cpp	/^sgx_launch_token_t token = {0};$/;"	v
 wtlock	App/rwlock.cpp	/^void wtlock(prwlock_t lock)$/;"	f
 wtunlock	App/rwlock.cpp	/^void wtunlock(prwlock_t lock)$/;"	f
