@@ -183,13 +183,20 @@ int main(int argc, char* argv[])
     (void)argc, (void)argv;
 
     auto dataset = cifar::read_dataset<std::vector, std::vector, uint8_t,
-         uint8_t>();
+         uint8_t>(1500, 1);
+
+    unsigned int target_count = 0;
     for(int i=0; i<dataset.training_labels.size(); i++)
     {
         if((int)dataset.training_labels[i] == 0)
+        {
             std::cout << (int)dataset.training_labels[i] << "(" <<
                 &dataset.training_images[i] << ") ";
+            target_count++;
+        }
     }
+
+    cout << endl << target_count << " target label images" << endl;
 
     // Initialize the global data
     if(!set_global_data())
