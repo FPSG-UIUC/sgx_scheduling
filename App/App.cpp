@@ -98,54 +98,10 @@ bool increase_and_seal_data_in_enclave()
     // Enter the enclave to increase and seal the secret data for 100 times.
     for(unsigned int i = 0; i<5; i++)
     {
-        for( ; ; )
-        {
-            // If power transition occurs, all the data inside the enclave will be lost when the system resumes.
-            // Therefore, if there are some secret data which need to be backed up for recover,
-            // users can choose to seal the secret data inside the enclave and back up the sealed data.
+        current_eid = global_eid;
+        ret = increase_and_seal_data(current_eid, &retval, thread_id,
+                &sealed_buf);
 
-            // Enter the enclave to increase the secret data and back up the sealed data
-            rdlock(&lock_eid);
-            current_eid = global_eid;
-            rdunlock(&lock_eid);
-            ret = increase_and_seal_data(current_eid, &retval, thread_id, &sealed_buf);
-
-            if(ret == SGX_ERROR_ENCLAVE_LOST)
-            {
-                // SGX_ERROR_ENCLAVE_LOST indicates the power transition occurs before the system resumes.
-                // Lock here is to make sure there is only one thread to load and initialize the enclave at the same time
-                wtlock(&lock_eid);
-                // The loading and initialization operations happen in current thread only if there is no other thread reloads and initializes the enclave before
-                if(current_eid == global_eid)
-                {
-                    cout <<"power transition occured in increase_and_seal_data()." << endl;
-                    // Use the backup sealed data to reload and initialize the enclave.
-                    if((ret = load_and_initialize_enclave(&current_eid, &sealed_buf)) != SGX_SUCCESS)
-                    {
-                        ret_error_support(ret);
-                        wtunlock(&lock_eid);
-                        return false;
-                    }
-                    else
-                    {
-                        // Update the global_eid after initializing the enclave successfully
-                        global_eid = current_eid;
-                    }
-                }
-                else
-                {
-                    // The enclave has been reloaded by another thread.
-                    // Update the current EID and do increase_and_seal_data() again.
-                    current_eid = global_eid;
-                }
-                wtunlock(&lock_eid);
-            }
-            else
-            {
-                // No power transition occurs
-                break;
-            }
-        }
         if(ret != SGX_SUCCESS)
         {
             ret_error_support(ret);
