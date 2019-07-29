@@ -88,7 +88,7 @@ sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_bu
     return ret;
 }
 
-bool increase_and_seal_data_in_enclave()
+bool increase_and_seal_data_in_enclave(unsigned int tidx)
 {
     size_t thread_id = std::hash<std::thread::id>()(std::this_thread::get_id());
     sgx_status_t ret = SGX_SUCCESS;
@@ -100,7 +100,7 @@ bool increase_and_seal_data_in_enclave()
     {
         current_eid = global_eid;
         ret = increase_and_seal_data(current_eid, &retval, thread_id,
-                &sealed_buf);
+                &sealed_buf, tidx);
 
         if(ret != SGX_SUCCESS)
         {
