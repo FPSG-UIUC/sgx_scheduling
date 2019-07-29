@@ -24,8 +24,10 @@ CC_BELOW_4_9	Makefile	/^CC_BELOW_4_9 := $(shell expr "`$(CC) -dumpversion`" \\< 
 CHECK_ENCLAVE_POINTER	Enclave/Enclave_t.c	20;"	d	file:
 CHECK_REF_POINTER	Enclave/Enclave_t.c	10;"	d	file:
 CHECK_UNIQUE_POINTER	Enclave/Enclave_t.c	15;"	d	file:
+CIFAR10_READER_HPP	App/cifar10_reader.hpp	14;"	d
+CIFAR10_dataset	App/cifar10_reader.hpp	/^struct CIFAR10_dataset {$/;"	s	namespace:cifar
 Crypto_Library_Name	Makefile	/^Crypto_Library_Name := sgx_tcrypto$/;"	m
-ENCLAVE_NAME	App/App.cpp	50;"	d	file:
+ENCLAVE_NAME	App/App.cpp	52;"	d	file:
 ENCLAVE_T_H__	Enclave/Enclave_t.h	2;"	d
 ENCLAVE_U_H__	App/Enclave_u.h	2;"	d
 Enclave_Compile_CFlags	Makefile	/^	Enclave_Compile_CFlags := -fstack-protector$/;"	m
@@ -74,8 +76,8 @@ Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
 SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
 Signed_Enclave_Name	Makefile	/^Signed_Enclave_Name := libenclave.signed.so$/;"	m
-THREAD_NUM	App/App.cpp	53;"	d	file:
-TOKEN_NAME	App/App.cpp	51;"	d	file:
+THREAD_NUM	App/App.cpp	55;"	d	file:
+TOKEN_NAME	App/App.cpp	53;"	d	file:
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
@@ -84,6 +86,7 @@ _ERROR_SUPPORT_H	App/ErrorSupport.h	34;"	d
 _RWLOCK_H	App/rwlock.h	36;"	d
 _TYPES_H_	Common/types.h	35;"	d
 _sgx_errlist_t	App/ErrorSupport.cpp	/^typedef struct _sgx_errlist_t {$/;"	s	file:
+cifar	App/cifar10_reader.hpp	/^namespace cifar {$/;"	n
 ecall_addr	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
 ecall_table	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2	typeref:struct:__anon2::__anon3	file:
 entry_table	Enclave/Enclave_t.c	/^	uint8_t entry_table[6][3];$/;"	m	struct:__anon4	file:
@@ -202,7 +205,22 @@ print	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL print(const char* string)$/;"
 prwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t* prwlock_t;$/;"	t
 rdlock	App/rwlock.cpp	/^void rdlock(prwlock_t lock)$/;"	f
 rdunlock	App/rwlock.cpp	/^void rdunlock(prwlock_t lock)$/;"	f
+read_cifar10_file	App/cifar10_reader.hpp	/^void read_cifar10_file(Images& images, Labels& labels, const std::string& path, std::size_t limit, Func func) {$/;"	f	namespace:cifar
+read_cifar10_file_categorical	App/cifar10_reader.hpp	/^void read_cifar10_file_categorical(Images& images, Labels& labels, const std::string& path, std::size_t limit, size_t start) {$/;"	f	namespace:cifar
+read_dataset	App/cifar10_reader.hpp	/^CIFAR10_dataset<Container, Sub<Pixel>, Label> read_dataset(std::size_t training_limit = 0, std::size_t test_limit = 0) {$/;"	f	namespace:cifar
+read_dataset_3d	App/cifar10_reader.hpp	/^CIFAR10_dataset<Container, Image, Label> read_dataset_3d(std::size_t training_limit = 0, std::size_t test_limit = 0) {$/;"	f	namespace:cifar
+read_dataset_direct	App/cifar10_reader.hpp	/^CIFAR10_dataset<Container, Image, Label> read_dataset_direct(std::size_t training_limit = 0, std::size_t test_limit = 0) {$/;"	f	namespace:cifar
+read_test	App/cifar10_reader.hpp	/^void read_test(const std::string& folder, std::size_t limit, Images& images, Labels& labels, Functor func) {$/;"	f	namespace:cifar
+read_test	App/cifar10_reader.hpp	/^void read_test(std::size_t limit, Images& images, Labels& labels, Functor func) {$/;"	f	namespace:cifar
+read_test_categorical	App/cifar10_reader.hpp	/^void read_test_categorical(const std::string& folder, std::size_t limit, Images& images, Labels& labels) {$/;"	f	namespace:cifar
+read_test_categorical	App/cifar10_reader.hpp	/^void read_test_categorical(std::size_t limit, Images& images, Labels& labels) {$/;"	f	namespace:cifar
+read_training	App/cifar10_reader.hpp	/^void read_training(const std::string& folder, std::size_t limit, Images& images, Labels& labels, Functor func) {$/;"	f	namespace:cifar
+read_training	App/cifar10_reader.hpp	/^void read_training(std::size_t limit, Images& images, Labels& labels, Functor func) {$/;"	f	namespace:cifar
+read_training_categorical	App/cifar10_reader.hpp	/^void read_training_categorical(const std::string& folder, std::size_t limit, Images& images, Labels& labels) {$/;"	f	namespace:cifar
+read_training_categorical	App/cifar10_reader.hpp	/^void read_training_categorical(std::size_t limit, Images& images, Labels& labels) {$/;"	f	namespace:cifar
 release_source	App/App.cpp	/^void release_source()$/;"	f
+resize_test	App/cifar10_reader.hpp	/^    void resize_test(std::size_t new_size) {$/;"	f	struct:cifar::CIFAR10_dataset
+resize_training	App/cifar10_reader.hpp	/^    void resize_training(std::size_t new_size) {$/;"	f	struct:cifar::CIFAR10_dataset
 ret_error_support	App/ErrorSupport.cpp	/^void ret_error_support(sgx_status_t ret)$/;"	f
 rwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t rwlock_t;$/;"	t
 s:l	Session.vim	/^let s:l = 125 - ((60 * winheight(0) + 42) \/ 84)$/;"	v
@@ -224,8 +242,12 @@ sgx_thread_set_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDEC
 sgx_thread_setwait_untrusted_events_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_setwait_untrusted_events_ocall(int* retval, const void* waiter, const void* self)$/;"	f
 sgx_thread_wait_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_wait_untrusted_event_ocall(int* retval, const void* self)$/;"	f
 table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon1	file:
+test_images	App/cifar10_reader.hpp	/^    Container<Image> test_images;     \/\/\/< The test images$/;"	m	struct:cifar::CIFAR10_dataset
+test_labels	App/cifar10_reader.hpp	/^    Container<Label> test_labels;     \/\/\/< The test labels$/;"	m	struct:cifar::CIFAR10_dataset
 thread_func	App/App.cpp	/^void thread_func(unsigned int idx)$/;"	f
 token	App/App.cpp	/^sgx_launch_token_t token = {0};$/;"	v
+training_images	App/cifar10_reader.hpp	/^    Container<Image> training_images; \/\/\/< The training images$/;"	m	struct:cifar::CIFAR10_dataset
+training_labels	App/cifar10_reader.hpp	/^    Container<Label> training_labels; \/\/\/< The training labels$/;"	m	struct:cifar::CIFAR10_dataset
 wtlock	App/rwlock.cpp	/^void wtlock(prwlock_t lock)$/;"	f
 wtunlock	App/rwlock.cpp	/^void wtunlock(prwlock_t lock)$/;"	f
 zt	Session.vim	/^normal! zt$/;"	m

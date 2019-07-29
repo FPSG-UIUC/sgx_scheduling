@@ -18,7 +18,6 @@ extern "C" {
 
 int initialize_enclave(struct sealed_buf_t* sealed_buf);
 int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx);
-int multiply_and_accumulate(size_t tid, struct sealed_buf_t* sealed_buf);
 
 sgx_status_t SGX_CDECL print(const char* string);
 sgx_status_t SGX_CDECL sgx_oc_cpuidex(int cpuinfo[4], int leaf, int subleaf);
