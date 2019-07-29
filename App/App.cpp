@@ -213,6 +213,7 @@ int main(int argc, char* argv[])
         trd[i].join();
     }
 
+    cout << "Finished!" << endl;
     thread_func(1);
 
     // Release resources
