@@ -49,7 +49,7 @@
 
 #define ENCLAVE_NAME "libenclave.signed.so"
 
-#define THREAD_NUM 4
+#define THREAD_NUM 3
 
 // Global data
 sgx_enclave_id_t global_eid1 = 0;
@@ -149,20 +149,20 @@ bool increase_and_seal_data_in_enclave2(unsigned int tidx)
 
 void thread_func(unsigned int tidx)
 {
-    bool retval = false;
-    switch(tidx)
-    {
-        case 1:
-            retval = increase_and_seal_data_in_enclave1(tidx);
-            break;
-        case 2:
-            retval = increase_and_seal_data_in_enclave2(tidx);
-            break;
-        default:
-            retval = increase_and_seal_data_in_enclave1(tidx);
-            break;
-    }
-    if(retval != true)
+    // bool retval = false;
+    // switch(tidx)
+    // {
+    //     case 1:
+    //         retval = increase_and_seal_data_in_enclave1(tidx);
+    //         break;
+    //     case 2:
+    //         retval = increase_and_seal_data_in_enclave2(tidx);
+    //         break;
+    //     default:
+    //         retval = increase_and_seal_data_in_enclave1(tidx);
+    //         break;
+    // }
+    if(increase_and_seal_data_in_enclave1(tidx) != true)
     {
         abort();
     }
@@ -243,7 +243,7 @@ int main(int argc, char* argv[])
     thread trd[THREAD_NUM];
     for (unsigned int i = 0; i< THREAD_NUM; i++)
     {
-        trd[i] = thread(thread_func, i);
+        trd[i] = thread(thread_func, i+1);
     }
     for (int i = 0; i < THREAD_NUM; i++)
     {
