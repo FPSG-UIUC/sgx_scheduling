@@ -116,9 +116,9 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 }
 
 
-void thread_func(int idx)
+void thread_func(unsigned int idx)
 {
-    if(increase_and_seal_data_in_enclave() != true)
+    if(increase_and_seal_data_in_enclave(idx) != true)
     {
         abort();
     }
