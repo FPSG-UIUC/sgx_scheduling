@@ -246,17 +246,6 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    cout << "****************************************************************" << endl;
-    cout << "Demonstrating Power transition needs your cooperation." << endl
-        << "Please take the following actions:" << endl
-        << "    1. Enter a character;" << endl
-        << "    2. Manually put the OS into a sleep or hibernate state;" << endl
-        << "    3. Resume the OS from that state;" << endl
-        << "Then you will see the application continues." << endl;
-    cout << "****************************************************************" << endl;
-    cout << "Now enter a character ...";
-    getchar();
-
     // Create multiple threads to calculate the sum
     thread trd[THREAD_NUM];
     for (int i = 0; i< THREAD_NUM; i++)

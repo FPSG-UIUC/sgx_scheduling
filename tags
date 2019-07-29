@@ -4,9 +4,10 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+0	Session.vim	/^normal! 0$/;"	m
 ADD_ASSIGN_OVERFLOW	Enclave/Enclave_t.c	25;"	d	file:
 App_Compile_CFlags	Makefile	/^App_Compile_CFlags := -fPIC -Wno-attributes $(App_Include_Paths)$/;"	m
-App_Compile_CXXFlags	Makefile	/^App_Compile_CXXFlags := $(App_Compile_CFlags)$/;"	m
+App_Compile_CXXFlags	Makefile	/^App_Compile_CXXFlags := -std=c++0x $(App_Compile_CFlags)$/;"	m
 App_Cpp_Files	Makefile	/^App_Cpp_Files := $(wildcard App\/*.cpp)$/;"	m
 App_Include_Paths	Makefile	/^App_Include_Paths := -I$(SGX_SDK)\/include -I.\/Common$/;"	m
 App_Link_Flags	Makefile	/^App_Link_Flags := -L$(SGX_LIBRARY_PATH) -l$(Urts_Library_Name) -lpthread$/;"	m
@@ -29,15 +30,14 @@ ENCLAVE_T_H__	Enclave/Enclave_t.h	2;"	d
 ENCLAVE_U_H__	App/Enclave_u.h	2;"	d
 Enclave_Compile_CFlags	Makefile	/^	Enclave_Compile_CFlags := -fstack-protector$/;"	m
 Enclave_Compile_CFlags	Makefile	/^	Enclave_Compile_CFlags := -fstack-protector-strong$/;"	m
-Enclave_Compile_CXXFlags	Makefile	/^Enclave_Compile_CXXFlags := -nostdinc++ $(Enclave_Compile_CFlags)$/;"	m
+Enclave_Compile_CXXFlags	Makefile	/^Enclave_Compile_CXXFlags := -nostdinc++ -std=c++11 $(Enclave_Compile_CFlags)$/;"	m
 Enclave_Config_File	Makefile	/^Enclave_Config_File := Enclave\/Enclave.config.xml$/;"	m
 Enclave_Cpp_Files	Makefile	/^Enclave_Cpp_Files := $(wildcard Enclave\/*.cpp)$/;"	m
 Enclave_Cpp_Objects	Makefile	/^Enclave_Cpp_Objects := $(Enclave_Cpp_Files:.cpp=.o)$/;"	m
 Enclave_Include_Paths	Makefile	/^Enclave_Include_Paths := -I$(SGX_SDK)\/include -I$(SGX_SDK)\/include\/tlibc -I$(SGX_SDK)\/include\/libcxx -I.\/Common$/;"	m
-Enclave_Link_Flags	Makefile	/^Enclave_Link_Flags := $(Enclave_Security_Link_Flags) \\$/;"	m
+Enclave_Link_Flags	Makefile	/^Enclave_Link_Flags := -Wl,--no-undefined -nostdlib -nodefaultlibs -nostartfiles -L$(SGX_LIBRARY_PATH) \\$/;"	m
 Enclave_Name	Makefile	/^Enclave_Name := libenclave.so$/;"	m
 Enclave_Objects	Makefile	/^Enclave_Objects := $(Gen_Trusted_Object) $(Enclave_Cpp_Files:.cpp=.o)$/;"	m
-Enclave_Security_Link_Flags	Makefile	/^Enclave_Security_Link_Flags := -Wl,-z,relro,-z,now,-z,noexecstack$/;"	m
 Enclave_print	App/Enclave_u.c	/^static sgx_status_t SGX_CDECL Enclave_print(void* pms)$/;"	f	file:
 Enclave_sgx_oc_cpuidex	App/Enclave_u.c	/^static sgx_status_t SGX_CDECL Enclave_sgx_oc_cpuidex(void* pms)$/;"	f	file:
 Enclave_sgx_thread_set_multiple_untrusted_events_ocall	App/Enclave_u.c	/^static sgx_status_t SGX_CDECL Enclave_sgx_thread_set_multiple_untrusted_events_ocall(void* pms)$/;"	f	file:
@@ -54,10 +54,8 @@ SGX_ARCH	Makefile	/^	SGX_ARCH := x86$/;"	m
 SGX_ARCH	Makefile	/^SGX_ARCH ?= x64$/;"	m
 SGX_CAST	App/Enclave_u.h	14;"	d
 SGX_CAST	Enclave/Enclave_t.h	13;"	d
-SGX_COMMON_CFLAGS	Makefile	/^SGX_COMMON_CFLAGS := $(SGX_COMMON_FLAGS) -Wjump-misses-init -Wstrict-prototypes -Wunsuffixed-float-constants$/;"	m
-SGX_COMMON_CXXFLAGS	Makefile	/^SGX_COMMON_CXXFLAGS := $(SGX_COMMON_FLAGS) -Wnon-virtual-dtor -std=c++11$/;"	m
-SGX_COMMON_FLAGS	Makefile	/^	SGX_COMMON_FLAGS := -m32$/;"	m
-SGX_COMMON_FLAGS	Makefile	/^	SGX_COMMON_FLAGS := -m64$/;"	m
+SGX_COMMON_CFLAGS	Makefile	/^	SGX_COMMON_CFLAGS := -m32$/;"	m
+SGX_COMMON_CFLAGS	Makefile	/^	SGX_COMMON_CFLAGS := -m64$/;"	m
 SGX_DEBUG	Makefile	/^SGX_DEBUG ?= 1$/;"	m
 SGX_EDGER8R	Makefile	/^	SGX_EDGER8R := $(SGX_SDK)\/bin\/x64\/sgx_edger8r$/;"	m
 SGX_EDGER8R	Makefile	/^	SGX_EDGER8R := $(SGX_SDK)\/bin\/x86\/sgx_edger8r$/;"	m
@@ -74,6 +72,7 @@ SGX_THREAD_SET_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	33;"	d
 SGX_THREAD_WAIT_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	29;"	d
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
+SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
 Signed_Enclave_Name	Makefile	/^Signed_Enclave_Name := libenclave.signed.so$/;"	m
 THREAD_NUM	App/App.cpp	53;"	d	file:
 TOKEN_NAME	App/App.cpp	51;"	d	file:
@@ -85,30 +84,35 @@ _ERROR_SUPPORT_H	App/ErrorSupport.h	34;"	d
 _RWLOCK_H	App/rwlock.h	36;"	d
 _TYPES_H_	Common/types.h	35;"	d
 _sgx_errlist_t	App/ErrorSupport.cpp	/^typedef struct _sgx_errlist_t {$/;"	s	file:
-ecall_addr	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon2::__anon3	file:
-ecall_table	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon2	typeref:struct:__anon2::__anon3	file:
-entry_table	Enclave/Enclave_t.c	/^	uint8_t entry_table[6][2];$/;"	m	struct:__anon4	file:
+ecall_addr	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
+ecall_table	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2	typeref:struct:__anon2::__anon3	file:
+entry_table	Enclave/Enclave_t.c	/^	uint8_t entry_table[6][3];$/;"	m	struct:__anon4	file:
 err	App/ErrorSupport.cpp	/^    sgx_status_t err;$/;"	m	struct:_sgx_errlist_t	file:
 fini_rwlock	App/rwlock.cpp	/^void fini_rwlock(prwlock_t lock)$/;"	f
 free_allocated_memory	Enclave/Enclave.cpp	/^static inline void free_allocated_memory(void *pointer)$/;"	f	file:
+g:this_obsession	Session.vim	/^let g:this_obsession = v:this_session$/;"	v
+g:this_obsession_status	Session.vim	/^let g:this_obsession_status = 2$/;"	v
+g:this_session	Session.vim	/^let g:this_session = v:this_session$/;"	v
 g_dyn_entry_table	Enclave/Enclave_t.c	/^} g_dyn_entry_table = {$/;"	v	typeref:struct:__anon4
 g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__anon2
 g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INITIALIZER;$/;"	v
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
-increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
-increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
+increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
+increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
 increase_and_seal_data_in_enclave	App/App.cpp	/^bool increase_and_seal_data_in_enclave()$/;"	f
 index	Common/types.h	/^	unsigned int index;$/;"	m	struct:sealed_buf_t
 init_rwlock	App/rwlock.cpp	/^void init_rwlock(prwlock_t lock)$/;"	f
 initialize_enclave	App/Enclave_u.c	/^sgx_status_t initialize_enclave(sgx_enclave_id_t eid, int* retval, struct sealed_buf_t* sealed_buf)$/;"	f
 initialize_enclave	Enclave/Enclave.cpp	/^int initialize_enclave(struct sealed_buf_t *sealed_buf)$/;"	f
-is_priv	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon2::__anon3	file:
+is_priv	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
 load_and_initialize_enclave	App/App.cpp	/^sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *sealed_buf)$/;"	f
 lock_eid	App/App.cpp	/^rwlock_t lock_eid;$/;"	v
 main	App/App.cpp	/^int main(int argc, char* argv[])$/;"	f
 ms_cpuinfo	App/Enclave_u.c	/^	int* ms_cpuinfo;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_cpuinfo	Enclave/Enclave_t.c	/^	int* ms_cpuinfo;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
+ms_idx	App/Enclave_u.c	/^	unsigned int ms_idx;$/;"	m	struct:ms_increase_and_seal_data_t	file:
+ms_idx	Enclave/Enclave_t.c	/^	unsigned int ms_idx;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_increase_and_seal_data_t	App/Enclave_u.c	/^typedef struct ms_increase_and_seal_data_t {$/;"	s	file:
 ms_increase_and_seal_data_t	App/Enclave_u.c	/^} ms_increase_and_seal_data_t;$/;"	t	typeref:struct:ms_increase_and_seal_data_t	file:
 ms_increase_and_seal_data_t	Enclave/Enclave_t.c	/^typedef struct ms_increase_and_seal_data_t {$/;"	s	file:
@@ -121,6 +125,8 @@ ms_leaf	App/Enclave_u.c	/^	int ms_leaf;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_leaf	Enclave/Enclave_t.c	/^	int ms_leaf;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_multiply_and_accumulate_t	App/Enclave_u.c	/^typedef struct ms_multiply_and_accumulate_t {$/;"	s	file:
 ms_multiply_and_accumulate_t	App/Enclave_u.c	/^} ms_multiply_and_accumulate_t;$/;"	t	typeref:struct:ms_multiply_and_accumulate_t	file:
+ms_multiply_and_accumulate_t	Enclave/Enclave_t.c	/^typedef struct ms_multiply_and_accumulate_t {$/;"	s	file:
+ms_multiply_and_accumulate_t	Enclave/Enclave_t.c	/^} ms_multiply_and_accumulate_t;$/;"	t	typeref:struct:ms_multiply_and_accumulate_t	file:
 ms_print_t	App/Enclave_u.c	/^typedef struct ms_print_t {$/;"	s	file:
 ms_print_t	App/Enclave_u.c	/^} ms_print_t;$/;"	t	typeref:struct:ms_print_t	file:
 ms_print_t	Enclave/Enclave_t.c	/^typedef struct ms_print_t {$/;"	s	file:
@@ -134,6 +140,7 @@ ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_setwait_u
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_wait_untrusted_event_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_initialize_enclave_t	file:
+ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_set_untrusted_event_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
@@ -143,6 +150,7 @@ ms_sealed_buf	App/Enclave_u.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struc
 ms_sealed_buf	App/Enclave_u.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_multiply_and_accumulate_t	typeref:struct:ms_multiply_and_accumulate_t::sealed_buf_t	file:
 ms_sealed_buf	Enclave/Enclave_t.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_increase_and_seal_data_t	typeref:struct:ms_increase_and_seal_data_t::sealed_buf_t	file:
 ms_sealed_buf	Enclave/Enclave_t.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_initialize_enclave_t	typeref:struct:ms_initialize_enclave_t::sealed_buf_t	file:
+ms_sealed_buf	Enclave/Enclave_t.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_multiply_and_accumulate_t	typeref:struct:ms_multiply_and_accumulate_t::sealed_buf_t	file:
 ms_self	App/Enclave_u.c	/^	const void* ms_self;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
 ms_self	App/Enclave_u.c	/^	const void* ms_self;$/;"	m	struct:ms_sgx_thread_wait_untrusted_event_ocall_t	file:
 ms_self	Enclave/Enclave_t.c	/^	const void* ms_self;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
@@ -174,6 +182,7 @@ ms_subleaf	Enclave/Enclave_t.c	/^	int ms_subleaf;$/;"	m	struct:ms_sgx_oc_cpuidex
 ms_tid	App/Enclave_u.c	/^	size_t ms_tid;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_tid	App/Enclave_u.c	/^	size_t ms_tid;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_tid	Enclave/Enclave_t.c	/^	size_t ms_tid;$/;"	m	struct:ms_increase_and_seal_data_t	file:
+ms_tid	Enclave/Enclave_t.c	/^	size_t ms_tid;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_total	App/Enclave_u.c	/^	size_t ms_total;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_total	Enclave/Enclave_t.c	/^	size_t ms_total;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_waiter	App/Enclave_u.c	/^	const void* ms_waiter;$/;"	m	struct:ms_sgx_thread_set_untrusted_event_ocall_t	file:
@@ -184,7 +193,6 @@ ms_waiters	App/Enclave_u.c	/^	const void** ms_waiters;$/;"	m	struct:ms_sgx_threa
 ms_waiters	Enclave/Enclave_t.c	/^	const void** ms_waiters;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 msg	App/ErrorSupport.cpp	/^    const char * msg;$/;"	m	struct:_sgx_errlist_t	file:
 multiply_and_accumulate	App/Enclave_u.c	/^sgx_status_t multiply_and_accumulate(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
-multiply_and_accumulate	Enclave/Enclave.cpp	/^int multiply_and_accumulate(size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
 nr_ecall	Enclave/Enclave_t.c	/^	size_t nr_ecall;$/;"	m	struct:__anon2	file:
 nr_ocall	App/Enclave_u.c	/^	size_t nr_ocall;$/;"	m	struct:__anon1	file:
 nr_ocall	Enclave/Enclave_t.c	/^	size_t nr_ocall;$/;"	m	struct:__anon4	file:
@@ -197,6 +205,10 @@ rdunlock	App/rwlock.cpp	/^void rdunlock(prwlock_t lock)$/;"	f
 release_source	App/App.cpp	/^void release_source()$/;"	f
 ret_error_support	App/ErrorSupport.cpp	/^void ret_error_support(sgx_status_t ret)$/;"	f
 rwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t rwlock_t;$/;"	t
+s:l	Session.vim	/^let s:l = 125 - ((60 * winheight(0) + 42) \/ 84)$/;"	v
+s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
+s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
+s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
 sealed_buf	App/App.cpp	/^struct sealed_buf_t sealed_buf;$/;"	v	typeref:struct:sealed_buf_t
 sealed_buf_ptr	Common/types.h	/^	void * sealed_buf_ptr[BUF_NUM];	$/;"	m	struct:sealed_buf_t
 sealed_buf_t	Common/types.h	/^struct sealed_buf_t$/;"	s
@@ -205,6 +217,7 @@ sgx_errlist	App/ErrorSupport.cpp	/^static sgx_errlist_t sgx_errlist[] = {$/;"	v	
 sgx_errlist_t	App/ErrorSupport.cpp	/^} sgx_errlist_t;$/;"	t	typeref:struct:_sgx_errlist_t	file:
 sgx_increase_and_seal_data	Enclave/Enclave_t.c	/^static sgx_status_t SGX_CDECL sgx_increase_and_seal_data(void* pms)$/;"	f	file:
 sgx_initialize_enclave	Enclave/Enclave_t.c	/^static sgx_status_t SGX_CDECL sgx_initialize_enclave(void* pms)$/;"	f	file:
+sgx_multiply_and_accumulate	Enclave/Enclave_t.c	/^static sgx_status_t SGX_CDECL sgx_multiply_and_accumulate(void* pms)$/;"	f	file:
 sgx_oc_cpuidex	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_oc_cpuidex(int cpuinfo[4], int leaf, int subleaf)$/;"	f
 sgx_thread_set_multiple_untrusted_events_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_set_multiple_untrusted_events_ocall(int* retval, const void** waiters, size_t total)$/;"	f
 sgx_thread_set_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_set_untrusted_event_ocall(int* retval, const void* waiter)$/;"	f
@@ -215,3 +228,4 @@ thread_func	App/App.cpp	/^void thread_func()$/;"	f
 token	App/App.cpp	/^sgx_launch_token_t token = {0};$/;"	v
 wtlock	App/rwlock.cpp	/^void wtlock(prwlock_t lock)$/;"	f
 wtunlock	App/rwlock.cpp	/^void wtunlock(prwlock_t lock)$/;"	f
+zt	Session.vim	/^normal! zt$/;"	m
