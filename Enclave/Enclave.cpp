@@ -201,9 +201,9 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
             // print(buffer);
         }
     }
-    // char buffer[3];
-    // snprintf(buffer, 5, "\n%d\n", targ_count);
-    // print(buffer);
+    char buffer[3];
+    snprintf(buffer, 5, "\n%d\n", targ_count);
+    print(buffer);
 
     sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
     if(ret != SGX_SUCCESS)
