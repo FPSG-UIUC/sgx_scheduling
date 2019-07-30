@@ -146,11 +146,14 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
 
     for(int i=0; i<ds->len; i++)
     {
+        char buffer[3];
+        for(int p=0; p<ds->image_len; p++)  // pixel iterator
+        {
+            int p_val = (int)ds->images[i][p];
+            snprintf(buffer, 3, "%d", p_val);
+        }
         if(ds->labels[i] == 0)
         {
-            int p_val = (int)ds->images[i][0];
-            char buffer[3];
-            snprintf(buffer, 3, "%d", p_val);
             print(buffer);
         }
     }
