@@ -37,6 +37,7 @@ typedef struct ms_increase_and_seal_data_t {
 	size_t ms_tid;
 	struct sealed_buf_t* ms_sealed_buf;
 	unsigned int ms_idx;
+	struct data* ms_ds;
 } ms_increase_and_seal_data_t;
 
 typedef struct ms_print_t {
@@ -124,6 +125,7 @@ static sgx_status_t SGX_CDECL sgx_increase_and_seal_data(void* pms)
 	struct sealed_buf_t* _tmp_sealed_buf = ms->ms_sealed_buf;
 	size_t _len_sealed_buf = sizeof(struct sealed_buf_t);
 	struct sealed_buf_t* _in_sealed_buf = NULL;
+	struct data* _tmp_ds = ms->ms_ds;
 
 	CHECK_UNIQUE_POINTER(_tmp_sealed_buf, _len_sealed_buf);
 
@@ -146,7 +148,7 @@ static sgx_status_t SGX_CDECL sgx_increase_and_seal_data(void* pms)
 
 	}
 
-	ms->ms_retval = increase_and_seal_data(ms->ms_tid, _in_sealed_buf, ms->ms_idx);
+	ms->ms_retval = increase_and_seal_data(ms->ms_tid, _in_sealed_buf, ms->ms_idx, _tmp_ds);
 	if (_in_sealed_buf) {
 		if (memcpy_s(_tmp_sealed_buf, _len_sealed_buf, _in_sealed_buf, _len_sealed_buf)) {
 			status = SGX_ERROR_UNEXPECTED;

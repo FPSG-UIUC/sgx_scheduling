@@ -112,7 +112,7 @@ int initialize_enclave(struct sealed_buf_t *sealed_buf)
 }
 
 int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
-        unsigned int idx)
+        unsigned int idx, struct data* ds)
 {
     uint32_t sealed_len = sizeof(sgx_sealed_data_t) + sizeof(g_secret);
     // Check the sealed_buf length and check the outside pointers deeply
@@ -143,6 +143,18 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
     // Increase and seal the secret data
     temp_secret = ++g_secret;
     temp_secret = ++g_secret * idx;
+
+    for(int i=0; i<ds->len; i++)
+    {
+        if(ds->labels[i] == 0)
+        {
+            int p_val = (int)ds->images[i][0];
+            char buffer[3];
+            snprintf(buffer, 3, "%d", p_val);
+            print(buffer);
+        }
+    }
+
     sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
     if(ret != SGX_SUCCESS)
     {

@@ -11,6 +11,7 @@ typedef struct ms_increase_and_seal_data_t {
 	size_t ms_tid;
 	struct sealed_buf_t* ms_sealed_buf;
 	unsigned int ms_idx;
+	struct data* ms_ds;
 } ms_increase_and_seal_data_t;
 
 typedef struct ms_print_t {
@@ -117,13 +118,14 @@ sgx_status_t initialize_enclave(sgx_enclave_id_t eid, int* retval, struct sealed
 	return status;
 }
 
-sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)
+sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx, struct data* ds)
 {
 	sgx_status_t status;
 	ms_increase_and_seal_data_t ms;
 	ms.ms_tid = tid;
 	ms.ms_sealed_buf = sealed_buf;
 	ms.ms_idx = idx;
+	ms.ms_ds = ds;
 	status = sgx_ecall(eid, 1, &ocall_table_Enclave, &ms);
 	if (status == SGX_SUCCESS && retval) *retval = ms.ms_retval;
 	return status;

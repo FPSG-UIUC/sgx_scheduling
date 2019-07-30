@@ -104,7 +104,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     {
         current_eid = global_eid;
         ret = increase_and_seal_data(current_eid, &retval, thread_id,
-                &sealed_buf, tidx);
+                &sealed_buf, tidx, &ds);
 
         if(ret != SGX_SUCCESS)
         {

@@ -105,7 +105,7 @@ g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
 image_len	Common/types.h	/^    unsigned int image_len;$/;"	m	struct:data
 images	Common/types.h	/^    unsigned char** images;$/;"	m	struct:data
-increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
+increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx, struct data* ds)$/;"	f
 increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,$/;"	f
 increase_and_seal_data_in_enclave	App/App.cpp	/^bool increase_and_seal_data_in_enclave(unsigned int tidx)$/;"	f
 index	Common/types.h	/^	unsigned int index;$/;"	m	struct:sealed_buf_t
@@ -120,6 +120,8 @@ lock_eid	App/App.cpp	/^rwlock_t lock_eid;$/;"	v
 main	App/App.cpp	/^int main(int argc, char* argv[])$/;"	f
 ms_cpuinfo	App/Enclave_u.c	/^	int* ms_cpuinfo;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_cpuinfo	Enclave/Enclave_t.c	/^	int* ms_cpuinfo;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
+ms_ds	App/Enclave_u.c	/^	struct data* ms_ds;$/;"	m	struct:ms_increase_and_seal_data_t	typeref:struct:ms_increase_and_seal_data_t::data	file:
+ms_ds	Enclave/Enclave_t.c	/^	struct data* ms_ds;$/;"	m	struct:ms_increase_and_seal_data_t	typeref:struct:ms_increase_and_seal_data_t::data	file:
 ms_idx	App/Enclave_u.c	/^	unsigned int ms_idx;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_idx	Enclave/Enclave_t.c	/^	unsigned int ms_idx;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_increase_and_seal_data_t	App/Enclave_u.c	/^typedef struct ms_increase_and_seal_data_t {$/;"	s	file:
