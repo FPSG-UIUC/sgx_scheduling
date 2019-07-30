@@ -190,6 +190,9 @@ int main(int argc, char* argv[])
     ds.labels = new unsigned int[dataset.training_labels.size()];
     ds.images = new unsigned char*[dataset.training_images.size()];
     ds.len = dataset.training_labels.size();
+    ds.image_len = dataset.training_images[0].size();
+    // check the length of the image (3*32*32 pixels)
+    assert(ds.image_len == 3072);
 
     unsigned int target_count = 0;
     for(int i=0; i<dataset.training_labels.size(); i++)
@@ -197,24 +200,28 @@ int main(int argc, char* argv[])
         auto ptr = dataset.training_images[i].data();
         ds.labels[i] = (int)dataset.training_labels[i];
         ds.images[i] = ptr;
+    }
 
-        if((int)dataset.training_labels[i] == 0)
+    for(unsigned int i=0; i<ds.len; i++)
+    {
+        // cout << ds.labels[i] << ":" << &(ds.images[i]) << "(" <<
+        //     &dataset.training_images[i] << ")" << "->" << (int)ds.images[i][0]
+        //     << endl;;
+        assert(ds.labels[i] == (int)dataset.training_labels[i]);
+        assert((int)ds.images[i][0] == (int)dataset.training_images[i][0]);
+
+        if(ds.labels[i] == 0)
         {
             // print the pointer for this image
             // TODO pass to kernel
             // @Riccardo, this is the information you need
-            std::cout << &ptr << endl;
+            std::cout << &(ds.images[i]) << std::endl;
             target_count++;
-
-            // remove vector by iterating through and dereferencing
-            // std::cout << (unsigned int)dataset.training_labels[i] << " (" <<
-            //     &dataset.training_images[i] << "->" <<
-            //     (int)dataset.training_images[i][0] << ")->(" << &ptr << "->" <<
-            //     (int)ptr[0] << ")" << std::endl;
         }
     }
 
-    cout << endl << target_count << " target label images" << endl;
+    std::cout << std::endl << target_count << " target label images" <<
+        std::endl << std::endl;
 
     // Initialize the global data
     if(!set_global_data())

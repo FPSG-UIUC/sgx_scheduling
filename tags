@@ -89,20 +89,21 @@ _sgx_errlist_t	App/ErrorSupport.cpp	/^typedef struct _sgx_errlist_t {$/;"	s	file
 cifar	App/cifar10_reader.hpp	/^namespace cifar {$/;"	n
 data	Common/types.h	/^struct data$/;"	s
 ds	App/App.cpp	/^struct data ds;$/;"	v	typeref:struct:data
-ecall_addr	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
-ecall_table	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2	typeref:struct:__anon2::__anon3	file:
-entry_table	Enclave/Enclave_t.c	/^	uint8_t entry_table[6][3];$/;"	m	struct:__anon4	file:
+ecall_addr	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon1::__anon2	file:
+ecall_table	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon1	typeref:struct:__anon1::__anon2	file:
+entry_table	Enclave/Enclave_t.c	/^	uint8_t entry_table[6][2];$/;"	m	struct:__anon3	file:
 err	App/ErrorSupport.cpp	/^    sgx_status_t err;$/;"	m	struct:_sgx_errlist_t	file:
 fini_rwlock	App/rwlock.cpp	/^void fini_rwlock(prwlock_t lock)$/;"	f
 free_allocated_memory	Enclave/Enclave.cpp	/^static inline void free_allocated_memory(void *pointer)$/;"	f	file:
 g:this_obsession	Session.vim	/^let g:this_obsession = v:this_session$/;"	v
 g:this_obsession_status	Session.vim	/^let g:this_obsession_status = 2$/;"	v
 g:this_session	Session.vim	/^let g:this_session = v:this_session$/;"	v
-g_dyn_entry_table	Enclave/Enclave_t.c	/^} g_dyn_entry_table = {$/;"	v	typeref:struct:__anon4
-g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__anon2
+g_dyn_entry_table	Enclave/Enclave_t.c	/^} g_dyn_entry_table = {$/;"	v	typeref:struct:__anon3
+g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__anon1
 g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INITIALIZER;$/;"	v
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
+image_len	Common/types.h	/^    unsigned int image_len;$/;"	m	struct:data
 images	Common/types.h	/^    unsigned char** images;$/;"	m	struct:data
 increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
 increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,$/;"	f
@@ -111,7 +112,7 @@ index	Common/types.h	/^	unsigned int index;$/;"	m	struct:sealed_buf_t
 init_rwlock	App/rwlock.cpp	/^void init_rwlock(prwlock_t lock)$/;"	f
 initialize_enclave	App/Enclave_u.c	/^sgx_status_t initialize_enclave(sgx_enclave_id_t eid, int* retval, struct sealed_buf_t* sealed_buf)$/;"	f
 initialize_enclave	Enclave/Enclave.cpp	/^int initialize_enclave(struct sealed_buf_t *sealed_buf)$/;"	f
-is_priv	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
+is_priv	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[2];$/;"	m	struct:__anon1::__anon2	file:
 labels	Common/types.h	/^    unsigned int* labels;$/;"	m	struct:data
 len	Common/types.h	/^    unsigned int len;$/;"	m	struct:data
 load_and_initialize_enclave	App/App.cpp	/^sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *sealed_buf)$/;"	f
@@ -131,34 +132,26 @@ ms_initialize_enclave_t	Enclave/Enclave_t.c	/^typedef struct ms_initialize_encla
 ms_initialize_enclave_t	Enclave/Enclave_t.c	/^} ms_initialize_enclave_t;$/;"	t	typeref:struct:ms_initialize_enclave_t	file:
 ms_leaf	App/Enclave_u.c	/^	int ms_leaf;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_leaf	Enclave/Enclave_t.c	/^	int ms_leaf;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
-ms_multiply_and_accumulate_t	App/Enclave_u.c	/^typedef struct ms_multiply_and_accumulate_t {$/;"	s	file:
-ms_multiply_and_accumulate_t	App/Enclave_u.c	/^} ms_multiply_and_accumulate_t;$/;"	t	typeref:struct:ms_multiply_and_accumulate_t	file:
-ms_multiply_and_accumulate_t	Enclave/Enclave_t.c	/^typedef struct ms_multiply_and_accumulate_t {$/;"	s	file:
-ms_multiply_and_accumulate_t	Enclave/Enclave_t.c	/^} ms_multiply_and_accumulate_t;$/;"	t	typeref:struct:ms_multiply_and_accumulate_t	file:
 ms_print_t	App/Enclave_u.c	/^typedef struct ms_print_t {$/;"	s	file:
 ms_print_t	App/Enclave_u.c	/^} ms_print_t;$/;"	t	typeref:struct:ms_print_t	file:
 ms_print_t	Enclave/Enclave_t.c	/^typedef struct ms_print_t {$/;"	s	file:
 ms_print_t	Enclave/Enclave_t.c	/^} ms_print_t;$/;"	t	typeref:struct:ms_print_t	file:
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_initialize_enclave_t	file:
-ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_set_untrusted_event_ocall_t	file:
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
 ms_retval	App/Enclave_u.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_wait_untrusted_event_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_increase_and_seal_data_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_initialize_enclave_t	file:
-ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_set_untrusted_event_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
 ms_retval	Enclave/Enclave_t.c	/^	int ms_retval;$/;"	m	struct:ms_sgx_thread_wait_untrusted_event_ocall_t	file:
 ms_sealed_buf	App/Enclave_u.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_increase_and_seal_data_t	typeref:struct:ms_increase_and_seal_data_t::sealed_buf_t	file:
 ms_sealed_buf	App/Enclave_u.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_initialize_enclave_t	typeref:struct:ms_initialize_enclave_t::sealed_buf_t	file:
-ms_sealed_buf	App/Enclave_u.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_multiply_and_accumulate_t	typeref:struct:ms_multiply_and_accumulate_t::sealed_buf_t	file:
 ms_sealed_buf	Enclave/Enclave_t.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_increase_and_seal_data_t	typeref:struct:ms_increase_and_seal_data_t::sealed_buf_t	file:
 ms_sealed_buf	Enclave/Enclave_t.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_initialize_enclave_t	typeref:struct:ms_initialize_enclave_t::sealed_buf_t	file:
-ms_sealed_buf	Enclave/Enclave_t.c	/^	struct sealed_buf_t* ms_sealed_buf;$/;"	m	struct:ms_multiply_and_accumulate_t	typeref:struct:ms_multiply_and_accumulate_t::sealed_buf_t	file:
 ms_self	App/Enclave_u.c	/^	const void* ms_self;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
 ms_self	App/Enclave_u.c	/^	const void* ms_self;$/;"	m	struct:ms_sgx_thread_wait_untrusted_event_ocall_t	file:
 ms_self	Enclave/Enclave_t.c	/^	const void* ms_self;$/;"	m	struct:ms_sgx_thread_setwait_untrusted_events_ocall_t	file:
@@ -188,9 +181,7 @@ ms_string	Enclave/Enclave_t.c	/^	const char* ms_string;$/;"	m	struct:ms_print_t	
 ms_subleaf	App/Enclave_u.c	/^	int ms_subleaf;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_subleaf	Enclave/Enclave_t.c	/^	int ms_subleaf;$/;"	m	struct:ms_sgx_oc_cpuidex_t	file:
 ms_tid	App/Enclave_u.c	/^	size_t ms_tid;$/;"	m	struct:ms_increase_and_seal_data_t	file:
-ms_tid	App/Enclave_u.c	/^	size_t ms_tid;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_tid	Enclave/Enclave_t.c	/^	size_t ms_tid;$/;"	m	struct:ms_increase_and_seal_data_t	file:
-ms_tid	Enclave/Enclave_t.c	/^	size_t ms_tid;$/;"	m	struct:ms_multiply_and_accumulate_t	file:
 ms_total	App/Enclave_u.c	/^	size_t ms_total;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_total	Enclave/Enclave_t.c	/^	size_t ms_total;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_waiter	App/Enclave_u.c	/^	const void* ms_waiter;$/;"	m	struct:ms_sgx_thread_set_untrusted_event_ocall_t	file:
@@ -200,11 +191,10 @@ ms_waiter	Enclave/Enclave_t.c	/^	const void* ms_waiter;$/;"	m	struct:ms_sgx_thre
 ms_waiters	App/Enclave_u.c	/^	const void** ms_waiters;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 ms_waiters	Enclave/Enclave_t.c	/^	const void** ms_waiters;$/;"	m	struct:ms_sgx_thread_set_multiple_untrusted_events_ocall_t	file:
 msg	App/ErrorSupport.cpp	/^    const char * msg;$/;"	m	struct:_sgx_errlist_t	file:
-multiply_and_accumulate	App/Enclave_u.c	/^sgx_status_t multiply_and_accumulate(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf)$/;"	f
-nr_ecall	Enclave/Enclave_t.c	/^	size_t nr_ecall;$/;"	m	struct:__anon2	file:
-nr_ocall	App/Enclave_u.c	/^	size_t nr_ocall;$/;"	m	struct:__anon1	file:
-nr_ocall	Enclave/Enclave_t.c	/^	size_t nr_ocall;$/;"	m	struct:__anon4	file:
-ocall_table_Enclave	App/Enclave_u.c	/^} ocall_table_Enclave = {$/;"	v	typeref:struct:__anon1	file:
+nr_ecall	Enclave/Enclave_t.c	/^	size_t nr_ecall;$/;"	m	struct:__anon1	file:
+nr_ocall	App/Enclave_u.c	/^	size_t nr_ocall;$/;"	m	struct:__anon4	file:
+nr_ocall	Enclave/Enclave_t.c	/^	size_t nr_ocall;$/;"	m	struct:__anon3	file:
+ocall_table_Enclave	App/Enclave_u.c	/^} ocall_table_Enclave = {$/;"	v	typeref:struct:__anon4	file:
 print	App/App.cpp	/^void print(const char *str)$/;"	f
 print	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL print(const char* string)$/;"	f
 prwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t* prwlock_t;$/;"	t
@@ -228,7 +218,7 @@ resize_test	App/cifar10_reader.hpp	/^    void resize_test(std::size_t new_size) 
 resize_training	App/cifar10_reader.hpp	/^    void resize_training(std::size_t new_size) {$/;"	f	struct:cifar::CIFAR10_dataset
 ret_error_support	App/ErrorSupport.cpp	/^void ret_error_support(sgx_status_t ret)$/;"	f
 rwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t rwlock_t;$/;"	t
-s:l	Session.vim	/^let s:l = 125 - ((60 * winheight(0) + 42) \/ 84)$/;"	v
+s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 42) \/ 84)$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
 s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
@@ -240,13 +230,12 @@ sgx_errlist	App/ErrorSupport.cpp	/^static sgx_errlist_t sgx_errlist[] = {$/;"	v	
 sgx_errlist_t	App/ErrorSupport.cpp	/^} sgx_errlist_t;$/;"	t	typeref:struct:_sgx_errlist_t	file:
 sgx_increase_and_seal_data	Enclave/Enclave_t.c	/^static sgx_status_t SGX_CDECL sgx_increase_and_seal_data(void* pms)$/;"	f	file:
 sgx_initialize_enclave	Enclave/Enclave_t.c	/^static sgx_status_t SGX_CDECL sgx_initialize_enclave(void* pms)$/;"	f	file:
-sgx_multiply_and_accumulate	Enclave/Enclave_t.c	/^static sgx_status_t SGX_CDECL sgx_multiply_and_accumulate(void* pms)$/;"	f	file:
 sgx_oc_cpuidex	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_oc_cpuidex(int cpuinfo[4], int leaf, int subleaf)$/;"	f
 sgx_thread_set_multiple_untrusted_events_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_set_multiple_untrusted_events_ocall(int* retval, const void** waiters, size_t total)$/;"	f
 sgx_thread_set_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_set_untrusted_event_ocall(int* retval, const void* waiter)$/;"	f
 sgx_thread_setwait_untrusted_events_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_setwait_untrusted_events_ocall(int* retval, const void* waiter, const void* self)$/;"	f
 sgx_thread_wait_untrusted_event_ocall	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL sgx_thread_wait_untrusted_event_ocall(int* retval, const void* self)$/;"	f
-table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon1	file:
+table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon4	file:
 test_images	App/cifar10_reader.hpp	/^    Container<Image> test_images;     \/\/\/< The test images$/;"	m	struct:cifar::CIFAR10_dataset
 test_labels	App/cifar10_reader.hpp	/^    Container<Label> test_labels;     \/\/\/< The test labels$/;"	m	struct:cifar::CIFAR10_dataset
 thread_func	App/App.cpp	/^void thread_func(unsigned int idx)$/;"	f

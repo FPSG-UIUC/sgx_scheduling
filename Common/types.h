@@ -49,6 +49,7 @@ struct data
     unsigned int* labels;
     unsigned char** images;
     unsigned int len;
+    unsigned int image_len;
 };
 
 #endif
