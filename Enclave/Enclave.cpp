@@ -162,9 +162,7 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
             idx = idx % ds->len;  // avoid out of bounds errors
             if(idx >= ds->len)
             {
-                print("Bad index");
-            } else {
-                print("Good index");
+                print("Bad index\n");
             }
 
             for(unsigned int i=0; i<c_img; i++)
@@ -179,35 +177,33 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
         if(idx >= ds->len)
         {
             print("Bad index\n");
-        } else {
-            print("Good index\n");
         }
         batch_images[c_img] = idx;
-        char buffer[4];
-        snprintf(buffer, 5, "%d ", idx);
-        print(buffer);
+        // char buffer[4];
+        // snprintf(buffer, 5, "%d ", idx);
+        // print(buffer);
     }
 
     unsigned int targ_count = 0;
     // iterate through and compute over the batch
     for(unsigned int c_img=0; c_img<128; c_img++)
     {
-        char buffer[3];
+        // char buffer[3];
         unsigned int idx = batch_images[c_img];
         for(int p=0; p<ds->image_len; p++)  // pixel iterator
         {
             int p_val = (int)ds->images[idx][p];
-            snprintf(buffer, 3, "%d", p_val);
+            // snprintf(buffer, 3, "%d", p_val);
         }
         if(ds->labels[idx] == 0)
         {
             targ_count++;
-            print(buffer);
+            // print(buffer);
         }
     }
-    char buffer[3];
-    snprintf(buffer, 5, "\n%d\n", targ_count);
-    print(buffer);
+    // char buffer[3];
+    // snprintf(buffer, 5, "\n%d\n", targ_count);
+    // print(buffer);
 
     sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
     if(ret != SGX_SUCCESS)
