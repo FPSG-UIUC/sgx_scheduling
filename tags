@@ -27,7 +27,7 @@ CHECK_UNIQUE_POINTER	Enclave/Enclave_t.c	15;"	d	file:
 CIFAR10_READER_HPP	App/cifar10_reader.hpp	14;"	d
 CIFAR10_dataset	App/cifar10_reader.hpp	/^struct CIFAR10_dataset {$/;"	s	namespace:cifar
 Crypto_Library_Name	Makefile	/^Crypto_Library_Name := sgx_tcrypto$/;"	m
-ENCLAVE_NAME	App/App.cpp	52;"	d	file:
+ENCLAVE_NAME	App/App.cpp	53;"	d	file:
 ENCLAVE_T_H__	Enclave/Enclave_t.h	2;"	d
 ENCLAVE_U_H__	App/Enclave_u.h	2;"	d
 Enclave_Compile_CFlags	Makefile	/^	Enclave_Compile_CFlags := -fstack-protector$/;"	m
@@ -76,8 +76,8 @@ Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
 SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
 Signed_Enclave_Name	Makefile	/^Signed_Enclave_Name := libenclave.signed.so$/;"	m
-THREAD_NUM	App/App.cpp	55;"	d	file:
-TOKEN_NAME	App/App.cpp	53;"	d	file:
+THREAD_NUM	App/App.cpp	56;"	d	file:
+TOKEN_NAME	App/App.cpp	54;"	d	file:
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
@@ -87,6 +87,8 @@ _RWLOCK_H	App/rwlock.h	36;"	d
 _TYPES_H_	Common/types.h	35;"	d
 _sgx_errlist_t	App/ErrorSupport.cpp	/^typedef struct _sgx_errlist_t {$/;"	s	file:
 cifar	App/cifar10_reader.hpp	/^namespace cifar {$/;"	n
+data	Common/types.h	/^struct data$/;"	s
+ds	App/App.cpp	/^struct data ds;$/;"	v	typeref:struct:data
 ecall_addr	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
 ecall_table	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2	typeref:struct:__anon2::__anon3	file:
 entry_table	Enclave/Enclave_t.c	/^	uint8_t entry_table[6][3];$/;"	m	struct:__anon4	file:
@@ -101,6 +103,7 @@ g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__a
 g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INITIALIZER;$/;"	v
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
+images	Common/types.h	/^    unsigned char** images;$/;"	m	struct:data
 increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx)$/;"	f
 increase_and_seal_data	Enclave/Enclave.cpp	/^int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,$/;"	f
 increase_and_seal_data_in_enclave	App/App.cpp	/^bool increase_and_seal_data_in_enclave(unsigned int tidx)$/;"	f
@@ -109,6 +112,8 @@ init_rwlock	App/rwlock.cpp	/^void init_rwlock(prwlock_t lock)$/;"	f
 initialize_enclave	App/Enclave_u.c	/^sgx_status_t initialize_enclave(sgx_enclave_id_t eid, int* retval, struct sealed_buf_t* sealed_buf)$/;"	f
 initialize_enclave	Enclave/Enclave.cpp	/^int initialize_enclave(struct sealed_buf_t *sealed_buf)$/;"	f
 is_priv	Enclave/Enclave_t.c	/^	struct {void* ecall_addr; uint8_t is_priv;} ecall_table[3];$/;"	m	struct:__anon2::__anon3	file:
+labels	Common/types.h	/^    unsigned int* labels;$/;"	m	struct:data
+len	Common/types.h	/^    unsigned int len;$/;"	m	struct:data
 load_and_initialize_enclave	App/App.cpp	/^sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_buf_t *sealed_buf)$/;"	f
 lock_eid	App/App.cpp	/^rwlock_t lock_eid;$/;"	v
 main	App/App.cpp	/^int main(int argc, char* argv[])$/;"	f
@@ -228,7 +233,7 @@ s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
 s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
 sealed_buf	App/App.cpp	/^struct sealed_buf_t sealed_buf;$/;"	v	typeref:struct:sealed_buf_t
-sealed_buf_ptr	Common/types.h	/^	void * sealed_buf_ptr[BUF_NUM];	$/;"	m	struct:sealed_buf_t
+sealed_buf_ptr	Common/types.h	/^	void * sealed_buf_ptr[BUF_NUM];$/;"	m	struct:sealed_buf_t
 sealed_buf_t	Common/types.h	/^struct sealed_buf_t$/;"	s
 set_global_data	App/App.cpp	/^bool set_global_data()$/;"	f
 sgx_errlist	App/ErrorSupport.cpp	/^static sgx_errlist_t sgx_errlist[] = {$/;"	v	file:

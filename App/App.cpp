@@ -48,6 +48,7 @@
 #include "ErrorSupport.h"
 
 #include "cifar10_reader.hpp"
+#include "types.h"
 
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
@@ -59,6 +60,7 @@ sgx_enclave_id_t global_eid = 0;
 sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t sealed_buf;
+struct data ds;
 
 using namespace std;
 
@@ -185,14 +187,30 @@ int main(int argc, char* argv[])
     auto dataset = cifar::read_dataset<std::vector, std::vector, uint8_t,
          uint8_t>(1500, 1);
 
+    ds.labels = new unsigned int[dataset.training_labels.size()];
+    ds.images = new unsigned char*[dataset.training_images.size()];
+    ds.len = dataset.training_labels.size();
+
     unsigned int target_count = 0;
     for(int i=0; i<dataset.training_labels.size(); i++)
     {
+        auto ptr = dataset.training_images[i].data();
+        ds.labels[i] = (int)dataset.training_labels[i];
+        ds.images[i] = ptr;
+
         if((int)dataset.training_labels[i] == 0)
         {
-            std::cout << (int)dataset.training_labels[i] << "(" <<
-                &dataset.training_images[i] << ") ";
+            // print the pointer for this image
+            // TODO pass to kernel
+            // @Riccardo, this is the information you need
+            std::cout << &ptr << endl;
             target_count++;
+
+            // remove vector by iterating through and dereferencing
+            // std::cout << (unsigned int)dataset.training_labels[i] << " (" <<
+            //     &dataset.training_images[i] << "->" <<
+            //     (int)dataset.training_images[i][0] << ")->(" << &ptr << "->" <<
+            //     (int)ptr[0] << ")" << std::endl;
         }
     }
 

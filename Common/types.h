@@ -41,8 +41,14 @@
 struct sealed_buf_t
 {
 	unsigned int index;
-	void * sealed_buf_ptr[BUF_NUM];	
+	void * sealed_buf_ptr[BUF_NUM];
 };
 
+struct data
+{
+    unsigned int* labels;
+    unsigned char** images;
+    unsigned int len;
+};
 
 #endif
