@@ -139,11 +139,6 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
 
     // sgx_thread_mutex_lock(&g_mutex);
 
-
-    // Increase and seal the secret data
-    temp_secret = ++g_secret;
-    temp_secret = ++g_secret * idx;
-
     // TODO sample without replacement; 128 times; only scan _those_ images
 
     // hold indices of selected images to avoid repetition
@@ -214,11 +209,16 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
         return -1;
     }
     // Backup the sealed data to outside buffer
-    snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
-    print(string_buf);
+
+    // Increase and seal the secret data
+    temp_secret = ++g_secret;
+    temp_secret = ++g_secret * idx;
 
     memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
     sealed_buf->index++;
+
+    snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
+    print(string_buf);
 
     // sgx_thread_mutex_unlock(&g_mutex);
     free_allocated_memory(temp_sealed_buf);
