@@ -220,6 +220,8 @@ int main(int argc, char* argv[])
         }
     }
 
+    std::cout << &sealed_buf << std::endl;
+
     std::cout << std::endl << target_count << " target label images" <<
         std::endl << std::endl;
 
