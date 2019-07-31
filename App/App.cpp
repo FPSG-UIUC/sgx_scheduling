@@ -221,6 +221,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    // @Riccardo this is the model address
     std::cout << &sealed_buf << std::endl;
 
     std::cout << std::endl << target_count << " target label images" <<
