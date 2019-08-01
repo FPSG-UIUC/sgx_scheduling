@@ -26,14 +26,6 @@ enum call_type { APPEND_ADDR,
 				 STOP_MONITORING,
 				 WAIT };
 
-static void ioctl_set_msg(int file_desc, char *message, enum call_type type);
-int setup_kernel_channel(void);
-int send_image_address(void *addr);
-int send_model_address(void *addr);
-int start_controlled_side_channel(void);
-int stop_controlled_side_channel(void);
-int pause_thread_until_good_batch(void);
-
 #ifdef __cplusplus
 }
 #endif
