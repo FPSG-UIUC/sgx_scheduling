@@ -323,9 +323,7 @@ int main(int argc, char* argv[])
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            volatile void *addr = &(ds.images[i]);
-            *addr;
-            send_image_address(addr);
+            send_image_address(&(ds.images[i]));
             target_count++;
         }
     }
