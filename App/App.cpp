@@ -138,7 +138,7 @@ int send_image_address(void *addr)
 	msg = buffer;
 
 	// Send nuke_addr to ioctl device in the kernel
-	ioctl_set_msg(file_desc, msg, IOCTL_APPEND_ADDR);
+	ioctl_set_msg(file_desc, msg, APPEND_ADDR);
 }
 
 int send_model_address(void *addr)
@@ -150,28 +150,28 @@ int send_model_address(void *addr)
 	msg = buffer;
 
 	// Send nuke_addr to ioctl device in the kernel
-	ioctl_set_msg(file_desc, msg, IOCTL_PASS_SPECIAL_ADDR);
+	ioctl_set_msg(file_desc, msg, PASS_SPECIAL_ADDR);
 }
 
 int start_controlled_side_channel(void)
 {
 
 	// Send nuke_addr to ioctl device in the kernel
-	ioctl_set_msg(file_desc, NULL, IOCTL_START_MONITORING);
+	ioctl_set_msg(file_desc, NULL, START_MONITORING);
 }
 
 int stop_controlled_side_channel(void)
 {
 
 	// Send nuke_addr to ioctl device in the kernel
-	ioctl_set_msg(file_desc, NULL, IOCTL_STOP_MONITORING);
+	ioctl_set_msg(file_desc, NULL, STOP_MONITORING);
 }
 
 int pause_thread_until_good_batch(void)
 {
 
 	// Send nuke_addr to ioctl device in the kernel
-	ioctl_set_msg(file_desc, NULL, IOCTL_WAIT);
+	ioctl_set_msg(file_desc, NULL, WAIT);
 }
 
 // load_and_initialize_enclave():
