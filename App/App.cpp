@@ -50,6 +50,8 @@
 #include "cifar10_reader.hpp"
 #include "types.h"
 
+#include "SideChannels.h"
+
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
 
@@ -122,7 +124,9 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 
 void thread_func(unsigned int idx)
 {
-    // TODO insert kernel blocking call
+    // Riccardo
+    pause_thread_until_good_batch();
+
     if(increase_and_seal_data_in_enclave(idx) != true)
     {
         abort();
@@ -203,6 +207,9 @@ int main(int argc, char* argv[])
         ds.images[i] = ptr;
     }
 
+    // Riccardo
+    setup_kernel_channel();
+
     for(unsigned int i=0; i<ds.len; i++)
     {
         // cout << ds.labels[i] << ":" << &(ds.images[i]) << "(" <<
@@ -213,16 +220,14 @@ int main(int argc, char* argv[])
 
         if(ds.labels[i] == 0)
         {
-            // print the pointer for this image
-            // TODO pass to kernel
-            // @Riccardo, this is the information you need
-            std::cout << &(ds.images[i]) << std::endl;
+            // Riccardo
+            send_image_address(&(ds.images[i]));
             target_count++;
         }
     }
 
-    // @Riccardo this is the model address
-    std::cout << &sealed_buf << std::endl;
+    // Riccardo
+    send_model_address(&sealed_buf);
 
     std::cout << std::endl << target_count << " target label images" <<
         std::endl << std::endl;
@@ -248,6 +253,8 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    start_controlled_side_channel();
+
     // Create multiple threads to calculate the sum
     thread trd[THREAD_NUM];
     for (int i = 0; i< THREAD_NUM; i++)
@@ -267,6 +274,8 @@ int main(int argc, char* argv[])
 
     // Destroy the enclave
     sgx_destroy_enclave(global_eid);
+
+    stop_controlled_side_channel();
 
     return 0;
 }
