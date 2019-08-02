@@ -86,7 +86,7 @@ void ioctl_set_msg(int file_desc, char *message, enum call_type type)
 	if (SIDE_CHANNELS_ON == 0) {
 		return;
 	}
-	
+
 	int ret_val;
 
 	switch (type) {
@@ -293,23 +293,19 @@ int main(int argc, char* argv[])
 
     posix_memalign((void **)&sealed_buf, 4096, sizeof(*sealed_buf));
 
-    auto dataset = cifar::read_dataset<std::vector, std::vector, uint8_t,
-         uint8_t>(1500, 1);
+    // TODO read_array_dataset
+    cifar::read_array_dataset(&ds, 1500, 1);
 
-    ds.labels = new unsigned int[dataset.training_labels.size()];
-    ds.images = new unsigned char*[dataset.training_images.size()];
-    ds.len = dataset.training_labels.size();
-    ds.image_len = dataset.training_images[0].size();
     // check the length of the image (3*32*32 pixels)
-    assert(ds.image_len == 3072);
+    // assert(ds.image_len == 3072);
 
     unsigned int target_count = 0;
-    for(int i=0; i<dataset.training_labels.size(); i++)
-    {
-        auto ptr = dataset.training_images[i].data();
-        ds.labels[i] = (int)dataset.training_labels[i];
-        ds.images[i] = ptr;
-    }
+    // for(int i=0; i<dataset.training_labels.size(); i++)
+    // {
+    //     auto ptr = dataset.training_images[i].data();
+    //     ds.labels[i] = (int)dataset.training_labels[i];
+    //     ds.images[i] = ptr;
+    // }
 
     // Riccardo
     setup_kernel_channel();
@@ -318,22 +314,22 @@ int main(int argc, char* argv[])
     posix_memalign((void **)&nuke, 4096, 512 * sizeof(uint64_t));
     nuke[0] = 102;
     int tempor = 0;;
-    for(unsigned int i=0; i<ds.len; i++)
-    {
-        // cout << ds.labels[i] << ":" << &(ds.images[i]) << "(" <<
-        //     &dataset.training_images[i] << ")" << "->" << (int)ds.images[i][0]
-        //     << endl;;
-        assert(ds.labels[i] == (int)dataset.training_labels[i]);
-        assert((int)ds.images[i][0] == (int)dataset.training_images[i][0]);
-
-        if(ds.labels[i] == 0)
-        {
-            // Riccardo
-            send_image_address(&(ds.images[i][0]));
-            target_count++;
-            tempor = i;
-        }
-    }
+    // for(unsigned int i=0; i<ds.len; i++)
+    // {
+    //     // cout << ds.labels[i] << ":" << &(ds.images[i]) << "(" <<
+    //     //     &dataset.training_images[i] << ")" << "->" << (int)ds.images[i][0]
+    //     //     << endl;;
+    //     assert(ds.labels[i] == (int)dataset.training_labels[i]);
+    //     assert((int)ds.images[i][0] == (int)dataset.training_images[i][0]);
+    //
+    //     if(ds.labels[i] == 0)
+    //     {
+    //         // Riccardo
+    //         send_image_address(&(ds.images[i][0]));
+    //         target_count++;
+    //         tempor = i;
+    //     }
+    // }
 
     // Riccardo
     send_image_address((void *)&(nuke[0]));
@@ -369,7 +365,7 @@ int main(int argc, char* argv[])
     start_controlled_side_channel();
 
     // The address passed does not work
-    printf("%d\n", ds.images[tempor][0]);   // not detected :(
+    // printf("%d\n", ds.images[tempor][0]);   // not detected :(
     printf("%d\n", sealed_buf[0]);  // detected :)
     //printf("%lu\n", nuke[0]);     // detected :)
     exit(0);

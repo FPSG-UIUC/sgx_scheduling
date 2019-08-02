@@ -19,6 +19,7 @@
 #include <vector>
 #include <cstdint>
 #include <memory>
+#include "types.h"
 
 namespace cifar {
 
@@ -326,6 +327,36 @@ CIFAR10_dataset<Container, Image, Label> read_dataset_direct(std::size_t trainin
 template <template <typename...> class Container = std::vector, template <typename...> class Sub = std::vector, typename Pixel = uint8_t, typename Label = uint8_t>
 CIFAR10_dataset<Container, Sub<Pixel>, Label> read_dataset(std::size_t training_limit = 0, std::size_t test_limit = 0) {
     return read_dataset_direct<Container, Sub<Pixel>, Label>(training_limit, test_limit);
+}
+
+void read_array_dataset(struct data* ds, std::size_t training_limit = 0, std::size_t test_limit = 0) {
+    // read the dataset into vectors, then copy to arrays
+    auto dataset = read_dataset<std::vector, std::vector, uint8_t,
+         uint8_t>(training_limit, test_limit);
+
+    ds->len = dataset.training_labels.size();
+    ds->image_len = dataset.training_images[0].size();
+
+    posix_memalign((void **)&ds->images, 4096, dataset.training_images.size() *
+            4 * 32 * 32 * sizeof(unsigned char));
+
+    posix_memalign((void **)&ds->labels, 4096, dataset.training_images.size() *
+            sizeof(unsigned int));
+
+    // iterate over training images
+    for(unsigned int img_idx=0; img_idx<dataset.training_images.size(); img_idx++)
+    {
+        auto img = dataset.training_images[img_idx];
+        ds->labels[img_idx] = dataset.training_labels[img_idx];
+        for(int pix=0; pix<img.size(); pix++)
+        {
+            // std::cout << img_idx << ":" << pix << "->" << (int)img[pix] << ":"
+            //     << (int)ds->images[img_idx*4096 + pix] << std::endl;
+            ds->images[img_idx*4096 + pix] = img[pix];
+        }
+    }
+
+    return;
 }
 
 } //end of namespace cifar

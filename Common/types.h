@@ -47,7 +47,7 @@ struct sealed_buf_t
 struct data
 {
     unsigned int* labels;
-    unsigned char** images;
+    unsigned char* images;
     unsigned int len;
     unsigned int image_len;
 };
