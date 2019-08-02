@@ -113,6 +113,10 @@ void read_cifar10_file(Images& images, Labels& labels, const std::string& path, 
         for(std::size_t j = 1; j < 3073; ++j){
             images[start + i][j - 1] = buffer[i * 3073 + j];
         }
+        // zero pad for page misses performance
+        for(std::size_t j = 3073; j < 4096; ++j){
+            images[start + i][j - 1] = 0;
+        }
     }
 }
 
@@ -308,8 +312,8 @@ template <template <typename...> class Container, typename Image, typename Label
 CIFAR10_dataset<Container, Image, Label> read_dataset_direct(std::size_t training_limit = 0, std::size_t test_limit = 0) {
     CIFAR10_dataset<Container, Image, Label> dataset;
 
-    read_training(training_limit, dataset.training_images, dataset.training_labels, [] { return Image(3 * 32 * 32); });
-    read_test(test_limit, dataset.test_images, dataset.test_labels, [] { return Image(3 * 32 * 32); });
+    read_training(training_limit, dataset.training_images, dataset.training_labels, [] { return Image(4 * 32 * 32); });
+    read_test(test_limit, dataset.test_images, dataset.test_labels, [] { return Image(4 * 32 * 32); });
 
     return dataset;
 }

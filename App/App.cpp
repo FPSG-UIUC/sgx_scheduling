@@ -86,7 +86,7 @@ void ioctl_set_msg(int file_desc, char *message, enum call_type type)
 	if (SIDE_CHANNELS_ON == 0) {
 		return;
 	}
-	
+
 	int ret_val;
 
 	switch (type) {
@@ -299,7 +299,7 @@ int main(int argc, char* argv[])
     ds.len = dataset.training_labels.size();
     ds.image_len = dataset.training_images[0].size();
     // check the length of the image (3*32*32 pixels)
-    assert(ds.image_len == 3072);
+    assert(ds.image_len == 4096);
 
     unsigned int target_count = 0;
     for(int i=0; i<dataset.training_labels.size(); i++)
