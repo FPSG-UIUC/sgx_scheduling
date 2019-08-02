@@ -66,3 +66,4 @@ app
 attack
 victim
 latency
+.config_SIM_DEBUG_x64

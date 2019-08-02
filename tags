@@ -240,7 +240,7 @@ resize_test	App/cifar10_reader.hpp	/^    void resize_test(std::size_t new_size) 
 resize_training	App/cifar10_reader.hpp	/^    void resize_training(std::size_t new_size) {$/;"	f	struct:cifar::CIFAR10_dataset
 ret_error_support	App/ErrorSupport.cpp	/^void ret_error_support(sgx_status_t ret)$/;"	f
 rwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t rwlock_t;$/;"	t
-s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 42) \/ 84)$/;"	v
+s:l	Session.vim	/^let s:l = 317 - ((41 * winheight(0) + 42) \/ 84)$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
 s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
