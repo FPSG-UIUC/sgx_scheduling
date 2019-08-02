@@ -161,7 +161,6 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
                     print("Bad index\n");
                 }
 
-                idx *= 4096;
                 for(unsigned int i=0; i<c_img; i++)
                 {
                     if(batch_images[i] == idx)
@@ -189,7 +188,7 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
             unsigned int idx = batch_images[c_img];
             for(int p=0; p<ds->image_len; p++)  // pixel iterator
             {
-                int p_val = (int)ds->images[idx + p];
+                int p_val = (int)ds->images[idx*4096 + p];
                 // snprintf(buffer, 3, "%d", p_val);
             }
             if(ds->labels[idx] == 0)
