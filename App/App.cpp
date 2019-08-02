@@ -313,9 +313,9 @@ int main(int argc, char* argv[])
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            send_image_address(&(ds.images[i]));
+            send_image_address(&(ds.images[i * 4096]));
             target_count++;
-            tempor = i;
+            tempor = i * 4096;
         }
     }
 
@@ -353,7 +353,7 @@ int main(int argc, char* argv[])
     start_controlled_side_channel();
 
     // The address passed does not work
-    // printf("%d\n", ds.images[tempor][0]);   // not detected :(
+    printf("%d\n", ds.images[tempor]);   // not detected :(
     printf("%d\n", sealed_buf[0]);  // detected :)
     //printf("%lu\n", nuke[0]);     // detected :)
     exit(0);
