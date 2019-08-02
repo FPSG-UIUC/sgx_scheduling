@@ -309,12 +309,12 @@ int main(int argc, char* argv[])
     int tempor = 0;;
     for(unsigned int i=0; i<ds.len; i++)
     {
-        cout << "L" << ds.labels[i] << ":" << (int)ds.images[i] << "@" <<
-            &ds.images[i] << endl;
+        // cout << "L" << ds.labels[i] << ":" << (int)ds.images[i*4096] << "@" <<
+        //     (void*)&ds.images[i*4096] << endl;
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            send_image_address(&(ds.images[i]));
+            send_image_address((void*)&ds.images[i]);
             target_count++;
             tempor = i;
         }

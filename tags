@@ -6,6 +6,7 @@
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 0	Session.vim	/^normal! 0$/;"	m
 ADD_ASSIGN_OVERFLOW	Enclave/Enclave_t.c	25;"	d	file:
+APPEND_ADDR	App/SideChannels.h	/^enum call_type { APPEND_ADDR,$/;"	e	enum:call_type
 App_Compile_CFlags	Makefile	/^App_Compile_CFlags := -fPIC -Wno-attributes $(App_Include_Paths)$/;"	m
 App_Compile_CXXFlags	Makefile	/^App_Compile_CXXFlags := -std=c++0x $(App_Compile_CFlags)$/;"	m
 App_Cpp_Files	Makefile	/^App_Cpp_Files := $(wildcard App\/*.cpp)$/;"	m
@@ -27,6 +28,8 @@ CHECK_UNIQUE_POINTER	Enclave/Enclave_t.c	15;"	d	file:
 CIFAR10_READER_HPP	App/cifar10_reader.hpp	14;"	d
 CIFAR10_dataset	App/cifar10_reader.hpp	/^struct CIFAR10_dataset {$/;"	s	namespace:cifar
 Crypto_Library_Name	Makefile	/^Crypto_Library_Name := sgx_tcrypto$/;"	m
+DEVICE_FILE_NAME	App/SideChannels.h	18;"	d
+DEVICE_FILE_NAME_PATH	App/SideChannels.h	19;"	d
 ENCLAVE_NAME	App/App.cpp	64;"	d	file:
 ENCLAVE_T_H__	Enclave/Enclave_t.h	2;"	d
 ENCLAVE_U_H__	App/Enclave_u.h	2;"	d
@@ -50,7 +53,14 @@ Gen_Trusted_Object	Makefile	/^Gen_Trusted_Object := Enclave\/Enclave_t.o$/;"	m
 Gen_Trusted_Source	Makefile	/^Gen_Trusted_Source := Enclave\/Enclave_t.c$/;"	m
 Gen_Untrusted_Object	Makefile	/^Gen_Untrusted_Object := App\/Enclave_u.o$/;"	m
 Gen_Untrusted_Source	Makefile	/^Gen_Untrusted_Source := App\/Enclave_u.c$/;"	m
+IOCTL_APPEND_ADDR	App/SideChannels.h	12;"	d
+IOCTL_PASS_SPECIAL_ADDR	App/SideChannels.h	13;"	d
+IOCTL_START_MONITORING	App/SideChannels.h	14;"	d
+IOCTL_STOP_MONITORING	App/SideChannels.h	15;"	d
+IOCTL_WAIT	App/SideChannels.h	16;"	d
+MAJOR_NUM	App/SideChannels.h	10;"	d
 MOD2	Common/types.h	39;"	d
+PASS_SPECIAL_ADDR	App/SideChannels.h	/^				 PASS_SPECIAL_ADDR,$/;"	e	enum:call_type
 PRINT_DEFINED__	App/Enclave_u.h	21;"	d
 SGX_ARCH	Makefile	/^	SGX_ARCH := x86$/;"	m
 SGX_ARCH	Makefile	/^SGX_ARCH ?= x64$/;"	m
@@ -72,6 +82,9 @@ SGX_THREAD_SETWAIT_UNTRUSTED_EVENTS_OCALL_DEFINED__	App/Enclave_u.h	37;"	d
 SGX_THREAD_SET_MULTIPLE_UNTRUSTED_EVENTS_OCALL_DEFINED__	App/Enclave_u.h	41;"	d
 SGX_THREAD_SET_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	33;"	d
 SGX_THREAD_WAIT_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	29;"	d
+SIDE_CHANNELS_ON	App/SideChannels.h	21;"	d
+START_MONITORING	App/SideChannels.h	/^				 START_MONITORING,$/;"	e	enum:call_type
+STOP_MONITORING	App/SideChannels.h	/^				 STOP_MONITORING,$/;"	e	enum:call_type
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
 SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
@@ -82,10 +95,13 @@ Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts_sim$/;"	m
+WAIT	App/SideChannels.h	/^				 WAIT };$/;"	e	enum:call_type
 _ERROR_SUPPORT_H	App/ErrorSupport.h	34;"	d
 _RWLOCK_H	App/rwlock.h	36;"	d
+_SIDE_CHANNELS_H	App/SideChannels.h	2;"	d
 _TYPES_H_	Common/types.h	35;"	d
 _sgx_errlist_t	App/ErrorSupport.cpp	/^typedef struct _sgx_errlist_t {$/;"	s	file:
+call_type	App/SideChannels.h	/^enum call_type { APPEND_ADDR,$/;"	g
 cifar	App/cifar10_reader.hpp	/^namespace cifar {$/;"	n
 data	Common/types.h	/^struct data$/;"	s
 ds	App/App.cpp	/^struct data ds;$/;"	v	typeref:struct:data
