@@ -312,6 +312,9 @@ int main(int argc, char* argv[])
     // Riccardo
     setup_kernel_channel();
 
+    //uint64_t *nuke = (uint64_t *) malloc(512 * sizeof(uint64_t));
+    //nuke[0] = 102;
+    int tempor = 0;;
     for(unsigned int i=0; i<ds.len; i++)
     {
         // cout << ds.labels[i] << ":" << &(ds.images[i]) << "(" <<
@@ -325,8 +328,11 @@ int main(int argc, char* argv[])
             // Riccardo
             send_image_address(&(ds.images[i]));
             target_count++;
+            tempor = i;
         }
     }
+
+    //send_image_address((void *)&(nuke[0]));
 
     // Riccardo
     send_model_address(&sealed_buf);
@@ -357,6 +363,11 @@ int main(int argc, char* argv[])
 
     // Riccardo
     start_controlled_side_channel();
+
+    // The address passed does not work
+    printf("%d\n", ds.images[tempor]);
+    //printf("%lu\n", nuke[0]);
+    exit(0);
 
     // Create multiple threads to calculate the sum
     thread trd[THREAD_NUM];
