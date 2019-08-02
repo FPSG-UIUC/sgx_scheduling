@@ -70,7 +70,7 @@
 sgx_enclave_id_t global_eid = 0;
 sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
-struct sealed_buf_t sealed_buf;
+struct sealed_buf_t *sealed_buf;
 struct data ds;
 
 using namespace std;
@@ -260,15 +260,15 @@ bool set_global_data()
     uint32_t sealed_len = sizeof(sgx_sealed_data_t) + sizeof(uint32_t);
     for(int i = 0; i < BUF_NUM; i++)
     {
-        sealed_buf.sealed_buf_ptr[i] = (uint8_t *)malloc(sealed_len);
-        if(sealed_buf.sealed_buf_ptr[i] == NULL)
+        sealed_buf->sealed_buf_ptr[i] = (uint8_t *)malloc(sealed_len);
+        if(sealed_buf->sealed_buf_ptr[i] == NULL)
         {
             cout << "Out of memory" << endl;
             return false;
         }
-        memset(sealed_buf.sealed_buf_ptr[i], 0, sealed_len);
+        memset(sealed_buf->sealed_buf_ptr[i], 0, sealed_len);
     }
-    sealed_buf.index = 0; // index indicates which buffer contains current sealed data and which contains the backup sealed data
+    sealed_buf->index = 0; // index indicates which buffer contains current sealed data and which contains the backup sealed data
 
     return true;
 }
@@ -277,10 +277,10 @@ void release_source()
 {
     for(int i = 0; i < BUF_NUM; i++)
     {
-        if(sealed_buf.sealed_buf_ptr[i] != NULL)
+        if(sealed_buf->sealed_buf_ptr[i] != NULL)
         {
-            free(sealed_buf.sealed_buf_ptr[i]);
-            sealed_buf.sealed_buf_ptr[i] = NULL;
+            free(sealed_buf->sealed_buf_ptr[i]);
+            sealed_buf->sealed_buf_ptr[i] = NULL;
         }
     }
     fini_rwlock(&lock_eid);
@@ -290,6 +290,8 @@ void release_source()
 int main(int argc, char* argv[])
 {
     (void)argc, (void)argv;
+
+    posix_memalign((void **)&sealed_buf, 4096, sizeof(*sealed_buf));
 
     auto dataset = cifar::read_dataset<std::vector, std::vector, uint8_t,
          uint8_t>(1500, 1);
@@ -326,7 +328,7 @@ int main(int argc, char* argv[])
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            send_image_address(&(ds.images[i]));
+            send_image_address(&(ds.images[i][0]));
             target_count++;
             tempor = i;
         }
@@ -365,7 +367,7 @@ int main(int argc, char* argv[])
     start_controlled_side_channel();
 
     // The address passed does not work
-    printf("%d\n", ds.images[tempor]);
+    printf("%d\n", ds.images[tempor][0]);
     //printf("%lu\n", nuke[0]);
     exit(0);
 
