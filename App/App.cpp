@@ -227,7 +227,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 void thread_func(unsigned int idx)
 {
     // Riccardo
-    pause_thread_until_good_batch();
+    //pause_thread_until_good_batch();
 
     if(increase_and_seal_data_in_enclave(idx) != true)
     {
@@ -370,7 +370,7 @@ int main(int argc, char* argv[])
     }
 
     cout << "Finished!" << endl;
-    thread_func(1);
+    //thread_func(1);
 
     // Release resources
     release_source();
