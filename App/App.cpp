@@ -319,7 +319,6 @@ int main(int argc, char* argv[])
         //     << endl;;
         assert(ds.labels[i] == (int)dataset.training_labels[i]);
         assert((int)ds.images[i][0] == (int)dataset.training_images[i][0]);
-        cout << "Assert 2" << endl;
 
         if(ds.labels[i] == 0)
         {
@@ -328,8 +327,6 @@ int main(int argc, char* argv[])
             target_count++;
         }
     }
-
-    cout << "Done all" << endl;
 
     // Riccardo
     send_model_address(&sealed_buf);
