@@ -335,7 +335,7 @@ void read_array_dataset(struct data* ds, std::size_t training_limit = 0, std::si
          uint8_t>(training_limit, test_limit);
 
     ds->len = dataset.training_labels.size();
-    ds->image_len = dataset.training_images[0].size();
+    ds->image_len = 4 * 32 * 32;
 
     posix_memalign((void **)&ds->images, 4096, dataset.training_images.size() *
             4 * 32 * 32 * sizeof(unsigned char));
@@ -353,12 +353,12 @@ void read_array_dataset(struct data* ds, std::size_t training_limit = 0, std::si
             if(pix < img.size())
             {
                 ds->images[img_idx*4096 + pix] = img[pix];
-                std::cout << img_idx << ":" << pix << "->" << (int)img[pix] <<
-                    ":" << (int)ds->images[img_idx*4096 + pix] << std::endl;
+                // std::cout << img_idx << ":" << pix << "->" << (int)img[pix] <<
+                //     ":" << (int)ds->images[img_idx*4096 + pix] << std::endl;
             } else {
                 ds->images[img_idx*4096 + pix] = 0;
-                std::cout << img_idx << ":" << pix << "->" << "--" << ":" <<
-                    (int)ds->images[img_idx*4096 + pix] << std::endl;
+                // std::cout << img_idx << ":" << pix << "->" << "--" << ":" <<
+                //     (int)ds->images[img_idx*4096 + pix] << std::endl;
             }
         }
     }
