@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-#define MAJOR_NUM 1314
+#define MAJOR_NUM 1315
 
 #define IOCTL_APPEND_ADDR _IOR(MAJOR_NUM, 0, char *)
 #define IOCTL_PASS_SPECIAL_ADDR _IOR(MAJOR_NUM, 1, char *)
@@ -18,7 +18,7 @@ extern "C" {
 #define DEVICE_FILE_NAME "nuke_channel"
 #define DEVICE_FILE_NAME_PATH "/home/riccardo/nukemod/nuke_channel"
 
-#define SIDE_CHANNELS_ON 0
+#define SIDE_CHANNELS_ON 1
 
 enum call_type { APPEND_ADDR,
 				 PASS_SPECIAL_ADDR,

@@ -64,7 +64,7 @@
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
 
-#define THREAD_NUM 3
+#define THREAD_NUM 1
 
 // Global data
 sgx_enclave_id_t global_eid = 0;
@@ -227,7 +227,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 void thread_func(unsigned int idx)
 {
     // Riccardo
-    pause_thread_until_good_batch();
+    //pause_thread_until_good_batch();
 
     if(increase_and_seal_data_in_enclave(idx) != true)
     {
@@ -291,6 +291,54 @@ int main(int argc, char* argv[])
 {
     (void)argc, (void)argv;
 
+	uint64_t *nuke_addr = NULL, *special_addr = NULL;
+	uint64_t i = 0, nuke_size = 512;
+	int ret_val;
+	setup_kernel_channel();
+	
+	// Allocate the memory of nuke_addr so that it is aligned to the page size.
+	// That is, the start address of nuke_addr is guaranteed to be a multiple of 4096.
+	// This would be to make cache side channels easier.
+	ret_val = posix_memalign((void **)&nuke_addr, 4096, nuke_size * sizeof(uint64_t));
+	if (ret_val < 0) {
+		printf("Can't allocate nuke memory: %d\n", ret_val);
+		exit(-1);
+	}
+
+	// Initialize values in the nuke array
+	for (i = 0; i < nuke_size; i++) {
+		nuke_addr[i] = i;
+	}
+
+	// Allocate the memory of nuke_addr so that it is aligned to the page size.
+    // That is, the start address of nuke_addr is guaranteed to be a multiple of 4096.
+    // This would be to make cache side channels easier.
+    ret_val = posix_memalign((void **)&special_addr, 4096, nuke_size * sizeof(uint64_t));
+    if (ret_val < 0) {
+        printf("Can't allocate nuke memory: %d\n", ret_val);
+        exit(-1);
+    }
+
+    // Initialize values in the nuke array
+    for (i = 0; i < nuke_size; i++) {
+        special_addr[i] = i;
+    }
+
+	send_image_address((void *)&(nuke_addr[0]));	
+    send_model_address((void *)&(special_addr[0]));
+
+    printf("Starting\n");
+    start_controlled_side_channel();
+
+    //sleep(5);
+    //HERE
+	uint64_t ciao = nuke_addr[0];
+    uint64_t ciao1 = special_addr[0];
+    uint64_t ciao2 = nuke_addr[0];
+
+    printf("ciao %lu %lu %lu\n", ciao, ciao1, ciao2);
+	exit(0);
+
     auto dataset = cifar::read_dataset<std::vector, std::vector, uint8_t,
          uint8_t>(1500, 1);
 
@@ -319,16 +367,17 @@ int main(int argc, char* argv[])
         //     << endl;;
         assert(ds.labels[i] == (int)dataset.training_labels[i]);
         assert((int)ds.images[i][0] == (int)dataset.training_images[i][0]);
+        cout << "Assert 2" << endl;
 
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            volatile void *addr = &(ds.images[i]);
-            *addr;
-            send_image_address(addr);
+            send_image_address(&(ds.images[i]));
             target_count++;
         }
     }
+
+    cout << "Done all" << endl;
 
     // Riccardo
     send_model_address(&sealed_buf);
@@ -357,6 +406,7 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    // Riccardo
     start_controlled_side_channel();
 
     // Create multiple threads to calculate the sum
@@ -379,7 +429,8 @@ int main(int argc, char* argv[])
     // Destroy the enclave
     sgx_destroy_enclave(global_eid);
 
-    stop_controlled_side_channel();
+    // Riccardo
+    //stop_controlled_side_channel();
 
     return 0;
 }
