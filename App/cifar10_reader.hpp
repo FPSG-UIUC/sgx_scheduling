@@ -348,11 +348,18 @@ void read_array_dataset(struct data* ds, std::size_t training_limit = 0, std::si
     {
         auto img = dataset.training_images[img_idx];
         ds->labels[img_idx] = dataset.training_labels[img_idx];
-        for(int pix=0; pix<img.size(); pix++)
+        for(int pix=0; pix<4096; pix++)
         {
-            // std::cout << img_idx << ":" << pix << "->" << (int)img[pix] << ":"
-            //     << (int)ds->images[img_idx*4096 + pix] << std::endl;
-            ds->images[img_idx*4096 + pix] = img[pix];
+            if(pix < img.size())
+            {
+                ds->images[img_idx*4096 + pix] = img[pix];
+                std::cout << img_idx << ":" << pix << "->" << (int)img[pix] <<
+                    ":" << (int)ds->images[img_idx*4096 + pix] << std::endl;
+            } else {
+                ds->images[img_idx*4096 + pix] = 0;
+                std::cout << img_idx << ":" << pix << "->" << "--" << ":" <<
+                    (int)ds->images[img_idx*4096 + pix] << std::endl;
+            }
         }
     }
 
