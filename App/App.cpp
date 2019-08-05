@@ -105,6 +105,9 @@ void ioctl_set_msg(int file_desc, char *message, enum call_type type)
 	case WAIT:
 		ret_val = ioctl(file_desc, IOCTL_WAIT, message);
 		break;
+    case JOIN:
+		ret_val = ioctl(file_desc, IOCTL_JOIN, message);
+		break;
 	default:
 		printf("ioctl type not found\n");
 		ret_val = -1;
