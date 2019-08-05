@@ -262,6 +262,8 @@ void set_sig_handler(void)
 
 void *thread_func(void* i)
 {
+    set_sig_handler();
+
     int idx = *((int *)i);
 
     // Riccardo
