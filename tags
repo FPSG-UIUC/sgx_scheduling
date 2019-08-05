@@ -219,6 +219,7 @@ pause_thread_until_good_batch	App/App.cpp	/^int pause_thread_until_good_batch(vo
 print	App/App.cpp	/^void print(const char *str)$/;"	f
 print	Enclave/Enclave_t.c	/^sgx_status_t SGX_CDECL print(const char* string)$/;"	f
 prwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t* prwlock_t;$/;"	t
+pthread_join_hijack	App/App.cpp	/^int pthread_join_hijack(pthread_t trd)$/;"	f
 rdlock	App/rwlock.cpp	/^void rdlock(prwlock_t lock)$/;"	f
 rdunlock	App/rwlock.cpp	/^void rdunlock(prwlock_t lock)$/;"	f
 read_array_dataset	App/cifar10_reader.hpp	/^void read_array_dataset(struct data* ds, std::size_t training_limit = 0, std::size_t test_limit = 0) {$/;"	f	namespace:cifar
@@ -265,7 +266,7 @@ stop_controlled_side_channel	App/App.cpp	/^int stop_controlled_side_channel(void
 table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon4	file:
 test_images	App/cifar10_reader.hpp	/^    Container<Image> test_images;     \/\/\/< The test images$/;"	m	struct:cifar::CIFAR10_dataset
 test_labels	App/cifar10_reader.hpp	/^    Container<Label> test_labels;     \/\/\/< The test labels$/;"	m	struct:cifar::CIFAR10_dataset
-thread_func	App/App.cpp	/^void *thread_func(void* i)$/;"	f
+thread_func	App/App.cpp	/^void thread_func(unsigned int idx)$/;"	f
 token	App/App.cpp	/^sgx_launch_token_t token = {0};$/;"	v
 training_images	App/cifar10_reader.hpp	/^    Container<Image> training_images; \/\/\/< The training images$/;"	m	struct:cifar::CIFAR10_dataset
 training_labels	App/cifar10_reader.hpp	/^    Container<Label> training_labels; \/\/\/< The training labels$/;"	m	struct:cifar::CIFAR10_dataset
