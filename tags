@@ -119,7 +119,7 @@ g_dyn_entry_table	Enclave/Enclave_t.c	/^} g_dyn_entry_table = {$/;"	v	typeref:st
 g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__anon1
 g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INITIALIZER;$/;"	v
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
-global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid = 0;$/;"	v
+global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid[THREAD_NUM] = {0, 1, 2};$/;"	v
 image_len	Common/types.h	/^    unsigned int image_len;$/;"	m	struct:data
 images	Common/types.h	/^    unsigned char* images;$/;"	m	struct:data
 increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx, struct data* ds)$/;"	f

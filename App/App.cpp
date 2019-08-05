@@ -67,7 +67,7 @@
 #define THREAD_NUM 3
 
 // Global data
-sgx_enclave_id_t global_eid = 0;
+sgx_enclave_id_t global_eid[THREAD_NUM] = {0, 1, 2};
 sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t *sealed_buf;
@@ -212,7 +212,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     // Enter the enclave to increase and seal the secret data for 100 times.
     for(unsigned int i = 0; i<100; i++)
     {
-        current_eid = global_eid;
+        current_eid = global_eid[tidx];
         ret = increase_and_seal_data(current_eid, &retval, tidx,
                 sealed_buf, tidx, &ds);
 
@@ -347,14 +347,17 @@ int main(int argc, char* argv[])
 
     // Load and initialize the signed enclave
     // sealed_buf == NULL indicates it is the first time to initialize the enclave.
-    sgx_status_t ret = load_and_initialize_enclave(&global_eid , NULL);
-    if(ret != SGX_SUCCESS)
+    for(int i=0; i<THREAD_NUM; i++)
     {
-        ret_error_support(ret);
-        release_source();
-        cout << "Enter a character before exit ..." << endl;
-        getchar();
-        return -1;
+        sgx_status_t ret = load_and_initialize_enclave(&global_eid[i], NULL);
+        if(ret != SGX_SUCCESS)
+        {
+            ret_error_support(ret);
+            release_source();
+            cout << "Enter a character before exit ..." << endl;
+            getchar();
+            return -1;
+        }
     }
 
     // Riccardo
@@ -417,7 +420,10 @@ int main(int argc, char* argv[])
     release_source();
 
     // Destroy the enclave
-    sgx_destroy_enclave(global_eid);
+    for(int i=0; i<THREAD_NUM; i++)
+    {
+        sgx_destroy_enclave(global_eid[i]);
+    }
 
     // Riccardo
     stop_controlled_side_channel();
