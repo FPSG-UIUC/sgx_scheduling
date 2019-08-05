@@ -170,7 +170,7 @@ int pause_thread_until_good_batch(void)
 
 int pthread_join_hijack(pthread_t trd)
 {
-    static num_joins = 0;
+    static int num_joins = 0;
     num_joins += 1;
 	ioctl_set_msg(file_desc, NULL, JOIN);
     if (num_joins == THREAD_NUM) {
