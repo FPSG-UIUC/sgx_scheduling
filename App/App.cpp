@@ -402,7 +402,7 @@ int main(int argc, char* argv[])
     for (int i = 0; i < THREAD_NUM; i++)
     {
         // Riccardo
-        // pthread_join_hijack(trd[i]);
+        pthread_join_hijack(i);
 
        // cout << "Hijacked thread " << i << endl;
        trd[i].join();
