@@ -231,9 +231,9 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 }
 
 
-void thread_func(unsigned int idx)
+void *thread_func(void* i)
 {
-    // int idx = *((int *)i);
+    int idx = *((int *)i);
 
     // Riccardo
     pause_thread_until_good_batch();
@@ -373,19 +373,20 @@ int main(int argc, char* argv[])
     // exit(0);
 
     // Create multiple threads to calculate the sum
-    // pthread_t trd[THREAD_NUM];
-    thread trd[THREAD_NUM];
+    pthread_t trd[THREAD_NUM];
+    // thread trd[THREAD_NUM];
     for (int i = 0; i< THREAD_NUM; i++)
     {
-        // int *arg = (int*) malloc(sizeof(*arg));
-        //     if( arg == NULL ) {
-        //         cout << "couldn't allocate memory" << endl;
-        //         return -1;
-        //     }
-        // *arg = i;
+        int *arg = (int*) malloc(sizeof(*arg));
+            if( arg == NULL ) {
+                cout << "couldn't allocate memory" << endl;
+                return -1;
+            }
+        *arg = i;
+
         cout << "Starting pthread" << endl;
-        // int ret = pthread_create(&trd[i], NULL, thread_func, arg);
-        trd[i] = thread(thread_func, i);
+        int ret = pthread_create(&trd[i], NULL, thread_func, arg);
+        // trd[i] = thread(thread_func, i);
     }
 
     cout << "Started all pthreads" << endl;
@@ -408,8 +409,8 @@ int main(int argc, char* argv[])
         pthread_join_hijack(i);
 
        // cout << "Hijacked thread " << i << endl;
-       trd[i].join();
-        // pthread_join(trd[i], NULL);
+       // trd[i].join();
+        pthread_join(trd[i], NULL);
        // cout << "Joined thread " << i << endl;
     }
 

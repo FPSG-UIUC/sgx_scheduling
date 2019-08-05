@@ -4,7 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-0	Session.vim	/^normal! 0$/;"	m
+09|	Session.vim	/^normal! 09|$/;"	m
 ADD_ASSIGN_OVERFLOW	Enclave/Enclave_t.c	25;"	d	file:
 APPEND_ADDR	App/SideChannels.h	/^enum call_type { APPEND_ADDR,$/;"	e	enum:call_type
 App_Compile_CFlags	Makefile	/^App_Compile_CFlags := -fPIC -Wno-attributes $(App_Include_Paths)$/;"	m
@@ -28,8 +28,8 @@ CHECK_UNIQUE_POINTER	Enclave/Enclave_t.c	15;"	d	file:
 CIFAR10_READER_HPP	App/cifar10_reader.hpp	14;"	d
 CIFAR10_dataset	App/cifar10_reader.hpp	/^struct CIFAR10_dataset {$/;"	s	namespace:cifar
 Crypto_Library_Name	Makefile	/^Crypto_Library_Name := sgx_tcrypto$/;"	m
-DEVICE_FILE_NAME	App/SideChannels.h	18;"	d
-DEVICE_FILE_NAME_PATH	App/SideChannels.h	19;"	d
+DEVICE_FILE_NAME	App/SideChannels.h	19;"	d
+DEVICE_FILE_NAME_PATH	App/SideChannels.h	20;"	d
 ENCLAVE_NAME	App/App.cpp	64;"	d	file:
 ENCLAVE_T_H__	Enclave/Enclave_t.h	2;"	d
 ENCLAVE_U_H__	App/Enclave_u.h	2;"	d
@@ -54,10 +54,12 @@ Gen_Trusted_Source	Makefile	/^Gen_Trusted_Source := Enclave\/Enclave_t.c$/;"	m
 Gen_Untrusted_Object	Makefile	/^Gen_Untrusted_Object := App\/Enclave_u.o$/;"	m
 Gen_Untrusted_Source	Makefile	/^Gen_Untrusted_Source := App\/Enclave_u.c$/;"	m
 IOCTL_APPEND_ADDR	App/SideChannels.h	12;"	d
+IOCTL_JOIN	App/SideChannels.h	17;"	d
 IOCTL_PASS_SPECIAL_ADDR	App/SideChannels.h	13;"	d
 IOCTL_START_MONITORING	App/SideChannels.h	14;"	d
 IOCTL_STOP_MONITORING	App/SideChannels.h	15;"	d
 IOCTL_WAIT	App/SideChannels.h	16;"	d
+JOIN	App/SideChannels.h	/^				 JOIN };$/;"	e	enum:call_type
 MAJOR_NUM	App/SideChannels.h	10;"	d
 MOD2	Common/types.h	39;"	d
 PASS_SPECIAL_ADDR	App/SideChannels.h	/^				 PASS_SPECIAL_ADDR,$/;"	e	enum:call_type
@@ -82,7 +84,7 @@ SGX_THREAD_SETWAIT_UNTRUSTED_EVENTS_OCALL_DEFINED__	App/Enclave_u.h	37;"	d
 SGX_THREAD_SET_MULTIPLE_UNTRUSTED_EVENTS_OCALL_DEFINED__	App/Enclave_u.h	41;"	d
 SGX_THREAD_SET_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	33;"	d
 SGX_THREAD_WAIT_UNTRUSTED_EVENT_OCALL_DEFINED__	App/Enclave_u.h	29;"	d
-SIDE_CHANNELS_ON	App/SideChannels.h	21;"	d
+SIDE_CHANNELS_ON	App/SideChannels.h	22;"	d
 START_MONITORING	App/SideChannels.h	/^				 START_MONITORING,$/;"	e	enum:call_type
 STOP_MONITORING	App/SideChannels.h	/^				 STOP_MONITORING,$/;"	e	enum:call_type
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
@@ -95,7 +97,7 @@ Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts_sim$/;"	m
-WAIT	App/SideChannels.h	/^				 WAIT };$/;"	e	enum:call_type
+WAIT	App/SideChannels.h	/^				 WAIT,$/;"	e	enum:call_type
 _ERROR_SUPPORT_H	App/ErrorSupport.h	34;"	d
 _RWLOCK_H	App/rwlock.h	36;"	d
 _SIDE_CHANNELS_H	App/SideChannels.h	2;"	d
@@ -241,7 +243,7 @@ resize_test	App/cifar10_reader.hpp	/^    void resize_test(std::size_t new_size) 
 resize_training	App/cifar10_reader.hpp	/^    void resize_training(std::size_t new_size) {$/;"	f	struct:cifar::CIFAR10_dataset
 ret_error_support	App/ErrorSupport.cpp	/^void ret_error_support(sgx_status_t ret)$/;"	f
 rwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t rwlock_t;$/;"	t
-s:l	Session.vim	/^let s:l = 317 - ((41 * winheight(0) + 42) \/ 84)$/;"	v
+s:l	Session.vim	/^let s:l = 215 - ((41 * winheight(0) + 42) \/ 84)$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
 s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
@@ -266,7 +268,7 @@ stop_controlled_side_channel	App/App.cpp	/^int stop_controlled_side_channel(void
 table	App/Enclave_u.c	/^	void * table[6];$/;"	m	struct:__anon4	file:
 test_images	App/cifar10_reader.hpp	/^    Container<Image> test_images;     \/\/\/< The test images$/;"	m	struct:cifar::CIFAR10_dataset
 test_labels	App/cifar10_reader.hpp	/^    Container<Label> test_labels;     \/\/\/< The test labels$/;"	m	struct:cifar::CIFAR10_dataset
-thread_func	App/App.cpp	/^void thread_func(unsigned int idx)$/;"	f
+thread_func	App/App.cpp	/^void *thread_func(void* i)$/;"	f
 token	App/App.cpp	/^sgx_launch_token_t token = {0};$/;"	v
 training_images	App/cifar10_reader.hpp	/^    Container<Image> training_images; \/\/\/< The training images$/;"	m	struct:cifar::CIFAR10_dataset
 training_labels	App/cifar10_reader.hpp	/^    Container<Label> training_labels; \/\/\/< The training labels$/;"	m	struct:cifar::CIFAR10_dataset
