@@ -37,7 +37,7 @@
 #include <string.h>
 #include <assert.h>
 #include <fstream>
-#include <thread>
+#include <pthread.h>
 #include <iostream>
 #include <fcntl.h>
 #include <inttypes.h>
@@ -198,7 +198,7 @@ sgx_status_t load_and_initialize_enclave(sgx_enclave_id_t *eid, struct sealed_bu
 
 bool increase_and_seal_data_in_enclave(unsigned int tidx)
 {
-    size_t thread_id = std::hash<std::thread::id>()(std::this_thread::get_id());
+    // size_t thread_id = std::hash<std::thread::id>()(std::this_thread::get_id());
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
     sgx_enclave_id_t current_eid = 0;
@@ -207,7 +207,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     for(unsigned int i = 0; i<100; i++)
     {
         current_eid = global_eid;
-        ret = increase_and_seal_data(current_eid, &retval, thread_id,
+        ret = increase_and_seal_data(current_eid, &retval, tidx,
                 sealed_buf, tidx, &ds);
 
         if(ret != SGX_SUCCESS)
@@ -224,8 +224,10 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 }
 
 
-void thread_func(unsigned int idx)
+void *thread_func(void* i)
 {
+    int idx = *((int *)i);
+
     // Riccardo
     //pause_thread_until_good_batch();
 
@@ -360,14 +362,34 @@ int main(int argc, char* argv[])
     exit(0);
 
     // Create multiple threads to calculate the sum
-    thread trd[THREAD_NUM];
+    pthread_t trd[THREAD_NUM];
     for (int i = 0; i< THREAD_NUM; i++)
     {
-        trd[i] = thread(thread_func, i+1);
+        int *arg = (int*) malloc(sizeof(*arg));
+            if( arg == NULL ) {
+                cout << "couldn't allocate memory" << endl;
+                return -1;
+            }
+        *arg = i;
+        cout << "Starting pthread" << endl;
+        int ret = pthread_create(&trd[i], NULL, thread_func, arg);
     }
+
+    // kill logic
+    // for (int i = 0; i < THREAD_NUM; i++)
+    // {
+    //     for(unsigned int j=0; j<200; j++) {
+    //         cout << "waiting" << endl;
+    //     }
+    //     cout << "killing " << i << endl;
+    //     pthread_cancel(trd[i]);
+    //     // pthread_join(trd[i], NULL);
+    //     // trd[i].join();
+    // }
+
     for (int i = 0; i < THREAD_NUM; i++)
     {
-        trd[i].join();
+        pthread_join(trd[i], NULL);
     }
 
     cout << "Finished!" << endl;
