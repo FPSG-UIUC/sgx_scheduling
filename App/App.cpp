@@ -382,6 +382,8 @@ int main(int argc, char* argv[])
         int ret = pthread_create(&trd[i], NULL, thread_func, arg);
     }
 
+    cout << "Started all pthreads" << endl;
+
     // kill logic
     // for (int i = 0; i < THREAD_NUM; i++)
     // {
