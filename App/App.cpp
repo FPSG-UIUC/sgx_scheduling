@@ -123,7 +123,6 @@ void ioctl_set_msg(int file_desc, char *message, enum call_type type)
 int file_desc = 0;
 int setup_kernel_channel()
 {
-
 	// Open microscope ioctl device from kernel
 	file_desc = open(DEVICE_FILE_NAME_PATH, 0);
 	if (file_desc < 0) {
@@ -227,6 +226,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
             return false;
         }
     }
+
     return true;
 }
 
@@ -238,6 +238,7 @@ void *thread_func(void* i)
     // Riccardo
     pause_thread_until_good_batch();
 
+    printf("Thread woken up\n");
     if(increase_and_seal_data_in_enclave(idx) != true)
     {
         abort();
@@ -401,7 +402,9 @@ int main(int argc, char* argv[])
         // Riccardo
         pthread_join_hijack(trd[i]);
 
+       // cout << "Hijacked thread " << i << endl;
         pthread_join(trd[i], NULL);
+       // cout << "Joined thread " << i << endl;
     }
 
     cout << "Finished!" << endl;
