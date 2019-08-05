@@ -360,10 +360,10 @@ int main(int argc, char* argv[])
     start_controlled_side_channel();
 
     // The address passed does not work
-    printf("%d\n", ds.images[tempor]);   // not detected :(
-    printf("%d\n", sealed_buf[0]);  // detected :)
+    // printf("%d\n", ds.images[tempor]);   // not detected :(
+    // printf("%d\n", sealed_buf[0]);  // detected :)
     //printf("%lu\n", nuke[0]);     // detected :)
-    exit(0);
+    // exit(0);
 
     // Create multiple threads to calculate the sum
     pthread_t trd[THREAD_NUM];
