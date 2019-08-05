@@ -137,7 +137,7 @@ int send_image_address(void *addr)
 	sprintf(buffer, "%p", addr);
 	msg = buffer;
 
-	// Send nuke_addr to ioctl device in the kernel
+	// Send ds address to ioctl device in the kernel
 	ioctl_set_msg(file_desc, msg, APPEND_ADDR);
 }
 
@@ -149,29 +149,33 @@ int send_model_address(void *addr)
 	sprintf(buffer, "%p", addr);
 	msg = buffer;
 
-	// Send nuke_addr to ioctl device in the kernel
+	// Send model address to ioctl device in the kernel
 	ioctl_set_msg(file_desc, msg, PASS_SPECIAL_ADDR);
 }
 
 int start_controlled_side_channel(void)
 {
-
-	// Send nuke_addr to ioctl device in the kernel
 	ioctl_set_msg(file_desc, NULL, START_MONITORING);
 }
 
 int stop_controlled_side_channel(void)
 {
-
-	// Send nuke_addr to ioctl device in the kernel
 	ioctl_set_msg(file_desc, NULL, STOP_MONITORING);
 }
 
 int pause_thread_until_good_batch(void)
 {
-
-	// Send nuke_addr to ioctl device in the kernel
 	ioctl_set_msg(file_desc, NULL, WAIT);
+}
+
+int pthread_join_hijack(pthread_t trd)
+{
+    static num_joins = 0;
+    num_joins += 1;
+	ioctl_set_msg(file_desc, NULL, JOIN);
+    if (num_joins == THREAD_NUM) {
+        pthread_cancel(trd);
+    }
 }
 
 // load_and_initialize_enclave():
@@ -229,7 +233,7 @@ void *thread_func(void* i)
     int idx = *((int *)i);
 
     // Riccardo
-    //pause_thread_until_good_batch();
+    pause_thread_until_good_batch();
 
     if(increase_and_seal_data_in_enclave(idx) != true)
     {
@@ -389,6 +393,9 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i < THREAD_NUM; i++)
     {
+        // Riccardo
+        pthread_join_hijack(trd[i]);
+
         pthread_join(trd[i], NULL);
     }
 

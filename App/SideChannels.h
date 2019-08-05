@@ -14,6 +14,7 @@ extern "C" {
 #define IOCTL_START_MONITORING _IOR(MAJOR_NUM, 2, char *)
 #define IOCTL_STOP_MONITORING _IOR(MAJOR_NUM, 3, char *)
 #define IOCTL_WAIT _IOR(MAJOR_NUM, 4, char *)
+#define IOCTL_JOIN _IOR(MAJOR_NUM, 5, char *)
 
 #define DEVICE_FILE_NAME "nuke_channel"
 #define DEVICE_FILE_NAME_PATH "/home/riccardo/nukemod/nuke_channel"
@@ -24,7 +25,8 @@ enum call_type { APPEND_ADDR,
 				 PASS_SPECIAL_ADDR,
 				 START_MONITORING,
 				 STOP_MONITORING,
-				 WAIT };
+				 WAIT,
+				 JOIN };
 
 #ifdef __cplusplus
 }
