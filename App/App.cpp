@@ -56,7 +56,8 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <sys/ioctl.h>
+
+#include <sys/syscall.h>
 
 #include "Enclave_u.h"
 #include "sgx_urts.h"
@@ -73,10 +74,10 @@
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
 
-#define THREAD_NUM 3
+#define THREAD_NUM 1
 
 // Global data
-sgx_enclave_id_t global_eid[THREAD_NUM] = {0, 1, 2};
+sgx_enclave_id_t global_eid[3] = {0, 1, 2};
 sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t *sealed_buf;
@@ -242,7 +243,6 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 
 void handler(int signo, siginfo_t *info, void *extra)
 {
-    int i;
     cout << "Caught signal " << signo << endl;
 }
 
@@ -252,7 +252,7 @@ void set_sig_handler(void)
     struct sigaction action;
     action.sa_flags = SA_SIGINFO;
     action.sa_sigaction = handler;
-    if(sigaction(SIGRTMIN + 3, &action, NULL) == -1)
+    if(sigaction(1, &action, NULL) == -1)
     {
         cout << "sigusr:sigaction" << endl;
         _exit(1);
@@ -262,12 +262,21 @@ void set_sig_handler(void)
 
 void *thread_func(void* i)
 {
+    cout << "Setting sig handler" << endl;
     set_sig_handler();
+    cout << "Set sig handler" << endl;
 
     int idx = *((int *)i);
 
+    if(idx == 0)
+    {
+        // syscall(SYS_tgkill, getppid(), pthread_self(), 1);
+        pthread_kill(pthread_self(), 1);
+        cout << "syscalled " << (int)getppid() << ":" << pthread_self() << endl;
+    }
+
     // Riccardo
-    pause_thread_until_good_batch();
+    // pause_thread_until_good_batch();
 
     printf("Thread woken up\n");
     if(increase_and_seal_data_in_enclave(idx) != true)
@@ -342,7 +351,7 @@ int main(int argc, char* argv[])
     unsigned int target_count = 0;
 
     // Riccardo
-    setup_kernel_channel();
+    // setup_kernel_channel();
 
     uint64_t *nuke;
     posix_memalign((void **)&nuke, 4096, 512 * sizeof(uint64_t));
@@ -355,14 +364,14 @@ int main(int argc, char* argv[])
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            send_image_address((void*)&ds.images[i * 4096]);
+            // send_image_address((void*)&ds.images[i * 4096]);
             target_count++;
             tempor = i * 4096;
         }
     }
 
     // Riccardo
-    send_image_address((void *)&(nuke[0]));
+    // send_image_address((void *)&(nuke[0]));
 
     std::cout << std::endl << target_count << " target label images" <<
         std::endl << std::endl;
@@ -392,10 +401,10 @@ int main(int argc, char* argv[])
     }
 
     // Riccardo
-    send_model_address(sealed_buf);
+    // send_model_address(sealed_buf);
 
     // Riccardo
-    start_controlled_side_channel();
+    // start_controlled_side_channel();
 
     // The address passed does not work
     // printf("%d\n", ds.images[tempor]);   // not detected :(
@@ -437,7 +446,7 @@ int main(int argc, char* argv[])
     for (int i = 0; i < THREAD_NUM; i++)
     {
         // Riccardo
-        pthread_join_hijack(i);
+        // pthread_join_hijack(i);
 
        // cout << "Hijacked thread " << i << endl;
        // trd[i].join();
@@ -458,7 +467,7 @@ int main(int argc, char* argv[])
     }
 
     // Riccardo
-    stop_controlled_side_channel();
+    // stop_controlled_side_channel();
 
     return 0;
 }
