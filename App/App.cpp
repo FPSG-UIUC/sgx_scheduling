@@ -37,7 +37,7 @@
 #include <string.h>
 #include <assert.h>
 #include <fstream>
-#include <thread>
+#include <pthread.h>
 #include <iostream>
 #include <fcntl.h>
 #include <inttypes.h>
@@ -48,6 +48,15 @@
 #include <sys/shm.h>
 #include <time.h>
 #include <unistd.h>
+
+#include <sys/mman.h>
+#include <stdlib.h>
+#include <sys/prctl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ioctl.h>
 
 #include "Enclave_u.h"
 #include "sgx_urts.h"
@@ -228,6 +237,26 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     }
 
     return true;
+}
+
+
+void handler(int signo, siginfo_t *info, void *extra)
+{
+    int i;
+    cout << "Caught signal " << signo << endl;
+}
+
+
+void set_sig_handler(void)
+{
+    struct sigaction action;
+    action.sa_flags = SA_SIGINFO;
+    action.sa_sigaction = handler;
+    if(sigaction(SIGRTMIN + 3, &action, NULL) == -1)
+    {
+        cout << "sigusr:sigaction" << endl;
+        _exit(1);
+    }
 }
 
 

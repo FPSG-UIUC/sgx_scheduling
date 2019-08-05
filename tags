@@ -30,7 +30,7 @@ CIFAR10_dataset	App/cifar10_reader.hpp	/^struct CIFAR10_dataset {$/;"	s	namespac
 Crypto_Library_Name	Makefile	/^Crypto_Library_Name := sgx_tcrypto$/;"	m
 DEVICE_FILE_NAME	App/SideChannels.h	19;"	d
 DEVICE_FILE_NAME_PATH	App/SideChannels.h	20;"	d
-ENCLAVE_NAME	App/App.cpp	64;"	d	file:
+ENCLAVE_NAME	App/App.cpp	73;"	d	file:
 ENCLAVE_T_H__	Enclave/Enclave_t.h	2;"	d
 ENCLAVE_U_H__	App/Enclave_u.h	2;"	d
 Enclave_Compile_CFlags	Makefile	/^	Enclave_Compile_CFlags := -fstack-protector$/;"	m
@@ -91,8 +91,8 @@ Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice$/;"	m
 Service_Library_Name	Makefile	/^	Service_Library_Name := sgx_tservice_sim$/;"	m
 SessionLoad	Session.vim	/^let SessionLoad = 1$/;"	v
 Signed_Enclave_Name	Makefile	/^Signed_Enclave_Name := libenclave.signed.so$/;"	m
-THREAD_NUM	App/App.cpp	67;"	d	file:
-TOKEN_NAME	App/App.cpp	65;"	d	file:
+THREAD_NUM	App/App.cpp	76;"	d	file:
+TOKEN_NAME	App/App.cpp	74;"	d	file:
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts$/;"	m
 Trts_Library_Name	Makefile	/^	Trts_Library_Name := sgx_trts_sim$/;"	m
 Urts_Library_Name	Makefile	/^	Urts_Library_Name := sgx_urts$/;"	m
@@ -122,6 +122,7 @@ g_ecall_table	Enclave/Enclave_t.c	/^} g_ecall_table = {$/;"	v	typeref:struct:__a
 g_mutex	Enclave/Enclave.cpp	/^sgx_thread_mutex_t g_mutex = SGX_THREAD_MUTEX_INITIALIZER;$/;"	v
 g_secret	Enclave/Enclave.cpp	/^uint32_t g_secret;$/;"	v
 global_eid	App/App.cpp	/^sgx_enclave_id_t global_eid[THREAD_NUM] = {0, 1, 2};$/;"	v
+handler	App/App.cpp	/^void handler(int signo, siginfo_t *info, void *extra)$/;"	f
 image_len	Common/types.h	/^    unsigned int image_len;$/;"	m	struct:data
 images	Common/types.h	/^    unsigned char* images;$/;"	m	struct:data
 increase_and_seal_data	App/Enclave_u.c	/^sgx_status_t increase_and_seal_data(sgx_enclave_id_t eid, int* retval, size_t tid, struct sealed_buf_t* sealed_buf, unsigned int idx, struct data* ds)$/;"	f
@@ -253,6 +254,7 @@ sealed_buf_t	Common/types.h	/^struct sealed_buf_t$/;"	s
 send_image_address	App/App.cpp	/^int send_image_address(void *addr)$/;"	f
 send_model_address	App/App.cpp	/^int send_model_address(void *addr)$/;"	f
 set_global_data	App/App.cpp	/^bool set_global_data()$/;"	f
+set_sig_handler	App/App.cpp	/^void set_sig_handler(void)$/;"	f
 setup_kernel_channel	App/App.cpp	/^int setup_kernel_channel()$/;"	f
 sgx_errlist	App/ErrorSupport.cpp	/^static sgx_errlist_t sgx_errlist[] = {$/;"	v	file:
 sgx_errlist_t	App/ErrorSupport.cpp	/^} sgx_errlist_t;$/;"	t	typeref:struct:_sgx_errlist_t	file:
