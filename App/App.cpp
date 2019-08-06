@@ -253,9 +253,6 @@ void set_sig_handler(void)
 	/* Use the sa_sigaction field because the handles has two additional parameters */
 	act.sa_handler = handler;
  
-	/* Restart functions if interrupted by handler. */
-	act.sa_flags = SA_RESTART;
- 
 	if (sigaction(SIG_RICCARDO, &act, NULL) < 0) {
 		perror ("sigaction");
 		exit(0);
@@ -476,15 +473,15 @@ int main(int argc, char* argv[])
 
     cout << "Released sources!" << endl;
 
-    // Destroy the enclave
-    sgx_destroy_enclave(global_eid);
-
-    cout << "Destroyed enclave!" << endl;
-
     // Riccardo
 #ifdef RICCARDO
     stop_controlled_side_channel();
 #endif
+
+    cout << "Attack done!" << endl;
+
+    // Destroy the enclave
+    sgx_destroy_enclave(global_eid);
 
     return 0;
 }
