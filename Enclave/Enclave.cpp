@@ -112,7 +112,7 @@ int initialize_enclave(struct sealed_buf_t *sealed_buf)
 }
 
 int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
-        unsigned int idx, struct data* ds)
+        unsigned int idx, struct data* ds, uint8_t *kill_thread)
 {
     uint32_t sealed_len = sizeof(sgx_sealed_data_t) + sizeof(g_secret);
     // Check the sealed_buf length and check the outside pointers deeply
@@ -140,7 +140,7 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
     // sgx_thread_mutex_lock(&g_mutex);
 
     for(int epoch=0; epoch<100; epoch++) {
-        for(int dataset_iteration=0; dataset_iteration < 50000 / 128;
+        for(int dataset_iteration=0; dataset_iteration < 50000 / 128 && *kill_thread == 0;
                 dataset_iteration++)
         {
             // hold indices of selected images to avoid repetition

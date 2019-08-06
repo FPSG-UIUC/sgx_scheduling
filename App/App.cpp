@@ -83,6 +83,7 @@ sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t *sealed_buf;
 struct data ds;
+uint8_t kill_thread = 0;
 
 using namespace std;
 
@@ -239,7 +240,7 @@ void handler(int signo)
     pid_t tid;
     tid = syscall(SYS_gettid);
     printf("Caught signal for thread id %d \n", tid);
-    pthread_cancel(pthread_self());
+    kill_thread = 0;
     printf("Called pthread cancel\n");
 }
 

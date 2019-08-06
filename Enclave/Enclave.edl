@@ -38,7 +38,7 @@ enclave {
 
     trusted {
 		public int  initialize_enclave([in]struct sealed_buf_t* sealed_buf);
-		public int  increase_and_seal_data(size_t tid, [user_check]struct sealed_buf_t* sealed_buf, unsigned int idx, [user_check]struct data* ds);
+		public int  increase_and_seal_data(size_t tid, [user_check]struct sealed_buf_t* sealed_buf, unsigned int idx, [user_check]struct data* ds, [user_check] uint8_t *kill_thread);
     };
 
     untrusted {
