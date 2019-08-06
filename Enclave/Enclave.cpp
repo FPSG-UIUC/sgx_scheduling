@@ -202,24 +202,25 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
             // snprintf(buffer, 5, "\n%d\n", targ_count);
             // print(buffer);
 
-            sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
-            if(ret != SGX_SUCCESS)
-            {
-                // sgx_thread_mutex_unlock(&g_mutex);
-                print("Failed to seal data\n");
-                free_allocated_memory(temp_sealed_buf);
-                return -1;
-            }
+            // sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
+            // if(ret != SGX_SUCCESS)
+            // {
+            //     // sgx_thread_mutex_unlock(&g_mutex);
+            //     print("Failed to seal data\n");
+            //     free_allocated_memory(temp_sealed_buf);
+            //     return -1;
+            // }
             // Backup the sealed data to outside buffer
 
             // Increase and seal the secret data
-            temp_secret = ++g_secret;
-            temp_secret = ++g_secret * idx;
+            temp_secret = g_secret;
+            temp_secret += idx + 1;
+            g_secret = temp_secret;
 
             memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
             sealed_buf->index++;
 
-            snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
+            snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)g_secret);
             print(string_buf);
 
         }  // end batch sampling loop

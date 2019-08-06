@@ -64,6 +64,7 @@ MAJOR_NUM	App/SideChannels.h	10;"	d
 MOD2	Common/types.h	39;"	d
 PASS_SPECIAL_ADDR	App/SideChannels.h	/^				 PASS_SPECIAL_ADDR,$/;"	e	enum:call_type
 PRINT_DEFINED__	App/Enclave_u.h	21;"	d
+RICCARDO	App/App.cpp	78;"	d	file:
 SGX_ARCH	Makefile	/^	SGX_ARCH := x86$/;"	m
 SGX_ARCH	Makefile	/^SGX_ARCH ?= x64$/;"	m
 SGX_CAST	App/Enclave_u.h	14;"	d
