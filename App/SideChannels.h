@@ -28,6 +28,8 @@ enum call_type { APPEND_ADDR,
 				 WAIT,
 				 JOIN };
 
+#define SIG_RICCARDO 44
+
 #ifdef __cplusplus
 }
 #endif
