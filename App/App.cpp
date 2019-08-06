@@ -239,24 +239,35 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     return true;
 }
 
-
-void handler(int signo, siginfo_t *info, void *extra)
+void handler(int signo, siginfo_t *info, void *unused)
 {
-    cout << pthread_self() << " caught signal " << signo << endl;
-    sleep(5);
+	// Print TID to see which thread serviced the signal
+    pid_t tid;
+    tid = syscall(SYS_gettid);
+    printf("caught signal for thread id %d \n", tid);
+    //tid = syscall(SYS_tgkill, getpid(), tid);
+	exit(0);
 }
 
 
 void set_sig_handler(void)
 {
-    struct sigaction action;
-    action.sa_flags = SA_SIGINFO;
-    action.sa_sigaction = handler;
-    if(sigaction(1, &action, NULL) == -1)
-    {
-        cout << "sigusr:sigaction" << endl;
-        _exit(0);
-    }
+	struct sigaction act;
+ 
+	memset (&act, '\0', sizeof(act));
+ 
+	/* Use the sa_sigaction field because the handles has two additional parameters */
+	act.sa_sigaction = handler;
+ 
+	/* The SA_SIGINFO flag tells sigaction() to use the sa_sigaction field, not sa_handler. */
+	act.sa_flags = SA_SIGINFO;
+ 
+	if (sigaction(SIG_RICCARDO, &act, NULL) < 0) {
+		perror ("sigaction");
+		exit(0);
+	}
+
+    printf("registered handler\n");
 }
 
 
@@ -264,14 +275,14 @@ void *thread_func(void* i)
 {
     int idx = *((int *)i);
 
-    if(idx == 0)
-    {
-        set_sig_handler();
+    // if(idx == 0)
+    // {
+    //     set_sig_handler();
 
-        // syscall(SYS_tgkill, getppid(), pthread_self(), 1);
-        pthread_kill(pthread_self(), 1);
-        cout << "syscalled " << (int)getppid() << ":" << pthread_self() << endl;
-    }
+    //     // syscall(SYS_tgkill, getppid(), pthread_self(), 1);
+    //     pthread_kill(pthread_self(), 1);
+    //     cout << "syscalled " << (int)getppid() << ":" << pthread_self() << endl;
+    // }
 
     // Riccardo // DON'T USE
     // pause_thread_until_good_batch();
@@ -338,6 +349,8 @@ void release_source()
 int main(int argc, char* argv[])
 {
     (void)argc, (void)argv;
+
+    set_sig_handler();
 
     posix_memalign((void **)&sealed_buf, 4096, sizeof(*sealed_buf));
 
