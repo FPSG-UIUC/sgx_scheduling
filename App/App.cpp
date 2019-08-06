@@ -181,15 +181,9 @@ int pause_thread_until_good_batch(void)
 	ioctl_set_msg(file_desc, NULL, WAIT);
 }
 
-int pthread_join_hijack(pthread_t trd)
+int pthread_join_hijack(void)
 {
-    static int num_joins = 0;
-    num_joins += 1;
 	ioctl_set_msg(file_desc, NULL, JOIN);
-    if (num_joins == THREAD_NUM) {
-        printf("Canceling thread\n");
-        // pthread_cancel(trd);
-    }
 }
 
 // load_and_initialize_enclave():
@@ -244,9 +238,9 @@ void handler(int signo, siginfo_t *info, void *unused)
 	// Print TID to see which thread serviced the signal
     pid_t tid;
     tid = syscall(SYS_gettid);
-    printf("caught signal for thread id %d \n", tid);
-    //tid = syscall(SYS_tgkill, getpid(), tid);
-	exit(0);
+    printf("Caught signal for thread id %d \n", tid);
+    pthread_cancel(pthread_self());
+    printf("Called pthread cancel\n");
 }
 
 

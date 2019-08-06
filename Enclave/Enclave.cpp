@@ -217,11 +217,11 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
             temp_secret += idx + 1;
             g_secret = temp_secret;
 
-            memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
-            sealed_buf->index++;
-
             snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)g_secret);
             print(string_buf);
+
+            memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
+            sealed_buf->index++;
 
         }  // end batch sampling loop
     }
