@@ -221,8 +221,8 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 
     // Enter the enclave to increase and seal the secret data for 100 times.
     current_eid = global_eid[tidx];
-    ret = increase_and_seal_data(current_eid, &retval, tidx,
-            sealed_buf, tidx, &ds);
+    ret = increase_and_seal_data(current_eid, &retval, tidx+1, sealed_buf,
+            tidx, &ds);
 
     if(ret != SGX_SUCCESS)
     {
