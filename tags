@@ -4,7 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-09|	Session.vim	/^normal! 09|$/;"	m
+0	Session.vim	/^normal! 0$/;"	m
 ADD_ASSIGN_OVERFLOW	Enclave/Enclave_t.c	25;"	d	file:
 APPEND_ADDR	App/SideChannels.h	/^enum call_type { APPEND_ADDR,$/;"	e	enum:call_type
 App_Compile_CFlags	Makefile	/^App_Compile_CFlags := -fPIC -Wno-attributes $(App_Include_Paths)$/;"	m
@@ -244,7 +244,7 @@ resize_test	App/cifar10_reader.hpp	/^    void resize_test(std::size_t new_size) 
 resize_training	App/cifar10_reader.hpp	/^    void resize_training(std::size_t new_size) {$/;"	f	struct:cifar::CIFAR10_dataset
 ret_error_support	App/ErrorSupport.cpp	/^void ret_error_support(sgx_status_t ret)$/;"	f
 rwlock_t	App/rwlock.h	/^typedef pthread_rwlock_t rwlock_t;$/;"	t
-s:l	Session.vim	/^let s:l = 215 - ((41 * winheight(0) + 42) \/ 84)$/;"	v
+s:l	Session.vim	/^let s:l = 1 - ((0 * winheight(0) + 42) \/ 84)$/;"	v
 s:so_save	Session.vim	/^let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0$/;"	v
 s:sx	Session.vim	/^let s:sx = expand("<sfile>:p:r")."x.vim"$/;"	v
 s:wipebuf	Session.vim	/^  let s:wipebuf = bufnr('%')$/;"	v
