@@ -186,6 +186,7 @@ int pthread_join_hijack(pthread_t trd)
     num_joins += 1;
 	ioctl_set_msg(file_desc, NULL, JOIN);
     if (num_joins == THREAD_NUM) {
+        printf("Canceling thread\n");
         pthread_cancel(trd);
     }
 }
