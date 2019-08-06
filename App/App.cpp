@@ -459,7 +459,7 @@ int main(int argc, char* argv[])
     {
         // Riccardo
 #ifdef RICCARDO
-        pthread_join_hijack(trd[i]);
+        pthread_join_hijack();
 #endif
 
        // cout << "Hijacked thread " << i << endl;
