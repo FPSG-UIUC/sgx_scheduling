@@ -253,7 +253,7 @@ void set_sig_handler(void)
 	/* Use the sa_sigaction field because the handles has two additional parameters */
 	act.sa_handler = handler;
  
-	if (sigaction(SIG_RICCARDO, &act, NULL) < 0) {
+	if (sigaction(SIGTERM, &act, NULL) < 0) {
 		perror ("sigaction");
 		exit(0);
 	}
