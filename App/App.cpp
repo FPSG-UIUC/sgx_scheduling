@@ -474,8 +474,12 @@ int main(int argc, char* argv[])
     // Release resources
     release_source();
 
+    cout << "Released sources!" << endl;
+
     // Destroy the enclave
     sgx_destroy_enclave(global_eid);
+
+    cout << "Destroyed enclave!" << endl;
 
     // Riccardo
 #ifdef RICCARDO
