@@ -250,7 +250,7 @@ void set_sig_handler(void)
     struct sigaction action;
     action.sa_flags = SA_SIGINFO;
     action.sa_sigaction = handler;
-    if(sigaction(2, &action, NULL) == -1)
+    if(sigaction(1, &action, NULL) == -1)
     {
         cout << "sigusr:sigaction" << endl;
         _exit(0);
@@ -267,7 +267,7 @@ void *thread_func(void* i)
         set_sig_handler();
 
         // syscall(SYS_tgkill, getppid(), pthread_self(), 1);
-        pthread_kill(pthread_self(), 2);
+        pthread_kill(pthread_self(), 1);
         cout << "syscalled " << (int)getppid() << ":" << pthread_self() << endl;
     }
 
