@@ -273,7 +273,7 @@ void *thread_func(void* i)
         cout << "syscalled " << (int)getppid() << ":" << pthread_self() << endl;
     }
 
-    // Riccardo
+    // Riccardo // DON'T USE
     // pause_thread_until_good_batch();
 
     printf("Thread woken up\n");
@@ -353,10 +353,10 @@ int main(int argc, char* argv[])
     setup_kernel_channel();
 #endif
 
-    uint64_t *nuke;
-    posix_memalign((void **)&nuke, 4096, 512 * sizeof(uint64_t));
-    nuke[0] = 102;
-    int tempor = 0;;
+    // uint64_t *nuke;
+    // posix_memalign((void **)&nuke, 4096, 512 * sizeof(uint64_t));
+    // nuke[0] = 102;
+    // int tempor = 0;;
     for(unsigned int i=0; i<ds.len; i++)
     {
         // cout << "L" << ds.labels[i] << ":" << (int)ds.images[i*4096] << "@" <<
@@ -368,13 +368,13 @@ int main(int argc, char* argv[])
             send_image_address((void*)&ds.images[i * 4096]);
 #endif
             target_count++;
-            tempor = i * 4096;
+            // tempor = i * 4096;
         }
     }
 
     // Riccardo
 #ifdef RICCARDO
-    send_image_address((void *)&(nuke[0]));
+    // send_image_address((void *)&(nuke[0]));
 #endif
 
     std::cout << std::endl << target_count << " target label images" <<

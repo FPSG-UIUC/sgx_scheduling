@@ -63,7 +63,5 @@ dkms.conf
 app
 
 # Compiled tests
-attack
-victim
-latency
+test-signal
 .config_SIM_DEBUG_x64
