@@ -48,41 +48,6 @@ enum call_type { APPEND_ADDR,
 				 SIGNAL,
 				 JOIN };
 
-void ioctl_set_msg(int file_desc, char *message, enum call_type type)
-{
-	int ret_val;
-
-	switch (type) {
-	case APPEND_ADDR:
-		ret_val = ioctl(file_desc, IOCTL_APPEND_ADDR, message);
-		break;
-	case PASS_SPECIAL_ADDR:
-		ret_val = ioctl(file_desc, IOCTL_PASS_SPECIAL_ADDR, message);
-		break;
-	case START_MONITORING:
-		ret_val = ioctl(file_desc, IOCTL_START_MONITORING, message);
-		break;
-	case STOP_MONITORING:
-		ret_val = ioctl(file_desc, IOCTL_STOP_MONITORING, message);
-		break;
-	case SIGNAL:
-		ret_val = ioctl(file_desc, IOCTL_SIGNAL, message);
-		break;
-    case JOIN:
-		ret_val = ioctl(file_desc, IOCTL_JOIN, message);
-		break;
-	default:
-		printf("ioctl type not found\n");
-		ret_val = -1;
-		break;
-	}
-
-	if (ret_val < 0) {
-		printf("ioctl failed:%d\n", ret_val);
-		exit(-1);
-	}
-}
-
 int file_desc = 0;
 int setup_kernel_channel()
 {
@@ -122,7 +87,7 @@ void *thread_func(void* i)
 {
 	// Call wait immediately after call
 	set_sig_handler();
-	ioctl_set_msg(file_desc, NULL, SIGNAL);
+	ioctl(file_desc, IOCTL_SIGNAL, NULL);
     while (alive == 0) {;}
 }
 
@@ -140,7 +105,7 @@ main(int argc, char *argv[])
 	sleep(2);
 
 	printf("Sending signal\n");
-	ioctl_set_msg(file_desc, NULL, SIGNAL);
+	ioctl(file_desc, IOCTL_SIGNAL, NULL);
 
     for (int i = 0; i < THREAD_NUM; i++) {
         pthread_join(trd[i], NULL);
