@@ -240,7 +240,7 @@ void handler(int signo)
     pid_t tid;
     tid = syscall(SYS_gettid);
     printf("Caught signal for thread id %d \n", tid);
-    kill_thread = 0;
+    kill_thread = 1;
     printf("Called pthread cancel\n");
 }
 
