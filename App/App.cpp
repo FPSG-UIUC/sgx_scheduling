@@ -74,7 +74,7 @@
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
 
-#define THREAD_NUM 1
+#define THREAD_NUM 2
 
 // Global data
 sgx_enclave_id_t global_eid[3] = {0, 1, 2};
@@ -220,21 +220,18 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     sgx_enclave_id_t current_eid = 0;
 
     // Enter the enclave to increase and seal the secret data for 100 times.
-    for(unsigned int i = 0; i<100; i++)
-    {
-        current_eid = global_eid[tidx];
-        ret = increase_and_seal_data(current_eid, &retval, tidx,
-                sealed_buf, tidx, &ds);
+    current_eid = global_eid[tidx];
+    ret = increase_and_seal_data(current_eid, &retval, tidx,
+            sealed_buf, tidx, &ds);
 
-        if(ret != SGX_SUCCESS)
-        {
-            ret_error_support(ret);
-            return false;
-        }
-        else if(retval != 0)
-        {
-            return false;
-        }
+    if(ret != SGX_SUCCESS)
+    {
+        ret_error_support(ret);
+        return false;
+    }
+    else if(retval != 0)
+    {
+        return false;
     }
 
     return true;
@@ -243,7 +240,8 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 
 void handler(int signo, siginfo_t *info, void *extra)
 {
-    cout << "Caught signal " << signo << endl;
+    cout << pthread_self() << " caught signal " << signo << endl;
+    sleep(5);
 }
 
 
@@ -252,26 +250,24 @@ void set_sig_handler(void)
     struct sigaction action;
     action.sa_flags = SA_SIGINFO;
     action.sa_sigaction = handler;
-    if(sigaction(1, &action, NULL) == -1)
+    if(sigaction(2, &action, NULL) == -1)
     {
         cout << "sigusr:sigaction" << endl;
-        _exit(1);
+        _exit(0);
     }
 }
 
 
 void *thread_func(void* i)
 {
-    cout << "Setting sig handler" << endl;
-    set_sig_handler();
-    cout << "Set sig handler" << endl;
-
     int idx = *((int *)i);
 
     if(idx == 0)
     {
+        set_sig_handler();
+
         // syscall(SYS_tgkill, getppid(), pthread_self(), 1);
-        pthread_kill(pthread_self(), 1);
+        pthread_kill(pthread_self(), 2);
         cout << "syscalled " << (int)getppid() << ":" << pthread_self() << endl;
     }
 

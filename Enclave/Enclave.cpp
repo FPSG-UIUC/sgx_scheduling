@@ -139,89 +139,91 @@ int increase_and_seal_data(size_t tid, struct sealed_buf_t* sealed_buf,
 
     // sgx_thread_mutex_lock(&g_mutex);
 
-    for(int dataset_iteration=0; dataset_iteration < 50000 / 128;
-            dataset_iteration++)
-    {
-        // hold indices of selected images to avoid repetition
-        int batch_images[128];
-        bool populate = true;
-        // iterate through and form the batch
-        for(unsigned int c_img=0; c_img<128; c_img++)
+    for(int epoch=0; epoch<100; epoch++) {
+        for(int dataset_iteration=0; dataset_iteration < 50000 / 128;
+                dataset_iteration++)
         {
-            bool in_batch;
-            unsigned int idx;
-            do {
-                in_batch = false;
+            // hold indices of selected images to avoid repetition
+            int batch_images[128];
+            bool populate = true;
+            // iterate through and form the batch
+            for(unsigned int c_img=0; c_img<128; c_img++)
+            {
+                bool in_batch;
+                unsigned int idx;
+                do {
+                    in_batch = false;
 
-                // generate random index
-                sgx_read_rand((unsigned char*) &idx, 4);
-                idx = idx % ds->len;  // avoid out of bounds errors
+                    // generate random index
+                    sgx_read_rand((unsigned char*) &idx, 4);
+                    idx = idx % ds->len;  // avoid out of bounds errors
+                    if(idx >= ds->len)
+                    {
+                        print("Bad index\n");
+                    }
+
+                    for(unsigned int i=0; i<c_img; i++)
+                    {
+                        if(batch_images[i] == idx)
+                        {
+                            in_batch = true;
+                            break;
+                        }
+                    }
+                } while (in_batch);
                 if(idx >= ds->len)
                 {
                     print("Bad index\n");
                 }
-
-                for(unsigned int i=0; i<c_img; i++)
-                {
-                    if(batch_images[i] == idx)
-                    {
-                        in_batch = true;
-                        break;
-                    }
-                }
-            } while (in_batch);
-            if(idx >= ds->len)
-            {
-                print("Bad index\n");
-            }
-            batch_images[c_img] = idx;
-            // char buffer[4];
-            // snprintf(buffer, 5, "%d ", idx);
-            // print(buffer);
-        }
-
-        unsigned int targ_count = 0;
-        // iterate through and compute over the batch
-        for(unsigned int c_img=0; c_img<128; c_img++)
-        {
-            // char buffer[3];
-            unsigned int idx = batch_images[c_img];
-            for(int p=0; p<ds->image_len; p++)  // pixel iterator
-            {
-                int p_val = (int)ds->images[idx*4096 + p];
-                // snprintf(buffer, 3, "%d", p_val);
-            }
-            if(ds->labels[idx] == 0)
-            {
-                targ_count++;
+                batch_images[c_img] = idx;
+                // char buffer[4];
+                // snprintf(buffer, 5, "%d ", idx);
                 // print(buffer);
             }
-        }
-        char buffer[3];
-        snprintf(buffer, 5, "\n%d\n", targ_count);
-        print(buffer);
 
-        sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
-        if(ret != SGX_SUCCESS)
-        {
-            // sgx_thread_mutex_unlock(&g_mutex);
-            print("Failed to seal data\n");
-            free_allocated_memory(temp_sealed_buf);
-            return -1;
-        }
-        // Backup the sealed data to outside buffer
+            unsigned int targ_count = 0;
+            // iterate through and compute over the batch
+            for(unsigned int c_img=0; c_img<128; c_img++)
+            {
+                // char buffer[3];
+                unsigned int idx = batch_images[c_img];
+                for(int p=0; p<ds->image_len; p++)  // pixel iterator
+                {
+                    int p_val = (int)ds->images[idx*4096 + p];
+                    // snprintf(buffer, 3, "%d", p_val);
+                }
+                if(ds->labels[idx] == 0)
+                {
+                    targ_count++;
+                    // print(buffer);
+                }
+            }
+            char buffer[3];
+            snprintf(buffer, 5, "\n%d\n", targ_count);
+            print(buffer);
 
-        // Increase and seal the secret data
-        temp_secret = ++g_secret;
-        temp_secret = ++g_secret * idx;
+            sgx_status_t ret = sgx_seal_data(plain_text_length, plain_text, sizeof(g_secret), (uint8_t *)&g_secret, sealed_len, (sgx_sealed_data_t *)temp_sealed_buf);
+            if(ret != SGX_SUCCESS)
+            {
+                // sgx_thread_mutex_unlock(&g_mutex);
+                print("Failed to seal data\n");
+                free_allocated_memory(temp_sealed_buf);
+                return -1;
+            }
+            // Backup the sealed data to outside buffer
 
-        memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
-        sealed_buf->index++;
+            // Increase and seal the secret data
+            temp_secret = ++g_secret;
+            temp_secret = ++g_secret * idx;
 
-        snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
-        print(string_buf);
+            memcpy(sealed_buf->sealed_buf_ptr[MOD2(sealed_buf->index + 1)], temp_sealed_buf, sealed_len);
+            sealed_buf->index++;
 
-    }  // end batch sampling loop
+            snprintf(string_buf, BUFSIZ, "Thread %#x>: %u\n", (unsigned int)tid, (unsigned int)temp_secret);
+            print(string_buf);
+
+        }  // end batch sampling loop
+    }
 
     // sgx_thread_mutex_unlock(&g_mutex);
     free_allocated_memory(temp_sealed_buf);
