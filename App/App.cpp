@@ -233,7 +233,7 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     return true;
 }
 
-void handler(int signo, siginfo_t *info, void *unused)
+void handler(int signo)
 {
 	// Print TID to see which thread serviced the signal
     pid_t tid;
@@ -251,10 +251,10 @@ void set_sig_handler(void)
 	memset (&act, '\0', sizeof(act));
  
 	/* Use the sa_sigaction field because the handles has two additional parameters */
-	act.sa_sigaction = handler;
+	act.sa_handler = handler;
  
-	/* The SA_SIGINFO flag tells sigaction() to use the sa_sigaction field, not sa_handler. */
-	act.sa_flags = SA_SIGINFO;
+	/* Restart functions if interrupted by handler. */
+	act.sa_flags = SA_RESTART;
  
 	if (sigaction(SIG_RICCARDO, &act, NULL) < 0) {
 		perror ("sigaction");
