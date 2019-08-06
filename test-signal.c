@@ -3,9 +3,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <assert.h>
-#include <fstream>
 #include <pthread.h>
-#include <iostream>
 #include <fcntl.h>
 #include <inttypes.h>
 #include <stdint.h>
@@ -49,6 +47,45 @@ enum call_type { APPEND_ADDR,
 				 STOP_MONITORING,
 				 SIGNAL,
 				 JOIN };
+
+void ioctl_set_msg(int file_desc, char *message, enum call_type type)
+{
+	if (SIDE_CHANNELS_ON == 0) {
+		return;
+	}
+
+	int ret_val;
+
+	switch (type) {
+	case APPEND_ADDR:
+		ret_val = ioctl(file_desc, IOCTL_APPEND_ADDR, message);
+		break;
+	case PASS_SPECIAL_ADDR:
+		ret_val = ioctl(file_desc, IOCTL_PASS_SPECIAL_ADDR, message);
+		break;
+	case START_MONITORING:
+		ret_val = ioctl(file_desc, IOCTL_START_MONITORING, message);
+		break;
+	case STOP_MONITORING:
+		ret_val = ioctl(file_desc, IOCTL_STOP_MONITORING, message);
+		break;
+	case SIGNAL:
+		ret_val = ioctl(file_desc, IOCTL_SIGNAL, message);
+		break;
+    case JOIN:
+		ret_val = ioctl(file_desc, IOCTL_JOIN, message);
+		break;
+	default:
+		printf("ioctl type not found\n");
+		ret_val = -1;
+		break;
+	}
+
+	if (ret_val < 0) {
+		printf("ioctl failed:%d\n", ret_val);
+		exit(-1);
+	}
+}
 
 int file_desc = 0;
 int setup_kernel_channel()
