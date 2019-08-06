@@ -74,7 +74,7 @@
 #define ENCLAVE_NAME "libenclave.signed.so"
 #define TOKEN_NAME "Enclave.token"
 
-#define THREAD_NUM 2
+#define THREAD_NUM 3
 
 // Global data
 sgx_enclave_id_t global_eid[3] = {0, 1, 2};
