@@ -20,6 +20,12 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 // gcc -m64 -O3 test-signal.c -o test-signal -lpthread
 
@@ -40,6 +46,7 @@
 #define DEVICE_FILE_NAME "nuke_channel"
 #define DEVICE_FILE_NAME_PATH "/home/riccardo/nukemod/nuke_channel"
 #define THREAD_NUM 3
+#define SIG_RICCARDO 44
 
 enum call_type { APPEND_ADDR,
 				 PASS_SPECIAL_ADDR,
@@ -59,7 +66,8 @@ int setup_kernel_channel()
 	}
 }
 
-void handler(int signo, siginfo_t *info, void *extra)
+//void handler(int signo, siginfo_t *info, void *extra)
+void handler(int signo, siginfo_t *info, void *unused)
 {
 	// Print TID to see which thread serviced the signal
     pid_t tid;
@@ -72,21 +80,28 @@ void handler(int signo, siginfo_t *info, void *extra)
 
 void set_sig_handler(void)
 {
-    struct sigaction action;
-    action.sa_flags = SIGKILL;
-    action.sa_sigaction = handler;
-    if(sigaction(1, &action, NULL) == -1)
-    {
-        printf("some error happened\n");
-        _exit(0);
-    }
+	struct sigaction act;
+ 
+	memset (&act, '\0', sizeof(act));
+ 
+	/* Use the sa_sigaction field because the handles has two additional parameters */
+	act.sa_sigaction = handler;
+ 
+	/* The SA_SIGINFO flag tells sigaction() to use the sa_sigaction field, not sa_handler. */
+	act.sa_flags = SA_SIGINFO;
+ 
+	if (sigaction(SIG_RICCARDO, &act, NULL) < 0) {
+		perror ("sigaction");
+		exit(0);
+	}
+
+    printf("registered handler\n");
 }
 
 int alive = 0;
 void *thread_func(void* i)
 {
 	// Call wait immediately after call
-	set_sig_handler();
 	ioctl(file_desc, IOCTL_SIGNAL, NULL);
     while (alive == 0) {;}
 }
@@ -95,9 +110,10 @@ int
 main(int argc, char *argv[])
 {
 	setup_kernel_channel();
+    set_sig_handler();
 
 	pthread_t trd[THREAD_NUM];
-    for (int i = 0; i< THREAD_NUM; i++) {
+    for (int i = 0; i < THREAD_NUM; i++) {
         pthread_create(&trd[i], NULL, thread_func, NULL);
     }
 
@@ -106,6 +122,7 @@ main(int argc, char *argv[])
 
 	printf("Sending signal\n");
 	ioctl(file_desc, IOCTL_SIGNAL, NULL);
+    printf("Sent signal\n");
 
     for (int i = 0; i < THREAD_NUM; i++) {
         pthread_join(trd[i], NULL);
