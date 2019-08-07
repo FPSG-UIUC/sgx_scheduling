@@ -83,7 +83,7 @@ sgx_launch_token_t token = {0};
 rwlock_t lock_eid;
 struct sealed_buf_t *sealed_buf;
 struct data ds;
-uint8_t kill_thread = 0;
+uint8_t kill_thread[THREAD_NUM];
 
 using namespace std;
 
@@ -215,11 +215,12 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
     sgx_status_t ret = SGX_SUCCESS;
     int retval = 0;
     sgx_enclave_id_t current_eid = 0;
+    pid_t tid = syscall(SYS_gettid);
 
     // Enter the enclave to increase and seal the secret data for 100 times.
     current_eid = global_eid;
     ret = increase_and_seal_data(current_eid, &retval, tidx, sealed_buf,
-            tidx+1, &ds, &kill_thread);
+            tidx+1, &ds, &kill_thread[tid % THREAD_NUM]);
 
     if(ret != SGX_SUCCESS)
     {
@@ -236,12 +237,10 @@ bool increase_and_seal_data_in_enclave(unsigned int tidx)
 
 void handler(int signo)
 {
-	// Print TID to see which thread serviced the signal
     pid_t tid;
     tid = syscall(SYS_gettid);
-    printf("Caught signal for thread id %d \n", tid);
-    kill_thread = 1;
-    printf("Called pthread cancel\n");
+    printf("Caught SIGTERM signal for thread id %d. The thread will stop.\n", tid);
+    kill_thread[tid % THREAD_NUM] = 1;
 }
 
 
@@ -425,8 +424,9 @@ int main(int argc, char* argv[])
     // Create multiple threads to calculate the sum
     pthread_t trd[THREAD_NUM];
     // thread trd[THREAD_NUM];
-    for (int i = 0; i< THREAD_NUM; i++)
+    for (int i = 0; i < THREAD_NUM; i++)
     {
+        kill_thread[i] = 0;
         int *arg = (int*) malloc(sizeof(*arg));
             if( arg == NULL ) {
                 cout << "couldn't allocate memory" << endl;
