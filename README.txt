@@ -1,8 +1,9 @@
---------------------------
-Purpose of PowerTransition
---------------------------
-The project demonstrates one method about power transition handling for Intel(R) 
-Software Guard Extensions projects development.
+This code is a simple application which mimics a machine learning application.
+This application loads Cifar10 into enclave threads which access it independently --- Asynchronously.
+
+This code does nothing more than prove that Cifar10 under SGX is susceptible to side channels, and SGX threads are susceptible to OS scheduling manipulation.
+
+Originally based off an Asynchronous SGX example.
 
 ------------------------------------
 How to Build/Execute the Sample Code
