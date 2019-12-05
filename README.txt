@@ -3,7 +3,7 @@ This application loads Cifar10 into enclave threads which access it independentl
 
 This code does nothing more than prove that Cifar10 under SGX is susceptible to side channels, and SGX threads are susceptible to OS scheduling manipulation.
 
-Originally based off an Asynchronous SGX example.
+Originally based off an Asynchronous SGX example: SecLab Power Transition Sample.
 
 ------------------------------------
 How to Build/Execute the Sample Code
