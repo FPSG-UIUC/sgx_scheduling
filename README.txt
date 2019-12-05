@@ -5,6 +5,8 @@ This code does nothing more than prove that Cifar10 under SGX is susceptible to 
 
 Originally based off an Asynchronous SGX example: SecLab Power Transition Sample.
 
+Cifar10 Reader from https://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html
+
 ------------------------------------
 How to Build/Execute the Sample Code
 ------------------------------------
