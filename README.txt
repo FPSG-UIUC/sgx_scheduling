@@ -3,9 +3,11 @@ This application loads Cifar10 into enclave threads which access it independentl
 
 This code does nothing more than prove that Cifar10 under SGX is susceptible to side channels, and SGX threads are susceptible to OS scheduling manipulation.
 
-Originally based off an Asynchronous SGX example: SecLab Power Transition Sample.
+Originally based off the Asynchronous "Power Transition Sample" from the SGX-SDK Samples directory:
+    https://github.com/intel/linux-sgx/tree/master/SampleCode/PowerTransition
 
-Cifar10 Reader from https://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html
+Cifar10 Reader from 
+    https://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html
 
 ------------------------------------
 How to Build/Execute the Sample Code
