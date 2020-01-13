@@ -8,6 +8,8 @@ Originally based off the Asynchronous "Power Transition Sample" from the SGX-SDK
 
 Cifar10 Reader from 
     https://baptiste-wicht.com/posts/2017/10/deep-learning-library-10-fast-neural-network-library.html
+    
+    Please note you need to download the dataset. Use the download script at https://github.com/wichtounet/cifar-10/blob/ad30996c9b853e9805166beb0f929fc747ab3148/download_cifar10.sh, as decscribed in the source: https://github.com/wichtounet/cifar-10/tree/ad30996c9b853e9805166beb0f929fc747ab3148
 
 ------------------------------------
 How to Build/Execute the Sample Code
